@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+ 
+  "name": "CryptoVeil",
+  "description": "Super awesome data crypto",
+  "version": "0.1.0",
+ 
+  "browser_action": {
+   "default_icon": {
+      "19": "icon.png"
+    },
+   "default_popup": "/popup/popup.html",
+   "default_title": "CryptoVeil"
+  },
+
+  // "background": {
+  //   "scripts": ["/background/background.js"]
+  //   },
+    
+  "permissions": [
+   "activeTab",
+   "background",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.google.com/"
+   ]
+}
