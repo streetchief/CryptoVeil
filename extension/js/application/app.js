@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('Cryptoveil', ['ui.router', 'ui.bootstrap']);
+window.app = angular.module('CryptoveilExt', ['ui.router', 'ui.bootstrap']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
 
@@ -7,16 +7,28 @@ app.config(function ($urlRouterProvider, $locationProvider) {
         enabled: true,
         requireBase: false
     });
-    
+
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
 });
-
 /*
-app.run(function ($state) {
-	$state.go('home');
-})
-*/
+app.config(function ($stateProvider) {
+
+    // Register our *about* state.
+    $stateProvider.state('home', {
+        url: '/',
+        controller: 'homeController',
+        templateUrl: 'popup/home/home.html'
+    });
+
+});
+
+app.controller('homeController', function ($scope) {
+
+    $scope.msg = 'Sup';
+
+});*/
+
 
 /*document.addEventListener('DOMContentLoaded', function () {
 	

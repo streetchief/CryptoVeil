@@ -88,6 +88,30 @@ gulp.task('seedDB', function () {
 
 // --------------------------------------------------------------
 
+// Extension tasks
+// --------------------------------------------------------------
+
+gulp.task('buildJSExtension', function () {
+    return gulp.src(['./extension/js/application/app.js', './extension/js/application/**/*.js'])
+        .pipe(plumber())
+        .pipe(sourcemaps.init())
+        .pipe(concat('main.js'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./extension/js'));
+});
+
+gulp.task('buildCSSExtension', function () {
+    return gulp.src('./extension/scss/main.scss')
+        .pipe(plumber())
+        .pipe(sass())
+        .pipe(rename('style.css'))
+        .pipe(gulp.dest('./extension/css'));
+});
+
+gulp.task('buildExtension', ['buildCSSExtension', 'buildJSExtension']);
+
+// --------------------------------------------------------------
+
 // Production tasks
 // --------------------------------------------------------------
 
@@ -117,9 +141,9 @@ gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction']);
 
 gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
-        runSeq(['buildJSProduction', 'buildCSSProduction']);
+        runSeq(['buildJSProduction', 'buildCSSProduction', 'buildCSSExtension', 'buildJSExtension']);
     } else {
-        runSeq(['lintJS', 'buildJS', 'buildCSS']);
+        runSeq(['lintJS', 'buildJS', 'buildCSS', 'buildCSSExtension', 'buildJSExtension']);
     }
 });
 
@@ -127,6 +151,14 @@ gulp.task('default', function () {
 
     livereload.listen();
     gulp.start('build');
+
+    gulp.watch('extension/scss/**', function () {
+        runSeq('buildCSSExtension');
+    });
+
+    gulp.watch('extension/js/**', function () {
+        runSeq('buildJSExtension');
+    });
 
     gulp.watch('browser/js/**', function () {
         runSeq('buildJS', ['testBrowserJS', 'reload']);
