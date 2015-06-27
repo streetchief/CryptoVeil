@@ -14,4 +14,9 @@ app.controller('homeController', function ($scope) {
 
     $scope.msg = 'Sup';
 
+    $scope.processStuff = function (something) {
+    	var backgroundPage = chrome.extension.getBackgroundPage();
+    	backgroundPage.logInBackground(something);
+    }
+
 });
