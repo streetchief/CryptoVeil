@@ -10,8 +10,12 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('homeController', function ($scope) {
+app.controller('homeController', function ($scope, InterceptorFactory) {
 
     $scope.msg = 'Sup';
 
+    $scope.button = function() {
+      InterceptorFactory.webRequest();
+      InterceptorFactory.reqBodyIntercept();
+    }
 });
