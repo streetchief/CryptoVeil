@@ -14,14 +14,14 @@ app.controller('homeController', function ($scope, InterceptorFactory) {
 
     $scope.msg = 'Sup';
 
-    $scope.button = function() {
-      InterceptorFactory.webRequest();
-      InterceptorFactory.reqBodyIntercept();
-    }
-
     $scope.processStuff = function (something) {
     	var backgroundPage = chrome.extension.getBackgroundPage();
     	backgroundPage.logInBackground(something);
+      backgroundPage.tabGetter();
+    }
+
+    $scope.reqInterceptOnOff = function () {
+      reqBodyIntercept();
     }
 
 });
