@@ -18,4 +18,10 @@ app.controller('homeController', function ($scope, InterceptorFactory) {
       InterceptorFactory.webRequest();
       InterceptorFactory.reqBodyIntercept();
     }
+
+    $scope.processStuff = function (something) {
+    	var backgroundPage = chrome.extension.getBackgroundPage();
+    	backgroundPage.logInBackground(something);
+    }
+
 });

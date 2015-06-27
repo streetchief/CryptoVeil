@@ -9,13 +9,13 @@
    "default_icon": {
       "19": "icon.png"
     },
-   "default_popup": "/popup.html",
+   "default_popup": "popup.html",
    "default_title": "CryptoVeil"
   },
 
-  // "background": {
-  //   "scripts": ["/background/background.js"]
-  //   },
+  "background": {
+    "page": "background.html"
+    },
     
   "permissions": [
    "activeTab",
@@ -25,3 +25,6 @@
     "*://*.google.com/"
    ]
 }
+/*
+browserAction.setIcon(/js/red)
+*/
