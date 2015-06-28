@@ -5,18 +5,29 @@ app.config(function ($stateProvider) {
         url: '/',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
-        // template: 'hello'
     });
 
 });
 
 app.controller('homeController', function ($scope) {
 
-    $scope.msg = 'Sup';
+	var backgroundPage, decryptionEngaged, googleEncryptionOn;
+	var backgroundPage = chrome.extension.getBackgroundPage();
+  $scope.msg = 'Yoo';
 
-    $scope.processStuff = function (something) {
-    	var backgroundPage = chrome.extension.getBackgroundPage();
-    	backgroundPage.logInBackground(something);
-    }
+	  // decryptionEngaged = true;
+  $scope.googleEncryptionOn = 0;
+
+  // backgroundPage.tabGetter();
+  
+  $scope.logInBG = function (msg) {
+
+  	backgroundPage.logInBackground(msg);
+  }
+
+  $scope.reqInterceptToggle = function () {
+		// encryptionEngaged = !encryptionEngaged;
+    backgroundPage.reqBodyIntercept();
+  }
 
 });
