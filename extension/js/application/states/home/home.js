@@ -12,17 +12,17 @@ app.config(function ($stateProvider) {
 app.controller('homeController', function ($scope) {
 
 	var backgroundPage, decryptionEngaged, googleEncryptionOn;
-	var backgroundPage = chrome.extension.getBackgroundPage();
+	backgroundPage = chrome.extension.getBackgroundPage();
   $scope.msg = 'Yoo';
 
 	  // decryptionEngaged = true;
   $scope.googleEncryptionOn = 0;
 
-  // backgroundPage.tabGetter();
+    // backgroundPage.tabGetter();
   
-  $scope.logInBG = function (msg) {
-
-  	backgroundPage.logInBackground(msg);
+  $scope.logInBG = function () {
+    backgroundPage.runScan();
+  	// backgroundPage.logInBackground(msg);
   }
 
   $scope.reqInterceptToggle = function () {

@@ -16,3 +16,15 @@ function reqBodyIntercept() {
       console.log('the data: ', data);
   }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"])
 }
+
+// chrome.webRequest.onCompleted.addListener(function (data) {
+// 	console.log('response data: ', data);
+// }, {urls: ["<all_urls>"]})
+
+
+function runScan () {
+	chrome.tabs.getSelected(null, function(tab) {
+
+		chrome.tabs.sendMessage(tab.id, {message: 'hello'})
+	})
+}
