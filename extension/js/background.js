@@ -21,10 +21,13 @@ function reqBodyIntercept() {
 // 	console.log('response data: ', data);
 // }, {urls: ["<all_urls>"]})
 
-
 function runScan () {
 	chrome.tabs.getSelected(null, function(tab) {
 
 		chrome.tabs.sendMessage(tab.id, {message: 'hello'})
 	})
 }
+
+chrome.runtime.onMessage.addListener(function (message, sender) {
+	console.log('the message from background: ', message);
+})
