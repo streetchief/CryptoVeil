@@ -7,19 +7,25 @@
  
   "browser_action": {
    "default_icon": {
-      "19": "icon.png"
+      "19": "iconGreen.png"
     },
    "default_popup": "popup.html",
    "default_title": "CryptoVeil"
   },
 
   "background": {
-    "page": "background.html"
+    "page": "background.html",
+    "persistent": true
     },
+
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["/js/dependencies/jquery-2.1.4.min.js", "/js/content.js"]
+  }],
     
   "permissions": [
-   "activeTab",
-   "background",
+    "activeTab",
+    "background",
     "webRequest",
     "webRequestBlocking",
     "*://*.google.com/"
