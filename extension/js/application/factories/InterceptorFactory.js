@@ -1,5 +1,7 @@
-app.factory('InterceptorFactory', function() {
-  return {
-    
-  }
-})
+// app.factory('InterceptorFactory', function() {
+//   return {
+//     // backgroundPage: function() {
+//     //   chrome.extension.getBackgroundPage();
+//     // }
+//   }
+// })

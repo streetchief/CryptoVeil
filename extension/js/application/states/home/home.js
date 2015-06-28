@@ -10,7 +10,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('homeController', function ($scope, InterceptorFactory) {
+app.controller('homeController', function ($scope) {
 
     $scope.msg = 'Sup';
 
@@ -21,7 +21,8 @@ app.controller('homeController', function ($scope, InterceptorFactory) {
     }
 
     $scope.reqInterceptOnOff = function () {
-      reqBodyIntercept();
+      var backgroundPage = chrome.extension.getBackgroundPage();
+      backgroundPage.reqBodyIntercept();
     }
 
 });
