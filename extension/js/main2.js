@@ -16,14 +16,14 @@ var main = function(){
   gmail = new Gmail();
   console.log('Hello,', gmail.get.user_email());
 
-	gmail.observe.on("open_email", function (emailID) {
-
-		var email = new gmail.dom.email(emailID)
-		var body = email.body();
-		// console.log('the body: ', body);
-		email.body('<h1>Yo email been jacked</h1>' + body)
-})  
-  
+	gmail.observe.on("view_thread", function (thread) {
+		gmail.observe.on("view_email", function (email) {
+		
+			var email = new gmail.dom.email(email.id)
+			var body = email.body();
+			email.body('<h1>Oh snap! yo email been jacked by CryptoVeil</h1>' + body)
+		})	
+	})  
 }
 
 
