@@ -15,7 +15,7 @@ function reqBodyIntercept() {
 
   chrome.webRequest.onBeforeRequest.addListener(function (data) {
       console.log('the data: ', data);
-  }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"])
+  }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"]);
 
   	//	IF WE NEED MANDRILL, EMAIL INFO FROM WEBREQUEST
     // chrome.webRequest.onBeforeRequest.addListener(function (data) {
@@ -46,3 +46,14 @@ function reqBodyIntercept() {
     //   console.log('email body: ', emailBody)
     // }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"])
 }
+
+function runScan () {
+	chrome.tabs.getSelected(null, function(tab) {
+
+		chrome.tabs.sendMessage(tab.id, {message: 'hello'})
+	})
+}
+
+chrome.runtime.onMessage.addListener(function (message, sender) {
+	console.log('the message from background: ', message);
+});

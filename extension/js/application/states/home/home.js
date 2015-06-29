@@ -10,6 +10,7 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('homeController', function ($scope) {
+
 	var backgroundPage, decryptionEngaged, googleEncryptionOn;
 
 	backgroundPage = chrome.extension.getBackgroundPage();
@@ -18,12 +19,16 @@ app.controller('homeController', function ($scope) {
 
   // backgroundPage.tabGetter();
 	  // decryptionEngaged = true;
-// browserAction.setIcon(/js/red)
 
+// browserAction.setIcon(/js/red) //{path: "/path/here", "tabId: idoftab"}
 
   
   $scope.logInBG = function (msg) {
   	backgroundPage.logInBackground(msg);
+  }
+  
+  $scope.runScan = function () {
+    backgroundPage.runScan();
   }
 
   $scope.reqInterceptToggle = function () {

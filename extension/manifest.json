@@ -20,9 +20,10 @@
   "content_scripts": [
     {
       "matches": ["https://mail.google.com/*", "http://mail.google.com/*"],
-      "js": ["/js/content.js", "/js/jquery-1.10.2.min.js"]
+      "js": ["/js/jquery-1.10.2.min.js", "/js/content.js"]
     }
   ],
+  // "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "web_accessible_resources": [
     "/js/jquery-1.10.2.min.js",
