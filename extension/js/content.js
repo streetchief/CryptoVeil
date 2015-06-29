@@ -17,16 +17,16 @@ s.src = chrome.extension.getURL('/js/main2.js');
 // 	console.log(response);
 // })
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
-	var extension_id = chrome.runtime.id
+// 	var extension_id = chrome.runtime.id
 	
-	// setInterval(function(){
-	// 	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-	// }, 1000);
+// 	// setInterval(function(){
+// 	// 	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
+// 	// }, 1000);
 
-})
+// })
 
-chrome.runtime.onMessage.addListener(function (message, sender) {
-	console.log('the message: ', message);
-})
+// chrome.runtime.onMessage.addListener(function (message, sender) {
+// 	console.log('the message: ', message);
+// })
