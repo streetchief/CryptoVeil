@@ -27,3 +27,7 @@ function sendToExternalScript (data) {
         detail: data
     }));
 }
+
+document.addEventListener('messageFromExternal', function(e) {
+	console.log('from ext', e);
+});
