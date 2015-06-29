@@ -13,20 +13,17 @@ s.src = chrome.extension.getURL('/js/main2.js');
 
 ///////////////////		EXTENSION CODE	///////////////////
 
-// chrome.webRequest.onCompleted.addListener(function (response) {
-// 	console.log(response);
-// })
-
 $(document).ready(function(){
-
 	var extension_id = chrome.runtime.id
 	
-	// setInterval(function(){
-	// 	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-	// }, 1000);
+	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
+	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
-})
+	});
+});
 
-chrome.runtime.onMessage.addListener(function (message, sender) {
-	console.log('the message: ', message);
-})
+function sendToExternalScript (data) {
+	document.dispatchEvent(new CustomEvent('messageFromExtension', {
+        detail: data
+    }));
+}

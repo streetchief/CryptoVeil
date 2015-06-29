@@ -18,4 +18,10 @@ var main = function(){
 }
 
 
+document.addEventListener('messageFromExtension', function(e) {
+  
+    console.log('fired by main2: ', e);
+});
+
+
 refresh(main);
