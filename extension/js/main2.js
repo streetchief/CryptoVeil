@@ -2,9 +2,8 @@ var gmail;
 
 
 function refresh(f) {
-  console.log('run refresh');
   if( (/in/.test(document.readyState)) || (undefined === Gmail) ) {
-    setTimeout('refresh(' + f + ')', 10);
+    setTimeout('refresh(' + f + ')', 3);
   } else {
     f();
   }
