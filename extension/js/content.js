@@ -16,10 +16,10 @@ s.src = chrome.extension.getURL('/js/main2.js');
 $(document).ready(function(){
 	var extension_id = chrome.runtime.id
 	
-	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
+	// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
-	});
+	// });
 });
 
 function sendToExternalScript (data) {
