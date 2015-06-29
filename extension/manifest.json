@@ -28,7 +28,8 @@
   "web_accessible_resources": [
     "/js/jquery-1.10.2.min.js",
     "/js/gmail.js",
-    "/js/main2.js"
+    "/js/main2.js",
+    "/js/dependencies/aes.js"
   ],
 
   "permissions": [

@@ -11,6 +11,10 @@ var s = document.createElement('script');
 s.src = chrome.extension.getURL('/js/main2.js');
 (document.head || document.documentElement).appendChild(s);
 
+var e = document.createElement('script');
+e.src = chrome.extension.getURL('/js/dependencies/aes.js');
+(document.head || document.documentElement).appendChild(e);
+
 ///////////////////		EXTENSION CODE	///////////////////
 
 // chrome.webRequest.onCompleted.addListener(function (response) {
@@ -21,9 +25,9 @@ $(document).ready(function(){
 
 // 	var extension_id = chrome.runtime.id
 
-document.addEventListener('isend', function(e){
-	console.log('this is content body_params.body', e.detail);
-})
+// document.addEventListener('isend', function(e){
+// 	console.log('this is content body_params.body', e.detail);
+// })
 	
 // 	// setInterval(function(){
 // 	// 	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
