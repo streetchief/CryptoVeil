@@ -10,23 +10,23 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('homeController', function ($scope) {
-
 	var backgroundPage, decryptionEngaged, googleEncryptionOn;
-	var backgroundPage = chrome.extension.getBackgroundPage();
-  $scope.msg = 'Yoo';
 
-	  // decryptionEngaged = true;
+	backgroundPage = chrome.extension.getBackgroundPage();
+  $scope.msg = 'Req Intercept Toggle';
   $scope.googleEncryptionOn = 0;
 
   // backgroundPage.tabGetter();
+	  // decryptionEngaged = true;
+// browserAction.setIcon(/js/red)
+
+
   
   $scope.logInBG = function (msg) {
-
   	backgroundPage.logInBackground(msg);
   }
 
   $scope.reqInterceptToggle = function () {
-		// encryptionEngaged = !encryptionEngaged;
     backgroundPage.reqBodyIntercept();
   }
 
