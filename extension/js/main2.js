@@ -17,15 +17,12 @@ var main = function(){
   console.log('Hello,', gmail.get.user_email());
 
 gmail.observe.before('send_message', function(url, body, data, xhr){
-	// console.log('this is compose', "url: ", url, "body: ", body, "data: ", data, "xhr: ", xhr);
 	var body_params = xhr.xhrParams.body_params;
-
-	body_params.body = "<div dir='ltr'>we are hacking you</div>";
-	console.log('this is body params body', body_params.body)
+	console.log('this is body params.body', body_params.body);
+	document.dispatchEvent(new CustomEvent('isend', {
+		detail:body_params.body
+	}));
 })
-
-
-
 }
 
 
