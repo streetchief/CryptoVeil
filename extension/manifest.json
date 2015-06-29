@@ -7,7 +7,7 @@
  
   "browser_action": {
    "default_icon": {
-      "19": "icon.png"
+      "19": "red128.png"
     },
    "default_popup": "popup.html",
    "default_title": "CryptoVeil"
@@ -19,10 +19,11 @@
 
   "content_scripts": [
     {
-      "matches": ["https://mail.google.com/*"],
-      "js": ["/js/content.js"]
+      "matches": ["https://mail.google.com/*", "http://mail.google.com/*"],
+      "js": ["/js/jquery-1.10.2.min.js", "/js/content.js"]
     }
   ],
+  // "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "web_accessible_resources": [
     "/js/jquery-1.10.2.min.js",
@@ -38,6 +39,3 @@
     "*://*.google.com/"
    ]
 }
-/*
-browserAction.setIcon(/js/red)
-*/

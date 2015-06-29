@@ -5,24 +5,34 @@ app.config(function ($stateProvider) {
         url: '/',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
-        // template: 'hello'
     });
 
 });
 
 app.controller('homeController', function ($scope) {
 
-    $scope.msg = 'Sup';
+	var backgroundPage, decryptionEngaged, googleEncryptionOn;
 
-    $scope.processStuff = function (something) {
-    	var backgroundPage = chrome.extension.getBackgroundPage();
-    	backgroundPage.logInBackground(something);
-      backgroundPage.tabGetter();
-    }
+	backgroundPage = chrome.extension.getBackgroundPage();
+  $scope.msg = 'Req Intercept Toggle';
+  $scope.googleEncryptionOn = 0;
 
-    $scope.reqInterceptOnOff = function () {
-      var backgroundPage = chrome.extension.getBackgroundPage();
-      backgroundPage.reqBodyIntercept();
-    }
+  // backgroundPage.tabGetter();
+	  // decryptionEngaged = true;
+
+// browserAction.setIcon(/js/red) //{path: "/path/here", "tabId: idoftab"}
+
+  
+  $scope.logInBG = function (msg) {
+  	backgroundPage.logInBackground(msg);
+  }
+  
+  $scope.runScan = function () {
+    backgroundPage.runScan();
+  }
+
+  $scope.reqInterceptToggle = function () {
+    backgroundPage.reqBodyIntercept();
+  }
 
 });

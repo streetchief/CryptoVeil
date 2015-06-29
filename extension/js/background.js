@@ -1,7 +1,7 @@
 'use strict';
 function logInBackground (dataToLog) {
-    console.log('In background.js');
-    console.log(dataToLog);
+	console.log('In background.js');
+	console.log(dataToLog);
 }
 
 function tabGetter () {
@@ -11,7 +11,13 @@ function tabGetter () {
 }
 
 function reqBodyIntercept() {
-    console.log('Listening for requests...');
+	console.log('listening...');
+
+  chrome.webRequest.onBeforeRequest.addListener(function (data) {
+      console.log('the data: ', data);
+  }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"]);
+
+  	//	IF WE NEED MANDRILL, EMAIL INFO FROM WEBREQUEST
     // chrome.webRequest.onBeforeRequest.addListener(function (data) {
     //   console.log('the data: ', data.requestBody);
     //   //to
@@ -40,3 +46,14 @@ function reqBodyIntercept() {
     //   console.log('email body: ', emailBody)
     // }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"])
 }
+
+function runScan () {
+	chrome.tabs.getSelected(null, function(tab) {
+
+		chrome.tabs.sendMessage(tab.id, {message: 'hello'})
+	})
+}
+
+chrome.runtime.onMessage.addListener(function (message, sender) {
+	console.log('the message from background: ', message);
+});

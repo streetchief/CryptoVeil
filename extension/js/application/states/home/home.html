@@ -1,4 +1,54 @@
-<div>{{msg}}</div>
-<button data-ng-click="processStuff(msg)">process</button>
-<button data-ng-click="reqInterceptOnOff()">Intercept req ON</button>
+<div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div>Welcome to CryptoVeil!</div>
+		</div>
+	</div>
+	<!-- end row-->
+	
+	<div class="row">
+		<div class="col-lg-3">
+		    <button 
+		    type="button" 
+		    class="btn btn-primary"
+		    ng-model="googleEncryptionOn" 
+		    btn-checkbox 
+		    btn-checkbox-true="1" 
+		    btn-checkbox-false="0">
+	        Google Encryption: {{googleEncryptionOn}}
+		    </button>
+		</div>
+	</div>
+	<!-- end row -->
 
+	<div class="row">
+		<div class="col-lg-3"> <!-- Circle Dropdown-->
+		    <div class="btn-group" dropdown is-open="status.isopen">
+		      <button type="button"
+		      class="btn btn-primary dropdown-toggle" 
+		      dropdown-toggle 
+		      ng-disabled="disabled">
+		        Decryption Circle <span class="caret"></span>
+		      </button>
+		      <ul class="dropdown-menu" role="menu">
+		        <li><a href="#">Action</a></li>
+		      </ul>
+		    </div>
+    	</div>
+	</div>
+	<!-- end row -->
+
+	<div class="row">
+		<div class="col-lg-3">
+			<button data-ng-click="reqInterceptToggle()">{{msg}}</button>
+		</div>
+	</div>
+	<!-- end row -->
+
+	<div class="row">
+		<div class="col-lg-3">
+			<button data-ng-click="runScan()">decrypt</button>
+		</div>
+	</div>
+	<!-- end row-->
+</div>
