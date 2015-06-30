@@ -23,3 +23,8 @@ var decryptedMain = function () {
 		email.body('<h1>%CryptoVeil%</h1>' + body)
 	})
 };
+
+/*
+tagsRegEx = /<{1}.+?>{1}/g,
+regEx = new RegExp(keyword, 'gi');
+*/
