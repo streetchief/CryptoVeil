@@ -12,6 +12,9 @@ var schema = new mongoose.Schema({
     salt: {
         type: String
     },
+    circles: [String],
+    nickname: String,
+    picUrl: String,
     twitter: {
         id: String,
         username: String,
@@ -22,8 +25,38 @@ var schema = new mongoose.Schema({
         id: String
     },
     google: {
-        id: String
+        id: String,
+        token: String,
+        name: String,
+        email: String
     }
+});
+
+schema.method('addNewCircle', function (nameForCircle) {
+    //check to see if user has already made a circle with nameForCircle
+    this.Model('Circle').find({creator: this._id, name: nameForCircle}).exec()
+    //can we use {creator: this._id, name: nameForCircle} instead?
+        .then(function (ownedCircles) {
+            
+            var duplicateCircles = ownedCircles.filter(function (aCircle) {
+                return aCircle.name !== nameForCircle
+            });
+
+            if (!duplicateCircles.length) {
+
+                //TODO -- SAVE CIRCLE i.e. circle.newCircle
+
+            } else {
+                return new Error('Circle name already in use.');
+            }
+
+        }, function (error) {
+            return new Error(error);
+        });
+});
+
+schema.method('deleteCircle', function (circleToDelete) {
+    this.Model('Circle').findById()
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
