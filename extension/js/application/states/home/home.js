@@ -35,4 +35,8 @@ app.controller('homeController', function ($scope) {
     backgroundPage.reqBodyIntercept();
   }
 
+  $scope.compose = function(){
+    
+  }
+
 });

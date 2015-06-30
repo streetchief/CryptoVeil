@@ -13,9 +13,9 @@ function tabGetter () {
 function reqBodyIntercept() {
 	console.log('listening...');
 
-  chrome.webRequest.onBeforeRequest.addListener(function (data) {
-      console.log('the data: ', data);
-  }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"]);
+  // chrome.webRequest.onBeforeRequest.addListener(function (data) {
+  //     console.log('the data: ', data);
+  // }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"]);
 
   	//	IF WE NEED MANDRILL, EMAIL INFO FROM WEBREQUEST
     // chrome.webRequest.onBeforeRequest.addListener(function (data) {
@@ -54,6 +54,6 @@ function runScan () {
 	})
 }
 
-chrome.runtime.onMessage.addListener(function (message, sender) {
-	console.log('the message from background: ', message);
-});
+// chrome.runtime.onMessage.addListener(function (message, sender) {
+// 	console.log('the message from background: ', message);
+// });
