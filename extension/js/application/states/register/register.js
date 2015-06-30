@@ -8,9 +8,9 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('registerController', function ($scope, AuthService, $state) {
+app.controller('registerController', function ($scope, $state) {
 
-    $scope.register = {};
+/*    $scope.register = {};
     $scope.error = null;
 
     $scope.createUser = function (user) {
@@ -26,6 +26,5 @@ app.controller('registerController', function ($scope, AuthService, $state) {
         }).catch(function () {
             $scope.error = 'Invalid credentials.';
         });
-    };
-
+    };*/
 });

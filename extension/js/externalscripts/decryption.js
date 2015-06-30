@@ -25,19 +25,18 @@ var decryptedMain = function () {
 			console.log('the encryptedMsg: ', encryptedMsg);
 			// sendToContentScript(body);
 			unhacked = unhacking(encryptedMsg);
+			email.body(unhacked + '<h5>Decrypted by CryptoVeil</h5>')
 		} 
-		//THIS IS FOR VISUAL FEEDBACK THAT IT'S WORKING
-		email.body(unhacked + '<h5>Decrypted by CryptoVeil</h5>')
 	})
 };
 
-		function unhacking(text) {
-		    console.log('hit unhacking', text)
-		    // var encryptedText = text.slice(15,-6);
-		    var decrypted = CryptoJS.AES.decrypt(text, "Secret Passphrase");
-		    var temp = decrypted.toString(CryptoJS.enc.Utf8);
-		    console.log('this is the decrypted message', temp)
-		    return temp;
-		}
+function unhacking(text) {
+    console.log('hit unhacking', text);
+    
+    var decrypted = CryptoJS.AES.decrypt(text, "Secret Passphrase");
+    var temp = decrypted.toString(CryptoJS.enc.Utf8);
 
+    console.log('this is the decrypted message', temp);
 
+    return temp;
+}
