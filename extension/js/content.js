@@ -8,7 +8,7 @@ g.src = chrome.extension.getURL('/js/gmail.js');
 (document.head || document.documentElement).appendChild(g);
 
 var s = document.createElement('script');
-s.src = chrome.extension.getURL('/js/main2.js');
+s.src = chrome.extension.getURL('/js/externalMain.js');
 (document.head || document.documentElement).appendChild(s);
 
 var e = document.createElement('script');

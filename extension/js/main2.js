@@ -1,4 +1,6 @@
 var gmail;
+var gmail2;
+var gmail3;
 
 function refresh(f) {
   if( (/in/.test(document.readyState)) || (undefined === Gmail) ) {
@@ -7,7 +9,6 @@ function refresh(f) {
     f();
   }
 }
-// (function (){})
 
 var main = function(){
   // NOTE: Always use the latest version of gmail.js from
@@ -17,21 +18,10 @@ var main = function(){
 
   var decrypted, encrypted;
 
-	//////////////////////////	ENCRYPTION	///////////////////////////////////
-  var regEx = /%%%%(.+)%%%%/gmi
+	//////////////////////////	DECRYPTION	///////////////////////////////////
+	/*  var regEx = /%%%%(.+)%%%%/gmi
   var sentinel = '%%%%';
   var sentinelLength = sentinel.length;
-
-  function hacking(text) {
-		var temp="";
-
-		var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
-		console.log('this is the encrypted message', encrypted.toString());
-		
-		temp = '<div dir="ltr">' + encrypted + '</div>'
-		// console.log('this is hacking func temp', temp);
-		return temp;
-	}
 
 	gmail.observe.on("view_thread", function (thread) {});
 
@@ -47,15 +37,21 @@ var main = function(){
 		} 
 		//THIS IS FOR VISUAL FEEDBACK THAT IT'S WORKING
 		email.body('<h1>%CryptoVeil%</h1>' + body)
-	})
-	
-	function sendToContentScript (data) {
-		document.dispatchEvent(new CustomEvent('messageFromExternal', {
-	        detail: data
-	    }));
-	}
+	})*/
 
-	///////////////////////////	DECRYPTION	///////////////////////////////////
+	///////////////////////////	ENCRYPTION	///////////////////////////////////
+	
+	function hacking(text) {
+		var temp="";
+
+		encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
+		
+		console.log('this is the encrypted message', encrypted.toString());
+		
+		temp = '<div dir="ltr">' + encrypted + '</div>'
+		// console.log('this is hacking func temp', temp);
+		return temp;
+	}
 
 	gmail.observe.before('send_message', function(url, body, data, xhr){
 		var body_params = xhr.xhrParams.body_params;
@@ -81,9 +77,45 @@ var main = function(){
 	// 		var result = hacking(body);
 	// 		console.log('this is the result', result)
 	// })
-}//end main
+}
+//end main
+
 ////////////////////////////	MESSAGING	///////////////////////////////////
 document.addEventListener('messageFromExtension', function(e) {
 });
 
+function sendToContentScript (data) {
+	document.dispatchEvent(new CustomEvent('messageFromExternal', { detail: data }));
+}
+
+var decryptedMain = function () {
+	gmail2 = new Gmail();
+
+	var regEx = /%%%%(.+)%%%%/gmi
+  var sentinel = '%%%%';
+  var sentinelLength = sentinel.length;
+
+	gmail2.observe.on("view_thread", function (thread) {});
+
+	gmail2.observe.on("view_email", function (email) {
+	
+		var email = new gmail2.dom.email(email.id)
+		var body = email.body();
+
+		if(body.indexOf(sentinel) > -1) {
+			var encryptedMsg = body.match(regEx)[0].slice(sentinelLength, -sentinelLength)
+			console.log('body', encryptedMsg);
+			// sendToContentScript(body);
+		} 
+		//THIS IS FOR VISUAL FEEDBACK THAT IT'S WORKING
+		email.body('<h1>%CryptoVeil%</h1>' + body)
+	})
+}
+
+// var encryptedMain = function () {
+// 	gmail3 = new Gmail();
+// }
+
+refresh(decryptedMain);
+// refresh(encryptedMain);
 refresh(main);
