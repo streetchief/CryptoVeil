@@ -11,4 +11,4 @@ app.config(function ($stateProvider) {
 
 app.controller('accountController', function ($scope) {
 
-}
+});
