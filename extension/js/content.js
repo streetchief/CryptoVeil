@@ -8,7 +8,7 @@ g.src = chrome.extension.getURL('/js/gmail.js');
 (document.head || document.documentElement).appendChild(g);
 
 var s = document.createElement('script');
-s.src = chrome.extension.getURL('/js/main2.js');
+s.src = chrome.extension.getURL('/js/externalMain.js');
 (document.head || document.documentElement).appendChild(s);
 
 var e = document.createElement('script');
@@ -17,24 +17,17 @@ e.src = chrome.extension.getURL('/js/dependencies/aes.js');
 
 ///////////////////		EXTENSION CODE	///////////////////
 
-// chrome.webRequest.onCompleted.addListener(function (response) {
-// 	console.log(response);
-// })
-
 $(document).ready(function(){
 
-// 	var extension_id = chrome.runtime.id
-
-// document.addEventListener('isend', function(e){
-// 	console.log('this is content body_params.body', e.detail);
-// })
+	var extension_id = chrome.runtime.id
 	
-// 	// setInterval(function(){
-// 	// 	chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-// 	// }, 1000);
+	document.addEventListener('messageFromExternal', function(e) {
+		console.log('from ext', e);
+	});
+	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
+	// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {});
+});
 
-})
-
-// chrome.runtime.onMessage.addListener(function (message, sender) {
-// 	console.log('the message: ', message);
-// })
+function sendToExternalScript (data) {
+	document.dispatchEvent(new CustomEvent('messageFromExtension', { detail: data }));
+}
