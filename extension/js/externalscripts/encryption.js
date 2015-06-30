@@ -10,7 +10,7 @@ var encryptedMain = function () {
 		
 		console.log('this is the encrypted message', encrypted.toString());
 		
-		temp = '<div dir="ltr">' + encrypted + '</div>'
+		temp = '<div dir="ltr"> %%%%' + encrypted + '%%%% </div>'
 		// console.log('this is hacking func temp', temp);
 		return temp;
 	}
