@@ -12,7 +12,7 @@ var schema = new mongoose.Schema({
     salt: {
         type: String
     },
-    circles: [String],
+    myCircles: [String],
     nickname: String,
     picUrl: String,
     twitter: {
@@ -34,7 +34,7 @@ var schema = new mongoose.Schema({
 
 schema.method('addNewCircle', function (nameForCircle) {
     //check to see if user has already made a circle with nameForCircle
-    this.Model('Circle').find({creator: this._id, name: nameForCircle}).exec()
+    this.Model('Circle').find({creator: this._id}).exec()
     //can we use {creator: this._id, name: nameForCircle} instead?
         .then(function (ownedCircles) {
             
@@ -47,16 +47,37 @@ schema.method('addNewCircle', function (nameForCircle) {
                 //TODO -- SAVE CIRCLE i.e. circle.newCircle
 
             } else {
-                return new Error('Circle name already in use.');
+                throw new Error('Circle name already in use.');
             }
 
         }, function (error) {
-            return new Error(error);
+            throw new Error(error.message);
         });
 });
 
-schema.method('deleteCircle', function (circleToDelete) {
-    this.Model('Circle').findById()
+// User.findById().then(loggedinuser.deleteCircle(circleid))
+
+
+schema.method('deleteCircle', function (circleIdToDelete) {
+
+    var idFound = this.myCircles.indexOf(circleIdToDelete);
+    
+    if (idFound > -1) {
+
+        this.Model('Circle').findById(idFound).exec()
+        .then(function (circleToDelete) {
+
+            //TODO -- delete circle i.e. 
+
+        }, function (err) {
+            throw new Error(err.message);
+        })
+
+    } else {
+
+        throw new Error('Circle does not exist.');
+    }
+    
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
