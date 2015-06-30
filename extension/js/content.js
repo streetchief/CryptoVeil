@@ -11,23 +11,23 @@ var s = document.createElement('script');
 s.src = chrome.extension.getURL('/js/main2.js');
 (document.head || document.documentElement).appendChild(s);
 
+var e = document.createElement('script');
+e.src = chrome.extension.getURL('/js/dependencies/aes.js');
+(document.head || document.documentElement).appendChild(e);
+
 ///////////////////		EXTENSION CODE	///////////////////
 
 $(document).ready(function(){
+
 	var extension_id = chrome.runtime.id
 	
+	document.addEventListener('messageFromExternal', function(e) {
+		console.log('from ext', e);
+	});
 	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-	// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-
-	// });
+	// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {});
 });
 
 function sendToExternalScript (data) {
-	document.dispatchEvent(new CustomEvent('messageFromExtension', {
-        detail: data
-    }));
+	document.dispatchEvent(new CustomEvent('messageFromExtension', { detail: data }));
 }
-
-document.addEventListener('messageFromExternal', function(e) {
-	console.log('from ext', e);
-});
