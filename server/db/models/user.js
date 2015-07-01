@@ -12,9 +12,15 @@ var schema = new mongoose.Schema({
     salt: {
         type: String
     },
-    myCircles: [String],
-    nickname: String,
-    picUrl: String,
+    myCircles: [
+        {type: mongoose.Schema.Types.ObjectId, ref: 'Circle'}
+    ],
+    nickname: {
+        type: String
+    },
+    picUrl:{
+        type: String
+    },
     twitter: {
         id: String,
         username: String,
@@ -32,21 +38,31 @@ var schema = new mongoose.Schema({
     }
 });
 
-schema.method('addNewCircle', function (nameForCircle) {
-    //check to see if user has already made a circle with nameForCircle
-    this.Model('Circle').find({creator: this._id}).exec()
-    //can we use {creator: this._id, name: nameForCircle} instead?
-        .then(function (ownedCircles) {
-            
-            var duplicateCircles = ownedCircles.filter(function (aCircle) {
-                return aCircle.name !== nameForCircle
-            });
+function isValidName (nameToCheck) {
+    return (nameToCheck.search(/[^a-zA-Z0-9]{1}/gim) !== -1);
+}
 
-            if (!duplicateCircles.length) {
+function cleanseName (name) {
+    return name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
+}
+
+schema.method('addNewCircle', function (nameForCircle) {
+    var cleansedName;
+
+    if (!isValidName(nameForCircle)) thrown new Error('Not a valid name.');
+
+    cleansedName = cleanseName(nameForCircle);
+
+    //check to see if user has already made a circle with nameForCircle
+    this.Model('Circle').findOne({creator: this._id, name: cleansedName}).exec()
+        .then(function (duplicateCircle) {
+
+            if (!duplicateCircle) {
 
                 //TODO -- SAVE CIRCLE i.e. circle.newCircle
 
             } else {
+                
                 throw new Error('Circle name already in use.');
             }
 
@@ -54,9 +70,6 @@ schema.method('addNewCircle', function (nameForCircle) {
             throw new Error(error.message);
         });
 });
-
-// User.findById().then(loggedinuser.deleteCircle(circleid))
-
 
 schema.method('deleteCircle', function (circleIdToDelete) {
 
