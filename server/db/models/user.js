@@ -47,7 +47,7 @@ function cleanseName (name) {
 }
 
 schema.method('addNewCircle', function (nameForCircle) {
-    var cleansedName;
+    var cleansedName, creator = this;
 
     if (!isValidName(nameForCircle)) thrown new Error('Not a valid name.');
 
@@ -59,7 +59,15 @@ schema.method('addNewCircle', function (nameForCircle) {
 
             if (!duplicateCircle) {
 
-                //TODO -- SAVE CIRCLE i.e. circle.newCircle
+                var circleToCreate = {
+                    name: cleansedName,
+                    creator: creator,
+                    members: [creator]
+                };
+
+                this.Model('Circle').create(circleToCreate, function (err, created) {
+                    return created;
+                });
 
             } else {
                 
@@ -67,6 +75,7 @@ schema.method('addNewCircle', function (nameForCircle) {
             }
 
         }, function (error) {
+            console.log('inside user.addNewCircle; error: ', error);
             throw new Error(error.message);
         });
 });
