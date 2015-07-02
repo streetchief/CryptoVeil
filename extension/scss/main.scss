@@ -9,3 +9,18 @@
     clear: both;
   }
 }
+
+body {
+	min-width: 800px;
+	min-height: 600px;
+}
+
+.dropdown-menu {
+	display:  block;
+	border-radius: 25px;
+	font-size: 12px;
+	width: 10px;
+	padding: 0px;
+	line-height: 100px;
+	white-space: nowrap;
+}
