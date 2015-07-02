@@ -49,7 +49,7 @@ function cleanseName (name) {
 schema.method('addNewCircle', function (nameForCircle) {
     var cleansedName, creator = this;
 
-    if (!isValidName(nameForCircle)) thrown new Error('Not a valid name.');
+    if (!isValidName(nameForCircle)) throw new Error('Not a valid name.');
 
     cleansedName = cleanseName(nameForCircle);
 
