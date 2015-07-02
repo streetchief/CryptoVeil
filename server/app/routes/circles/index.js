@@ -7,6 +7,7 @@ var User = mongoose.model('User');
 module.exports = router;
 
 function isAuthenticatedUser (req, res, next) {
+
 	if (req.isAuthenticated()) {
 		next();
 	} else {
@@ -15,34 +16,47 @@ function isAuthenticatedUser (req, res, next) {
 }
 
 router.get('/', isAuthenticatedUser, function (req, res, next) {
-	var userId = req.user._id
+
+	var userId = req.user._id;
+	
 	User.findById(userId)
 	.populate('myCircles')
 	.exec()
 	.then(function (user) {
 		res.send(user.myCircles)
-	}, next)
+	})
+	.then(null, next);
 });
 
 router.post('/', isAuthenticatedUser, function (req, res, next) {
-	var userId = req.user._id
+
+	var userId = req.user._id;
+	var circleToAdd = req.body.circleToAdd;
+	
 	User.findById(userId)
 	.exec()
 	.then(function (user) {
-		return user.addNewCircle(req.body))
-	}, next)
+		return user.addNewCircle(circleToAdd);
+	})
 	.then(function (newCircle) {
 		res.json(newCircle);
-	}, next);
+	})
+	.then(null, next);
 });
-
-router.put('/addUser', function (req, res, next) {
-	var circleToEdit = req.body.circleId
-	var userToAddId = req.body.userToAddId //MUST BE USER ID SENT FROM FRONT END
+//put(/removeUser)
+router.post('/user', function (req, res, next) {
+	
+	var circleToEdit = req.body.circleId;
+	var userToAddId = req.body.userToAddId; //MUST BE USER ID SENT FROM FRONT END
+	
 	Circle.findById(circleToEdit)
 	.then(function (circle) {
-		circle.addUser(userToAddId, next)
+		return circle.addMember(userToAddId);
 	})
+	.then(function (savedCircle) {
+		res.json(savedCircle);
+	})
+	.then(null, next);
 });
 
 router.delete('/', function (req, res, next) {

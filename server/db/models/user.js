@@ -47,7 +47,8 @@ function cleanseName (name) {
 }
 
 schema.method('addNewCircle', function (nameForCircle) {
-    var cleansedName, creator = this;
+
+    var cleansedName, _this = this;
 
     if (!isValidName(nameForCircle)) throw new Error('Not a valid name.');
 
@@ -57,25 +58,18 @@ schema.method('addNewCircle', function (nameForCircle) {
     return this.Model('Circle').findOne({creator: this._id, name: cleansedName})
         .then(function (duplicateCircle) {
 
-            if (!duplicateCircle) {
+            if (duplicateCircle) throw new Error('Circle name already in use.');
 
-                var circleToCreate = {
+            var circleToCreate = {
                     name: cleansedName,
-                    creator: creator,
-                    members: [creator]
+                    creator: _this,
+                    members: [_this]
                 };
 
-                this.Model('Circle').create(circleToCreate, function (err, created) {
-                    return created;
-                });
+            return this.Model('Circle').create(circleToCreate);
 
-            } else {
-                
-                throw new Error('Circle name already in use.');
-            }
-
-        }, function (error) {
-            console.log('inside user.addNewCircle; error: ', error);
+        })
+        .then(null, function (error) {
             throw new Error(error.message);
         });
 });
@@ -83,10 +77,10 @@ schema.method('addNewCircle', function (nameForCircle) {
 schema.method('deleteCircle', function (circleIdToDelete) {
 
     var idFound = this.myCircles.indexOf(circleIdToDelete);
-    
-    if (idFound > -1) {
 
-        this.Model('Circle').findById(idFound).exec()
+    if (idFound === -1) throw new Error('Circle does not exist.');
+    
+    return this.Model('Circle').findById(idFound).exec()
         .then(function (circleToDelete) {
 
             //TODO -- delete circle i.e. 
@@ -94,11 +88,6 @@ schema.method('deleteCircle', function (circleIdToDelete) {
         }, function (err) {
             throw new Error(err.message);
         })
-
-    } else {
-
-        throw new Error('Circle does not exist.');
-    }
     
 });
 
