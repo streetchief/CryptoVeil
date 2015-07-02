@@ -54,7 +54,7 @@ schema.method('addNewCircle', function (nameForCircle) {
     cleansedName = cleanseName(nameForCircle);
 
     //check to see if user has already made a circle with nameForCircle
-    this.Model('Circle').findOne({creator: this._id, name: cleansedName}).exec()
+    return this.Model('Circle').findOne({creator: this._id, name: cleansedName})
         .then(function (duplicateCircle) {
 
             if (!duplicateCircle) {
