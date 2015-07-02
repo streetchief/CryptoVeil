@@ -12,9 +12,15 @@ var schema = new mongoose.Schema({
     salt: {
         type: String
     },
-    myCircles: [String],
-    nickname: String,
-    picUrl: String,
+    myCircles: [
+        {type: mongoose.Schema.Types.ObjectId, ref: 'Circle'}
+    ],
+    nickname: {
+        type: String
+    },
+    picUrl:{
+        type: String
+    },
     twitter: {
         id: String,
         username: String,
@@ -32,31 +38,47 @@ var schema = new mongoose.Schema({
     }
 });
 
+function isValidName (nameToCheck) {
+    return (nameToCheck.search(/[^a-zA-Z0-9]{1}/gim) !== -1);
+}
+
+function cleanseName (name) {
+    return name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
+}
+
 schema.method('addNewCircle', function (nameForCircle) {
+    var cleansedName, creator = this;
+
+    if (!isValidName(nameForCircle)) throw new Error('Not a valid name.');
+
+    cleansedName = cleanseName(nameForCircle);
+
     //check to see if user has already made a circle with nameForCircle
-    this.Model('Circle').find({creator: this._id}).exec()
-    //can we use {creator: this._id, name: nameForCircle} instead?
-        .then(function (ownedCircles) {
-            
-            var duplicateCircles = ownedCircles.filter(function (aCircle) {
-                return aCircle.name !== nameForCircle
-            });
+    this.Model('Circle').findOne({creator: this._id, name: cleansedName}).exec()
+        .then(function (duplicateCircle) {
 
-            if (!duplicateCircles.length) {
+            if (!duplicateCircle) {
 
-                //TODO -- SAVE CIRCLE i.e. circle.newCircle
+                var circleToCreate = {
+                    name: cleansedName,
+                    creator: creator,
+                    members: [creator]
+                };
+
+                this.Model('Circle').create(circleToCreate, function (err, created) {
+                    return created;
+                });
 
             } else {
+                
                 throw new Error('Circle name already in use.');
             }
 
         }, function (error) {
+            console.log('inside user.addNewCircle; error: ', error);
             throw new Error(error.message);
         });
 });
-
-// User.findById().then(loggedinuser.deleteCircle(circleid))
-
 
 schema.method('deleteCircle', function (circleIdToDelete) {
 
