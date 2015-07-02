@@ -14,7 +14,7 @@ function isAuthenticatedUser (req, res, next) {
 		res.sendStatus(401);
 	}
 }
-
+//GET ALL CIRCLES FROM LOGGED IN USER
 router.get('/', isAuthenticatedUser, function (req, res, next) {
 
 	var userId = req.user._id;
@@ -27,7 +27,7 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(null, next);
 });
-
+//CREATE NEW CIRCLE
 router.post('/', isAuthenticatedUser, function (req, res, next) {
 
 	var userId = req.user._id;
@@ -36,18 +36,18 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	User.findById(userId)
 	.exec()
 	.then(function (user) {
-		return user.addNewCircle(circleToAdd);
+		return user.createNewCircle(circleToAdd);
 	})
 	.then(function (newCircle) {
 		res.json(newCircle);
 	})
 	.then(null, next);
 });
-//put(/removeUser)
-router.post('/user', function (req, res, next) {
-	
+//ADD USER TO A CIRCLE
+router.post('/user', isAuthenticatedUser, function (req, res, next) {
+
 	var circleToEdit = req.body.circleId;
-	var userToAddId = req.body.userToAddId; //MUST BE USER ID SENT FROM FRONT END
+	var userToAddId = req.body.userId; //MUST BE USER ID SENT FROM FRONT END
 	
 	Circle.findById(circleToEdit)
 	.then(function (circle) {
@@ -58,7 +58,41 @@ router.post('/user', function (req, res, next) {
 	})
 	.then(null, next);
 });
+//REMOVE USER FROM A CIRCLE
+router.put('/user', isAuthenticatedUser, function (req, res, next) {
+	
+	var circleToEdit = req.body.circleId;
+	var userToRemoveId = req.body.userId; //MUST BE USER ID SENT FROM FRONT END
+	
+	Circle.findById(circleToEdit)
+	.then(function (circle) {
+		return circle.removeMember(userToRemoveId);
+	})
+	.then(function (savedCircle) {
+		res.json(savedCircle);
+	})
+	.then(null, next);
+});
+//DELETE A CIRCLE
+router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
+	var circleId = req.params.circleId;
+	var loggedInUser = req.user._id;
 
-router.delete('/', function (req, res, next) {
+	Circle.findById(circleId)
+	.populate('creator')
+	.then(function (circle) {
+		if (circle.creator._id === loggedInUser) {
 
+			User.findById(loggedInUser)
+			.then(function (user) {
+				return user.deleteCircle(circleId)
+			})
+			.then(function (deletedCircle) {
+				res.sendStatus(204);
+			})
+			.then(null, next);
+		} else {
+			res.sendStatus(403);
+		}
+	})
 });

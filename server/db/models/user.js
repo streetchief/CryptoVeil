@@ -45,8 +45,8 @@ function isValidName (nameToCheck) {
 function cleanseName (name) {
     return name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
 }
-
-schema.method('addNewCircle', function (nameForCircle) {
+// someUser.createNewCircle()
+schema.method('createNewCircle', function (nameForCircle) {
 
     var cleansedName, _this = this;
 
@@ -74,31 +74,38 @@ schema.method('addNewCircle', function (nameForCircle) {
         });
 });
 
+// user.deleteCircle()
 schema.method('deleteCircle', function (circleIdToDelete) {
 
     var idFound = this.myCircles.indexOf(circleIdToDelete);
 
     if (idFound === -1) throw new Error('Circle does not exist.');
     
-    return this.Model('Circle').findById(idFound).exec()
+    return this.Model('Circle').findById(idFound)
+        .populate('members')
+        .exec()
         .then(function (circleToDelete) {
+            var promiseArr = [];
 
-            //TODO -- delete circle i.e. 
+            circleToDelete.members.forEach(function (member) {
 
-        }, function (err) {
+                member.myCircles.pull(circleToDelete._id);
+                promiseArr.push(member.save());
+            }); 
+
+            return Promise.all(promiseArr);
+        }).then(function (savedMembers) {
+
+            return Circle.findByIdAndRemove(circleIdToDelete).exec();
+        }).then(null, function (err) {
+
             throw new Error(err.message);
         })
     
 });
 
 /* // TO DO /////////
-schema.method('addUserToCircle', function (nameForCircle) {
 
-});
-
-schema.method('removeUserFromCircle', function (nameForCircle) {
-    
-});
 
 schema.method('resetPassword', function (nameForCircle) {
     
