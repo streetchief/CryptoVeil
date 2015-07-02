@@ -102,6 +102,20 @@ schema.method('deleteCircle', function (circleIdToDelete) {
     
 });
 
+/* // TO DO /////////
+schema.method('addUserToCircle', function (nameForCircle) {
+
+});
+
+schema.method('removeUserFromCircle', function (nameForCircle) {
+    
+});
+
+schema.method('resetPassword', function (nameForCircle) {
+    
+});
+*/
+
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
 // are all used for local authentication security.
 var generateSalt = function () {
