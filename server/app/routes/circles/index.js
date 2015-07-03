@@ -19,7 +19,7 @@ function isAuthenticatedUser (req, res, next) {
 
 // TODO
 	// UPDATING OR RESETTING A KEY
-router.put('/key', isAuthenticatedUser, function (req, res, next){})
+router.put('/key', isAuthenticatedUser, function (req, res, next){});
 
 // GET ALL CIRCLES FROM LOGGED IN USER
 router.get('/', isAuthenticatedUser, function (req, res, next) {

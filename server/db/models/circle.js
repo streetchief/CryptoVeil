@@ -22,6 +22,7 @@ circleSchema.method('addMember', function (userId) {
 		newMember;
 
 	return this.Model('User').findById(userId)
+	.exec()
 	.then(function (foundUser) {
 
 		newMember = foundUser;
@@ -51,6 +52,7 @@ circleSchema.method('removeMember', function (userId) {
 		aMember;
 
 	return this.Model('User').findById(userId)
+	.exec()
 	.then(function (foundUser) {
 
 		aMember = foundUser;

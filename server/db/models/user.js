@@ -58,6 +58,7 @@ schema.method('createNewCircle', function (nameForCircle) {
 
     //check to see if user has already made a circle with nameForCircle
     return this.Model('Circle').findOne({creator: this._id, name: cleansedName})
+        .exec()
         .then(function (duplicateCircle) {
 
             if (duplicateCircle) throw new Error('Circle name already in use.');
@@ -110,15 +111,16 @@ schema.method('deleteCircle', function (circleIdToDelete) {
 });
 
 //verify no one is using the email to register
-function checkEmailIsUnique (emailToCheck) {
+var checkEmailIsUnique = function (emailToCheck) {
 
-    return this.findOne({email: emailToCheck})
+    return this.model('User').findOne({email: emailToCheck})
+        .exec()
         .then(function (user) {
             return !!user;
         }, function (error) {
-            throw new Error('Email not valid.')
+            throw new Error('Email not valid.');
         });
-}
+};
 
 schema.statics.checkEmailIsUnique = checkEmailIsUnique;
 
