@@ -22,21 +22,22 @@ app.controller('homeController', function ($scope) {
 
 // browserAction.setIcon(/js/red) //{path: "/path/here", "tabId: idoftab"}
 
-  
-  $scope.logInBG = function (msg) {
-  	backgroundPage.logInBackground(msg);
-  }
-  
-  $scope.runScan = function () {
-    backgroundPage.runScan();
-  }
 
-  $scope.reqInterceptToggle = function () {
-    backgroundPage.reqBodyIntercept();
-  }
 
-  $scope.compose = function(){
+  // $scope.logInBG = function (msg) {
+  // 	backgroundPage.logInBackground(msg);
+  // }
+  
+  // $scope.runScan = function () {
+  //   backgroundPage.runScan();
+  // }
+
+  // $scope.reqInterceptToggle = function () {
+  //   backgroundPage.reqBodyIntercept();
+  // }
+
+  // $scope.compose = function(){
     
-  }
+  // }
 
 });
