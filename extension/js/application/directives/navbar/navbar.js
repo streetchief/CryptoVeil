@@ -13,7 +13,7 @@ app.directive('navBar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
                 { label: 'Logout', state: 'register' }
             ];
 
-            // scope.user = null;
+            scope.user = null;
             // scope.isLoggedIn = function () {
             //     return AuthService.isAuthenticated();
             // };
@@ -24,19 +24,20 @@ app.directive('navBar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             //     });
             // };
 
-            // var setUser = function () {
-            //     AuthService.getLoggedInUser().then(function (user) {
-            //         scope.user = user;
-            //         // if (user.userType !== 'User')
-            //         //     scope.items[2].label = 'Manage Store';
-            //     });
-            // };
+            var setUser = function () {
+                AuthService.getLoggedInUser().then(function (user) {
+                    console.log('hit navbar', user)
+                    scope.user = user;
+                    // if (user.userType !== 'User')
+                    //     scope.items[2].label = 'Manage Store';
+                });
+            };
 
             // var removeUser = function () {
             //     scope.user = null;
             // };
 
-            // setUser();
+            setUser();
 
             // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);

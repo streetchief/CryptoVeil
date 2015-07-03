@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
 
     // Register our *about* state.
     $stateProvider.state('home', {
-        url: '/',
+        url: '/home',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
     });
