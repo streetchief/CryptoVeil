@@ -6,16 +6,25 @@
 
 		<!-- <link rel="stylesheet" type="text/css" href="core/css/angular-csp.css" /> -->
 	    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-	    <link rel="stylesheet" type="text/css" href="/css/style.css" />
-
 	    <script src="/js/dependencies/lodash.js"></script>
 	    <script src="/js/dependencies/angular.min.js"></script>
 	    <script src="/js/dependencies/angular-ui-router.min.js"></script>
 	    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
+	    <link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<script src="/js/main.js"></script>
 	</head>
 	<body data-ng-app="CryptoveilExt">
 		<div class="container-fluid">
+			<div class="btn-group" dropdown>
+			  <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+				<span class="glyphicon glyphicon-menu-hamburger"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li ng-click="" ng-selected=""><a href="#">Account Management</a></li>
+			    <li class="divider"></li>
+			    <li ng-click="" ng-selected=""><a href="#">Circle Management</a></li>
+			  </ul>
+			</div>
 			<div data-ui-view></div>
 		</div>
 	</body>
