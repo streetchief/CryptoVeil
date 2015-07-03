@@ -46,6 +46,7 @@ function cleanseName (name) {
     name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
     return name;
 }
+
 // someUser.createNewCircle()
 schema.method('createNewCircle', function (nameForCircle) {
 
@@ -57,6 +58,7 @@ schema.method('createNewCircle', function (nameForCircle) {
 
     //check to see if user has already made a circle with nameForCircle
     return this.Model('Circle').findOne({creator: this._id, name: cleansedName})
+        .exec()
         .then(function (duplicateCircle) {
 
             if (duplicateCircle) throw new Error('Circle name already in use.');
@@ -107,6 +109,20 @@ schema.method('deleteCircle', function (circleIdToDelete) {
 
         });
 });
+
+//verify no one is using the email to register
+var checkEmailIsUnique = function (emailToCheck) {
+
+    return this.model('User').findOne({email: emailToCheck})
+        .exec()
+        .then(function (user) {
+            return !!user;
+        }, function (error) {
+            throw new Error('Email not valid.');
+        });
+};
+
+schema.statics.checkEmailIsUnique = checkEmailIsUnique;
 
 /* // TO DO /////////
 schema.method('resetPassword', function (nameForCircle) {

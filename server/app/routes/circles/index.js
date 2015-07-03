@@ -16,7 +16,12 @@ function isAuthenticatedUser (req, res, next) {
 		res.sendStatus(401);
 	}
 }
-//GET ALL CIRCLES FROM LOGGED IN USER
+
+// TODO
+	// UPDATING OR RESETTING A KEY
+router.put('/key', isAuthenticatedUser, function (req, res, next){});
+
+// GET ALL CIRCLES FROM LOGGED IN USER
 router.get('/', isAuthenticatedUser, function (req, res, next) {
 
 	var userId = req.user._id;
@@ -30,7 +35,8 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(null, next);
 });
-//CREATE NEW CIRCLE
+
+// CREATE NEW CIRCLE
 router.post('/', isAuthenticatedUser, function (req, res, next) {
 
 	var userId = req.user._id;
@@ -49,7 +55,8 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(null, next);
 });
-//ADD USER TO A CIRCLE
+
+// ADD USER TO A CIRCLE
 router.post('/user', isAuthenticatedUser, function (req, res, next) {
 
 	var circleToEdit = req.body.circleId;
@@ -66,7 +73,8 @@ router.post('/user', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(null, next);
 });
-//REMOVE USER FROM A CIRCLE
+
+// REMOVE USER FROM A CIRCLE
 router.put('/user', isAuthenticatedUser, function (req, res, next) {
 	
 	var circleToEdit = req.body.circleId;
@@ -83,7 +91,8 @@ router.put('/user', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(null, next);
 });
-//DELETE A CIRCLE
+
+// DELETE A CIRCLE
 router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 
 	var circleId = req.params.circleId;

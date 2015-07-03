@@ -1,5 +1,6 @@
 'use strict';
 var Circle;
+
 var mongoose = require('mongoose');
 
 var circleSchema = new mongoose.Schema({
@@ -21,6 +22,7 @@ circleSchema.method('addMember', function (userId) {
 		newMember;
 
 	return this.Model('User').findById(userId)
+	.exec()
 	.then(function (foundUser) {
 
 		newMember = foundUser;
@@ -50,6 +52,7 @@ circleSchema.method('removeMember', function (userId) {
 		aMember;
 
 	return this.Model('User').findById(userId)
+	.exec()
 	.then(function (foundUser) {
 
 		aMember = foundUser;
