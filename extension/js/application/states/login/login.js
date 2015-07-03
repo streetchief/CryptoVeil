@@ -9,24 +9,51 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('loginController', function ($scope, AuthService, Session, $state, $window, $location) {
+app.controller('loginController', function ($scope, $http, AuthService, BackgroundFactory, $state, $window, $location) {
     $scope.login = {};
     $scope.error = null;
+
+    function httpCall(method, data){
+        var req = {
+         method: method, //'POST'
+         url: 'http://127.0.0.1:1337/login',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         data: { userData: data }
+        }
+
+        return $http(req);
+    }
 
     $scope.sendLogin = function (loginInfo) {
 
         $scope.error = null;
 
-        AuthService.login(loginInfo).then(function () {
-            console.log('hello', Session.user)
+        var req = {
+         method: 'POST', //'POST'
+         url: 'http://127.0.0.1:1337/login',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         dataType: "jsonp",
+         data: { userData: loginInfo }
+        }
+        $http(req)
+        console.log('login info', loginInfo)
 
-            if (Session.user.reset === true) $state.go('resetPw')
+        
+        // httpCall('POST', loginInfo).then(function (userData) {
+        //     // console.log('hello', Session.user)
+        //     console.log('hit longinController', userData);
 
-            else $state.go('home');
-            // $location.href="http://localhost:1337/discover"
-        }).catch(function () {
-            $scope.error = 'Invalid login credentials.';
-        });
+        //     // if (Session.user.reset === true) $state.go('resetPw')
+
+        //     // else $state.go('home');
+        //     // $location.href="http://localhost:1337/discover"
+        // }).catch(function () {
+        //     $scope.error = 'Invalid login credentials.';
+        // });
     };
 
     $scope.redirectLogin = function(location){
