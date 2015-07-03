@@ -9,8 +9,10 @@ module.exports = router;
 function isAuthenticatedUser (req, res, next) {
 
 	if (req.isAuthenticated()) {
+
 		next();
 	} else {
+
 		res.sendStatus(401);
 	}
 }
@@ -23,7 +25,8 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.populate('myCircles')
 	.exec()
 	.then(function (user) {
-		res.send(user.myCircles)
+
+		res.send(user.myCircles);
 	})
 	.then(null, next);
 });
@@ -36,9 +39,12 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	User.findById(userId)
 	.exec()
 	.then(function (user) {
+
 		return user.createNewCircle(circleToAdd);
+
 	})
 	.then(function (newCircle) {
+
 		res.json(newCircle);
 	})
 	.then(null, next);
@@ -51,9 +57,11 @@ router.post('/user', isAuthenticatedUser, function (req, res, next) {
 	
 	Circle.findById(circleToEdit)
 	.then(function (circle) {
+
 		return circle.addMember(userToAddId);
 	})
 	.then(function (savedCircle) {
+
 		res.json(savedCircle);
 	})
 	.then(null, next);
@@ -66,33 +74,41 @@ router.put('/user', isAuthenticatedUser, function (req, res, next) {
 	
 	Circle.findById(circleToEdit)
 	.then(function (circle) {
+
 		return circle.removeMember(userToRemoveId);
 	})
 	.then(function (savedCircle) {
+
 		res.json(savedCircle);
 	})
 	.then(null, next);
 });
 //DELETE A CIRCLE
 router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
+
 	var circleId = req.params.circleId;
 	var loggedInUser = req.user._id;
 
 	Circle.findById(circleId)
 	.populate('creator')
 	.then(function (circle) {
+
 		if (circle.creator._id === loggedInUser) {
 
 			User.findById(loggedInUser)
 			.then(function (user) {
-				return user.deleteCircle(circleId)
+
+				return user.deleteCircle(circleId);
 			})
 			.then(function (deletedCircle) {
+
 				res.sendStatus(204);
 			})
 			.then(null, next);
+
 		} else {
+
 			res.sendStatus(403);
 		}
-	})
+	});
 });

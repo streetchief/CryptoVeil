@@ -1,4 +1,5 @@
-'use strict'
+'use strict';
+var Circle;
 var mongoose = require('mongoose');
 
 var circleSchema = new mongoose.Schema({
@@ -14,7 +15,7 @@ var circleSchema = new mongoose.Schema({
 });
 
 //circle.addMember()
-schema.method('addMember', function (userId) {
+circleSchema.method('addMember', function (userId) {
 
 	var _this = this,
 		newMember;
@@ -23,7 +24,7 @@ schema.method('addMember', function (userId) {
 	.then(function (foundUser) {
 
 		newMember = foundUser;
-		_this.members.push(user._id);
+		_this.members.push(foundUser._id);
 		return _this.save();
 	})
 	.then(function (updatedCircle) {
@@ -34,7 +35,7 @@ schema.method('addMember', function (userId) {
 	})
 	.then(function () {
 
-		return Circle.findById(_this._id).exec()
+		return Circle.findById(_this._id).exec();
 	})
 	.then(null, function (err) {
 
@@ -43,7 +44,7 @@ schema.method('addMember', function (userId) {
 });
 
 //circle.removeMember()
-schema.method('removeMember', function (userId) {
+circleSchema.method('removeMember', function (userId) {
 	
 	var _this = this,
 		aMember;
@@ -52,7 +53,7 @@ schema.method('removeMember', function (userId) {
 	.then(function (foundUser) {
 
 		aMember = foundUser;
-		_this.members.pull(user._id);
+		_this.members.pull(foundUser._id);
 		return _this.save();
 	})
 	.then(function (updatedCircle) {
@@ -63,7 +64,7 @@ schema.method('removeMember', function (userId) {
 	})
 	.then(function () {
 
-		return Circle.findById(_this._id).exec()
+		return Circle.findById(_this._id).exec();
 	})
 	.then(null, function (err) {
 
@@ -71,4 +72,4 @@ schema.method('removeMember', function (userId) {
 	});
 });
 
-var Circle = mongoose.model('Circle', circleSchema);
+Circle = mongoose.model('Circle', circleSchema);

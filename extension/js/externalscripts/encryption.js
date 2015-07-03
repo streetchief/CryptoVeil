@@ -1,27 +1,26 @@
 ///////////////////////////	ENCRYPTION	///////////////////////////////////
 var encryptedMain = function () {
+
 	gmail1 = new Gmail();
 	  console.log('Hello from encryptedMain,', gmail1.get.user_email());
 
 	function hacking(text) {
-		var temp="";
+		var temp = "";
 
 		encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
 		
-		console.log('this is the encrypted message', encrypted.toString());
-		
 		temp = '<div dir="ltr"> %%%%' + encrypted + '%%%% </div>'
-		// console.log('this is hacking func temp', temp);
+
 		return temp;
 	}
 
 	gmail1.observe.before('send_message', function(url, body, data, xhr){
-		var body_params = xhr.xhrParams.body_params;
 
-		// body_params.body = hacking(body_params.body);
+		var body_params;
+
+		body_params = xhr.xhrParams.body_params;
+
 		body_params.body = hacking(body_params.body);
-
-		console.log('this is body params.body', body_params.body);
 	})
 };
 
