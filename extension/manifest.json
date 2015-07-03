@@ -31,7 +31,8 @@
   "web_accessible_resources": [
     "/js/jquery-1.10.2.min.js",
     "/js/gmail.js",
-    "/js/externalMain.js"
+    "/js/externalMain.js",
+    "/js/dependencies/aes.js"
   ],
 
   "permissions": [
