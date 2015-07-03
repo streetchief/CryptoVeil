@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="btn-group" dropdown>
+    <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+  	<span class="glyphicon glyphicon-menu-hamburger"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li data-ng-selected=""
+      data-ui-sref="{{item.state}}" 
+      data-ng-repeat="item in items">
+        <a href="#">{{item.label}}</a>
+      </li>
+<!--       <li class="divider"></li> -->
+    </ul>
+  </div>
+</div>
