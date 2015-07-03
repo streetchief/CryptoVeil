@@ -43,7 +43,8 @@ function isValidName (nameToCheck) {
 }
 
 function cleanseName (name) {
-    return name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
+    name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
+    return name;
 }
 // someUser.createNewCircle()
 schema.method('createNewCircle', function (nameForCircle) {
@@ -85,6 +86,7 @@ schema.method('deleteCircle', function (circleIdToDelete) {
         .populate('members')
         .exec()
         .then(function (circleToDelete) {
+
             var promiseArr = [];
 
             circleToDelete.members.forEach(function (member) {
@@ -94,21 +96,21 @@ schema.method('deleteCircle', function (circleIdToDelete) {
             }); 
 
             return Promise.all(promiseArr);
+
         }).then(function (savedMembers) {
 
-            return Circle.findByIdAndRemove(circleIdToDelete).exec();
+            return this.Model('Circle').findByIdAndRemove(circleIdToDelete).exec();
+
         }).then(null, function (err) {
 
             throw new Error(err.message);
-        })
-    
+
+        });
 });
 
 /* // TO DO /////////
-
-
 schema.method('resetPassword', function (nameForCircle) {
-    
+
 });
 */
 
