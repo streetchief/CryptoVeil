@@ -46,6 +46,7 @@ function cleanseName (name) {
     name = name.trim().replace(/[^a-zA-Z0-9]{1}/gmi, '');
     return name;
 }
+
 // someUser.createNewCircle()
 schema.method('createNewCircle', function (nameForCircle) {
 
@@ -107,6 +108,19 @@ schema.method('deleteCircle', function (circleIdToDelete) {
 
         });
 });
+
+//verify no one is using the email to register
+function checkEmailIsUnique (emailToCheck) {
+
+    return this.findOne({email: emailToCheck})
+        .then(function (user) {
+            return !!user;
+        }, function (error) {
+            throw new Error('Email not valid.')
+        });
+}
+
+schema.statics.checkEmailIsUnique = checkEmailIsUnique;
 
 /* // TO DO /////////
 schema.method('resetPassword', function (nameForCircle) {

@@ -1,5 +1,6 @@
 'use strict';
 var Circle;
+
 var mongoose = require('mongoose');
 
 var circleSchema = new mongoose.Schema({
