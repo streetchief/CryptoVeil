@@ -21,13 +21,18 @@ $(document).ready(function(){
 
 	var extension_id = chrome.runtime.id
 	
-	document.addEventListener('messageFromExternal', function(e) {
-		console.log('from ext', e);
-	});
+	// document.addEventListener('messageFromExternal', function(e) {
+	// 	console.log('from ext', e);
+	// });
 	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
-	// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {});
+	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+		if (message.command === 'toggle-encryption') {
+			document.dispatchEvent(new CustomEvent('message-from-content', { detail: 'toggle-encryption' }));
+		}
+	});
 });
 
-function sendToExternalScript (data) {
-	document.dispatchEvent(new CustomEvent('messageFromExtension', { detail: data }));
-}
+// function sendToExternalScript (data) {
+// 	document.dispatchEvent(new CustomEvent('messageFromExtension', { detail: data }));
+// }
+

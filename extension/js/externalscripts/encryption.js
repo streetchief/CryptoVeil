@@ -14,15 +14,31 @@ var encryptedMain = function () {
 		return temp;
 	}
 
-	gmail1.observe.before('send_message', function(url, body, data, xhr){
+	var encryptionEnabled = false;
 
-		var body_params;
+	document.addEventListener('message-from-content', function(e) {
+		
+		if (e.detail === 'toggle-encryption') {
+			
+			if(!encryptionEnabled) {
 
-		body_params = xhr.xhrParams.body_params;
+				encryptionEnabled = true;
+				
+				gmail1.observe.before('send_message', function(url, body, data, xhr){
+				
+					var body_params;
+					body_params = xhr.xhrParams.body_params;
+					body_params.body = hacking(body_params.body);
+				});
+			} else {
+				
+				encryptionEnabled = false;
+				gmail1.observe.off('send_message', 'before');
+			}
+		}
+	});
 
-		body_params.body = hacking(body_params.body);
-	})
-};
+}; //END OF MAIN
 
 // var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
 // console.log('this is the decrypted message', decrypted.toString(CryptoJS.enc.Utf8))

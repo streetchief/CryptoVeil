@@ -17,6 +17,10 @@ app.controller('homeController', function ($scope) {
   $scope.msg = 'Req Intercept Toggle';
   $scope.googleEncryptionOn = 0;
 
+  $scope.encryptionToggle = function () {
+    backgroundPage.encryptionToggle()
+  }
+
   // backgroundPage.tabGetter();
 	  // decryptionEngaged = true;
 
