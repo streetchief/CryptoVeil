@@ -7,6 +7,7 @@ var decryptedMain = function () {
 	var regEx = /%%%%(.+)%%%%/gmi,
 		sentinel = '%%%%',
 		sentinelLength = sentinel.length,
+		key = 'Secret Passphrase',
 		unhacked;
 
 	gmail2.observe.on("view_thread", function (thread) {});
@@ -28,17 +29,17 @@ var decryptedMain = function () {
 			encryptedMsg = body.match(regEx)[0].slice(sentinelLength, -sentinelLength)
 
 			// sendToContentScript(body);
-			unhacked = unhacking(encryptedMsg);
+			unhacked = decrypt(encryptedMsg, key);
 			email.body(unhacked + '<h5>Decrypted by CryptoVeil</h5>')
 		} 
 	});
 };
 
-function unhacking(text) {
+function decrypt(text, key) {
 
 	var decrypted, temp;
     
-    decrypted = CryptoJS.AES.decrypt(text, "Secret Passphrase");
+    decrypted = CryptoJS.AES.decrypt(text, key);
     temp = decrypted.toString(CryptoJS.enc.Utf8);
 
     return temp;
