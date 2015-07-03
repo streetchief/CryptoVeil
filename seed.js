@@ -22,6 +22,8 @@ Refer to the q documentation for why and how q.invoke is used.
 var mongoose = require('mongoose');
 var connectToDb = require('./server/db');
 var User = mongoose.model('User');
+var Circle = mongoose.model('Circle');
+
 var q = require('q');
 var chalk = require('chalk');
 
@@ -46,15 +48,54 @@ var seedUsers = function () {
 
 };
 
+var getCurrentCircleData = function () {
+    return q.ninvoke(Circle, 'find', {});
+};
+
+var seedCircles = function (creator) {
+
+    var circles = [
+        {
+            name: 'SuperDopeHotness',
+            creator: creator,
+            members: [creator]
+
+        },
+        {
+            name: 'PartyTime'
+        }
+    ];
+
+    return q.invoke(Circle, 'create', circles);
+
+};
+
+
 connectToDb.then(function () {
     getCurrentUserData().then(function (users) {
+        console.log('Entered user seeding!');
         if (users.length === 0) {
             return seedUsers();
         } else {
             console.log(chalk.magenta('Seems to already be user data, exiting!'));
-            process.kill(0);
+            // process.kill(0);
+            return;
         }
-    }).then(function () {
+    }).then(function (user) {
+        console.log('users: ', user);
+        console.log('Entered circle seeding!');
+        return getCurrentCircleData().then(function (circles) {
+            if (circles.length === 0) {
+                console.log('Seeding circles...');
+                var temp = user._id
+                return seedCircles(temp);
+            } else {
+                console.log(chalk.magenta('Seems to have existing circles!'));
+                process.kill(0);
+            }
+        })
+    })
+    .then(function () {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
     }).catch(function (err) {
