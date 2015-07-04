@@ -10,6 +10,7 @@ module.exports = function (app) {
     // When passport.authenticate('local') is used, this function will receive
     // the email and password to run the actual authentication logic.
     var strategyFn = function (email, password, done) {
+        console.log('this is arguments', arguments)
         UserModel.findOne({ email: email }, function (err, user) {
             if (err) return done(err);
             // user.correctPassword is a method from our UserModel schema.
@@ -23,28 +24,28 @@ module.exports = function (app) {
 
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {
-        console.log('hit router', req.body)
-        res.send(200).end()
-        // var authCb = function (err, user) {
+        
+        var authCb = function (err, user) {
 
-        //     if (err) return next(err);
+            console.log('this is user', user);
+            if (err) return next(err);
 
-        //     if (!user) {
-        //         var error = new Error('Invalid login credentials');
-        //         error.status = 401;
-        //         return next(error);
-        //     }
+            if (!user) {
+                var error = new Error('Invalid login credentials');
+                error.status = 401;
+                return next(error);
+            }
 
-        //     // req.logIn will establish our session.
-        //     req.logIn(user, function (err) {
-        //         if (err) return next(err);
-        //         // We respond with a reponse object that has user with _id and email.
-        //         res.status(200).send({ user: _.omit(user.toJSON(), ['password', 'salt']) });
-        //     });
+            // req.logIn will establish our session.
+            req.logIn(user, function (err) {
+                if (err) return next(err);
+                // We respond with a reponse object that has user with _id and email.
+                res.status(200).send({ user: _.omit(user.toJSON(), ['password', 'salt']) });
+            });
 
-        // };
+        };
 
-        // passport.authenticate('local', authCb)(req, res, next);
+        passport.authenticate('local', authCb)(req, res, next);
 
     });
 
