@@ -10,6 +10,17 @@ function tabGetter () {
     });
 }
 
+function sendToContentScript () {
+
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.sendMessage(tab.id, {command: 'toggle-encryption'})
+    });
+}
+
+function encryptionToggle () {
+    sendToContentScript();
+}
+
 function reqBodyIntercept() {
 	console.log('listening...');
 

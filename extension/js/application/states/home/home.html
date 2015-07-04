@@ -8,14 +8,15 @@
 
 	<div class="row">
 		<div class="col-lg-3">
-		    <button 
+		    <button
+		    data-ng-click="encryptionToggle(googleEncryptionOn)" 
 		    type="button" 
 		    class="btn btn-primary"
 		    ng-model="googleEncryptionOn" 
 		    btn-checkbox 
 		    btn-checkbox-true="1" 
 		    btn-checkbox-false="0">
-	        Google Encryption: {{googleEncryptionOn}}
+	        Encryption: {{googleEncryptionOn}}
 		    </button>
 		</div>
 	</div>
@@ -27,11 +28,12 @@
 		      <button type="button"
 		      class="btn btn-primary dropdown-toggle" 
 		      dropdown-toggle 
-		      ng-disabled="disabled">
-		        Decryption Circle <span class="caret"></span>
+		      data-ng-disabled="disabled">
+		        {{currentCircle}}
+		        <span class="caret"></span>
 		      </button>
 		      <ul class="dropdown-menu" role="menu">
-		        <li><a href="#">Action</a></li>
+		        <li data-ng-repeat="circle in userCircles"><a href="#" data-ng-click="setDecryptionCircle(circle)">{{circle.name}}</a></li>
 		      </ul>
 		    </div>
     	</div>

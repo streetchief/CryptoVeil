@@ -4,4 +4,5 @@ npm-debug.log
 public
 .DS_Store
 extension/js/main.js
+extension/js/main2.js
 extension/js/externalMain.js

@@ -17,12 +17,40 @@ app.controller('homeController', function ($scope) {
   $scope.msg = 'Req Intercept Toggle';
   $scope.googleEncryptionOn = 0;
 
+  $scope.currentCircle = 'Your Circle';
+
+  $scope.encryptionToggle = function (toggledOn) {
+
+    //FIXME -- THIS IS NOT CORRECT, RESETS ON POPUP CLOSE
+      // use backgroundFactory.getStatus when it's built
+
+    if (!toggledOn) {
+      //go red
+      chrome.browserAction.setIcon({path: "/green128.png"});
+    } else {
+      //go green 
+      chrome.browserAction.setIcon({path: "/red128.png"});
+    }
+
+    backgroundPage.encryptionToggle();
+
+  };// End encryptionToggle
+
+  //backgroundFactory.getUserCircles.then
+  $scope.userCircles = [
+    {name: 'SuperHotness', id: '123344'},
+    {name: 'Partytime', id: '5555555'}
+  ];
+
+  $scope.setDecryptionCircle = function (selectedCircle) {
+
+    $scope.currentCircle = selectedCircle.name;
+    // TODO -- backgroundFactory.setCurrentCircle(selectedCircle.id)
+
+  };
+
   // backgroundPage.tabGetter();
-	  // decryptionEngaged = true;
 
-// browserAction.setIcon(/js/red) //{path: "/path/here", "tabId: idoftab"}
-
-  
   $scope.logInBG = function (msg) {
   	backgroundPage.logInBackground(msg);
   }
