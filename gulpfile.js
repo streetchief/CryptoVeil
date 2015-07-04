@@ -92,7 +92,7 @@ gulp.task('seedDB', function () {
 // --------------------------------------------------------------
 
 gulp.task('buildJSExtension', function () {
-    return gulp.src(['./extension/js/application/app.js', './extension/js/application/**/*.js'])
+    return gulp.src(['./extension/js/application/app.js', './extension/js/application/**/*.js', './extension/js/fsa/fsa-pre-built.js'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))

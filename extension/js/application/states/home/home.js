@@ -2,7 +2,7 @@ app.config(function ($stateProvider) {
 
     // Register our *about* state.
     $stateProvider.state('home', {
-        url: '/',
+        url: '/home',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
     });
@@ -50,21 +50,5 @@ app.controller('homeController', function ($scope) {
   };
 
   // backgroundPage.tabGetter();
-
-  $scope.logInBG = function (msg) {
-  	backgroundPage.logInBackground(msg);
-  }
-  
-  $scope.runScan = function () {
-    backgroundPage.runScan();
-  }
-
-  $scope.reqInterceptToggle = function () {
-    backgroundPage.reqBodyIntercept();
-  }
-
-  $scope.compose = function(){
-    
-  }
 
 });
