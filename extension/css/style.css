@@ -2,11 +2,43 @@
   box-sizing: border-box; }
 
 body {
-  min-width: 500px;
-  min-height: 400px; }
+  min-width: 600px;
+  min-height: 600px; }
 
 .dropdown-menu {
   font-size: 12px;
   width: 10px;
   line-height: 100px;
   white-space: nowrap; }
+
+.navbar {
+  display: block;
+  background: #a1a1a1; }
+  .navbar fullstack-logo {
+    padding-top: 10px;
+    margin-right: 20px;
+    width: 30px; }
+  .navbar a {
+    color: white; }
+    .navbar a:hover {
+      color: white; }
+  .navbar .nav > li > a {
+    cursor: pointer; }
+    .navbar .nav > li > a.active {
+      color: #f30046; }
+    .navbar .nav > li > a:hover {
+      transition: color 0.2s; }
+    .navbar .nav > li > a:focus {
+      color: #f30046;
+      background: transparent; }
+  .navbar .login-button {
+    float: right;
+    margin-top: 8px; }
+  .navbar .welcome {
+    float: right;
+    margin-top: 12px; }
+    .navbar .welcome span {
+      color: white; }
+    .navbar .welcome a {
+      color: #f30046;
+      cursor: pointer; }

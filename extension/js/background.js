@@ -1,7 +1,14 @@
 'use strict';
-function logInBackground (dataToLog) {
-	console.log('In background.js');
-	console.log(dataToLog);
+var user;
+var server = 'http://localhost:1337'
+
+function login (userInfo) {
+	// console.log('In background.js');
+	// console.log(userInfo);
+ //    var xhr = new XMLHttpRequest();
+ //    xhr.open("POST", server + '/login', true);
+ //    xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
+ //    xhr.send(userInfo);
 }
 
 function tabGetter () {
@@ -22,48 +29,18 @@ function encryptionToggle () {
 }
 
 function reqBodyIntercept() {
-	console.log('listening...');
-
-  // chrome.webRequest.onBeforeRequest.addListener(function (data) {
-  //     console.log('the data: ', data);
-  // }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"]);
-
-  	//	IF WE NEED MANDRILL, EMAIL INFO FROM WEBREQUEST
-    // chrome.webRequest.onBeforeRequest.addListener(function (data) {
-    //   console.log('the data: ', data.requestBody);
-    //   //to
-    //   var toFieldArr = data.requestBody.formData.to;
-    //   toFieldArr.pop();
-    //   var toField = toFieldArr;
-    //   console.log('this is to: ', toField);
-    //   //cc
-    //   var ccFieldArr = data.requestBody.formData.cc;
-    //   ccFieldArr.pop();
-    //   var ccField = ccFieldArr;
-    //   console.log('cc: ', ccField);
-    //   //bcc
-    //   var bccFieldArr = data.requestBody.formData.bcc;
-    //   bccFieldArr.pop();
-    //   var bccField = bccFieldArr;
-    //   console.log('bcc: ', bccField);
-    //   //subject
-    //   var subject = data.requestBody.formData.subject[0]
-    //   console.log('subject: ', subject)
-    //   //email body
-    //   var emailBodyStr = data.requestBody.formData.body[0]
-    //   var regExp = /\>([^<]+)\</;
-    //   var emailBodyArr = regExp.exec(emailBodyStr);
-    //   var emailBody = emailBodyArr[1]
-    //   console.log('email body: ', emailBody)
-    // }, {urls: ["<all_urls>"]}, ["blocking", "requestBody"])
+    console.log('listening...');
 }
 
 function runScan () {
-	chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.getSelected(null, function(tab) {
 
-		chrome.tabs.sendMessage(tab.id, {message: 'hello'})
-	})
+        chrome.tabs.sendMessage(tab.id, {message: 'hello'})
+    })
 }
+
+
+
 
 // chrome.runtime.onMessage.addListener(function (message, sender) {
 // 	console.log('the message from background: ', message);

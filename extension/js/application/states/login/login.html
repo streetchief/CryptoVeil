@@ -7,20 +7,34 @@
 	</div>
 	<!-- end row -->
 
-	<div class="row">
-		<div class="col-lg-3">
-			<div class="input-group">
-			<label for="username">Username:</label>
-			  <input id="username" type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2">
-			</div>
-		</div>
-	</div>
-	<!-- end row -->
+	<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
 
-	<div class="row">
-		<div class="col-lg-3">
-			<p>Or signup <a data-ui-sref="register">here.</a></p>
-		</div>
-	</div>
-	<!-- end row -->
+<!-- 	    <alert type="danger" ng-show="error">
+	        {{ error }}
+	    </alert> -->
+
+	    <div class="form-group">
+	        <label for="email">Email address</label>
+	        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+	    </div>
+	    <div class="form-group">
+	        <label for="login-password">Password</label>
+	        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+	    </div>
+
+	    <button type="submit" class="btn btn-default fa fa-heart-o fa-lg">  Login</button><br><br>
+
+	    <!-- Facebook Login -->
+	    <button class="btn btn-default fa fa-facebook-square fa-lg" ng-click="redirectLogin('facebook')">  Login with Facebook
+	    </button><br><br>   
+
+	    <!-- Google Login -->
+	    <button class="btn btn-default fa fa-google-plus-square fa-lg" ng-click="redirectLogin('google')">  Login with Google+ </button><br><br>
+
+	    <!-- Sign up -->
+	    <button ng-show="!user" ui-sref="signup" class="btn login-button fa fa-arrow-right fa-lg">  Sign up new account</button><br><br>
+
+	    <!-- Twitter Login -->
+	    <!-- <td><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></td> -->
+	</form>
 </div>
