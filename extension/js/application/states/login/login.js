@@ -13,18 +13,18 @@ app.controller('loginController', function ($scope, $http, AuthService, Backgrou
     $scope.login = {};
     $scope.error = null;
 
-    function httpCall(method, data){
-        var req = {
-         method: method, //'POST'
-         url: 'http://127.0.0.1:1337/login',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         data: { userData: data }
-        }
+    // function httpCall(method, data){
+    //     var req = {
+    //      method: method, //'POST'
+    //      url: 'http://127.0.0.1:1337/login',
+    //      headers: {
+    //        'Content-Type': 'application/json'
+    //      },
+    //      data: { userData: data }
+    //     }
 
-        return $http(req);
-    }
+    //     return $http(req);
+    // }
 
     $scope.sendLogin = function (loginInfo) {
 
@@ -34,15 +34,21 @@ app.controller('loginController', function ($scope, $http, AuthService, Backgrou
          method: 'POST', //'POST'
          url: 'http://127.0.0.1:1337/login',
          headers: {
-           'Content-Type': 'application/json'
-         },
-         dataType: "jsonp",
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+        },
          data: { userData: loginInfo }
         }
-        $http(req)
-        console.log('login info', loginInfo)
 
-        
+        $http(req)
+        .then(function(userInfo) {
+            console.log('this is userInfo', userInfo)
+        }) //$http.jsonp(req)
+        .catch(function(err) {
+            console.log(err);
+        })
+        console.log('this is loginInfo', loginInfo);
         // httpCall('POST', loginInfo).then(function (userData) {
         //     // console.log('hello', Session.user)
         //     console.log('hit longinController', userData);
