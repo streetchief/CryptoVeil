@@ -1,18 +1,6 @@
 'use strict';
 var server = 'http://localhost:1337'
 
-// function userHello (email) {
-//     var useremail = email;
-
-//     this.setSayHi = function(someEmail) {
-//         useremail = someEmail;
-//     }
-
-//     this.getSayHi = function() {
-//         return 'Hi, my email is ' + useremail;
-//     }
-// }
-
 var userHello = function (userInfo) {
     var myCircles = [],
     email = "",
@@ -82,20 +70,6 @@ function sendToContentScript () {
 function encryptionToggle () {
     sendToContentScript();
 }
-
-// function reqBodyIntercept() {
-//     console.log('listening...');
-// }
-
-// function runScan () {
-//     chrome.tabs.getSelected(null, function(tab) {
-
-//         chrome.tabs.sendMessage(tab.id, {message: 'hello'})
-//     })
-// }
-
-
-
 
 // chrome.runtime.onMessage.addListener(function (message, sender) {
 // 	console.log('the message from background: ', message);
