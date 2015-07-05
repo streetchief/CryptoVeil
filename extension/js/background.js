@@ -1,7 +1,9 @@
 'use strict';
 var server = 'http://localhost:1337'
 
-var userHello = function (userInfo) {
+var user = new User();    
+
+function User (userInfo) {
     var myCircles = [],
     email = "",
     nickname = "",
@@ -14,20 +16,19 @@ var userHello = function (userInfo) {
         key: ""
     };
     
+    this.setLogOutUser = function () {
+        myCircles = null;
+        email = null;
+        nickname = null;
+        picUrl = null;
+        selectedCircle = null;
+    };
 
     this.setLoggedInUser = function (user) {
         myCircles = user.myCircles;
         email = user.email;
         nickname = user.nickname;
         picUrl = user.picUrl;
-    };
-
-    this.setSelectedCircle = function (circle) {
-        selectedCircle._id = circle._id;
-        selectedCircle.name = circle.name;
-        selectedCircle.creator = circle.creator;
-        selectedCircle.members = circle.members;
-        selectedCircle.key = circle.key;
     };
 
     this.getLoggedInUser = function () {
@@ -38,6 +39,15 @@ var userHello = function (userInfo) {
             picUrl: picUrl
         };
     };
+    
+    this.setSelectedCircle = function (circle) {
+        selectedCircle._id = circle._id;
+        selectedCircle.name = circle.name;
+        selectedCircle.creator = circle.creator;
+        selectedCircle.members = circle.members;
+        selectedCircle.key = circle.key;
+    };
+
 
     this.getSelectedCircle = function () {
         return {

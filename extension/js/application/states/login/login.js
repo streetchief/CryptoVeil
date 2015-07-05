@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('loginController', function ($scope, $http, AuthService, BackgroundFactory, $state, $window, $location) {
+app.controller('loginController', function ($scope, BackgroundFactory, $state, $window, $location, $log) {
     $scope.login = {};
     $scope.error = null;
     $scope.loggedInUser = {};
@@ -18,21 +18,10 @@ app.controller('loginController', function ($scope, $http, AuthService, Backgrou
 
         $scope.error = null;
 
-        var req = {
-         method: 'POST',
-         url: 'http://127.0.0.1:1337/login',
-         headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-        },
-         data: { email: loginInfo.email, password: loginInfo.password }
-        }
-
-        $http(req)
+        BackgroundFactory.logInUser(loginInfo)
         .then(function(userInfo) {
-            console.log('userinfo initial', userInfo)
-            $scope.loggedInUser = BackgroundFactory.setUser(userInfo.data.user);
+            $log.info('login.js', userInfo);
+            $scope.loggedInUser = BackgroundFactory.setUser(userInfo.user);
             console.log('this is $scope.loggedInUser', $scope.loggedInUser)
         })
         .then(function() {
