@@ -1,7 +1,7 @@
 app.factory('BackgroundFactory', function($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
-    var test = backgroundPage.user;
+    var currentUser = backgroundPage.user;
     
     var request = function (method, url, data) {
         return {
@@ -18,12 +18,12 @@ app.factory('BackgroundFactory', function($http) {
 
     return {
         setUser: function(info) {
-          test.setLoggedInUser(info);
-          return test.getLoggedInUser();
+          currentUser.setLoggedInUser(info);
+          return currentUser.getLoggedInUser();
         },
 
         setUserToNull: function() {
-          test.setLogOutUser();
+          currentUser.setLogOutUser();
         },
 
         registerUser: function(signUpInfo) {

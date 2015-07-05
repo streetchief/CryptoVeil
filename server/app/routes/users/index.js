@@ -46,12 +46,15 @@ router.post('/', function (req, res, next) {
 	User.create(req.body)
 	// .exec()
 	.then(function (createdUser) {
-		console.log('hit router 2', createdUser)
+		
+		console.log('hit router 2', createdUser);
+
 		req.logIn(createdUser, function (err) {
+
 			if (err) return next(err);
 			
 			res.status(201).send({ 
-				user: _.omit(user.toJSON(), ['password', 'salt'])
+				user: _.omit(createdUser.toJSON(), ['password', 'salt'])
 			});
 		});
 	})
