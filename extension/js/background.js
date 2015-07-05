@@ -20,7 +20,7 @@ var user = function () {
         _id: "",
         name: "",
         creator: "",
-        members: [];
+        members: [],
         key: ""
     };
     
@@ -54,7 +54,7 @@ var user = function () {
             _id: selectedCircle._id,
             name: selectedCircle.name,
             creator: selectedCircle.creator,
-            members: selectedCircle.members;
+            members: selectedCircle.members,
             key: selectedCircle.key
         };
     };
