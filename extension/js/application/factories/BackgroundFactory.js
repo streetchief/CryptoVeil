@@ -3,7 +3,7 @@ app.factory('BackgroundFactory', function($http) {
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
     
-    var request = function (method, url, data) {
+    var composeRequest = function (method, url, data) {
         return {
             method: method,
             url: url,
@@ -27,7 +27,7 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         registerUser: function(signUpInfo) {
-            return $http(request('POST','http://127.0.0.1:1337/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
+            return $http(composeRequest('POST','http://127.0.0.1:1337/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
               return response.data;
             })
@@ -37,7 +37,7 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logInUser: function(info) {
-            return $http(request('POST', 'http://127.0.0.1:1337/login', { email: info.email, password: info.password }))
+            return $http(composeRequest('POST', 'http://127.0.0.1:1337/login', { email: info.email, password: info.password }))
             .then(function (response) {
               return response.data;
             })
@@ -47,7 +47,7 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logOutUser: function() {
-            return $http(request('GET', 'http://127.0.0.1:1337/logout'))
+            return $http(composeRequest('GET', 'http://127.0.0.1:1337/logout'))
             .then(function (response) {
               return response.data;
             })
