@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Circle = mongoose.model('Circle');
 var User = mongoose.model('User');
+var _ = require('lodash');
 
 module.exports = router;
 
@@ -37,21 +38,23 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 
 //REGISTERING A USER
 router.post('/', function (req, res, next) {
-
+	console.log('hit router', req.body)
 	var email = req.body.email;
 
 	if (!User.checkEmailIsUnique(email)) return next();
 
 	User.create(req.body)
-	.exec()
+	// .exec()
 	.then(function (createdUser) {
+		
+		console.log('hit router 2', createdUser);
 
 		req.logIn(createdUser, function (err) {
+
 			if (err) return next(err);
 			
 			res.status(201).send({ 
-				user: _.pluck(createdUser.toJSON(),
-				['nickname', 'picUrl', 'email'])
+				user: _.omit(createdUser.toJSON(), ['password', 'salt'])
 			});
 		});
 	})

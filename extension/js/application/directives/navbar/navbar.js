@@ -1,4 +1,4 @@
-app.directive('navBar', function ($rootScope, AuthService, AUTH_EVENTS, $state, BackgroundFactory) {
+app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
     
     return {
         restrict: 'E',
@@ -15,17 +15,25 @@ app.directive('navBar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
                 { label: 'Logout', state: 'register' }
             ];
 
-            scope.user = null;
+            // scope.user = null;
 
             // scope.isLoggedIn = function () {
             //     return AuthService.isAuthenticated();
             // };
 
-            // scope.logout = function () {
-            //     AuthService.logout().then(function () {
-            //        $state.go('login');
-            //     });
-            // };
+            scope.logout = function () {
+                console.log('hits the logout button')
+                BackgroundFactory.logOutUser()
+                .then(function () {
+                    BackgroundFactory.setUserToNull()
+                })
+                .then(function () {
+                    $state.go('login');
+                })
+                .catch(function(err) {
+                    console.log(err);
+                })
+            };
 
             // var setUser = function () {
             //     AuthService.getLoggedInUser().then(function (user) {
