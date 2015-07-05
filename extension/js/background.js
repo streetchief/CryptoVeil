@@ -1,17 +1,7 @@
 'use strict';
-var user;
 var server = 'http://localhost:1337'
 
-function login (userInfo) {
-	// console.log('In background.js');
-	// console.log(userInfo);
- //    var xhr = new XMLHttpRequest();
- //    xhr.open("POST", server + '/login', true);
- //    xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
- //    xhr.send(userInfo);
-}
-
-var user = function () {
+var userHello = function (userInfo) {
     var myCircles = [],
     email = "",
     nickname = "",
@@ -20,7 +10,7 @@ var user = function () {
         _id: "",
         name: "",
         creator: "",
-        members: [];
+        members: [],
         key: ""
     };
     
@@ -54,7 +44,7 @@ var user = function () {
             _id: selectedCircle._id,
             name: selectedCircle.name,
             creator: selectedCircle.creator,
-            members: selectedCircle.members;
+            members: selectedCircle.members,
             key: selectedCircle.key
         };
     };
@@ -80,20 +70,6 @@ function sendToContentScript () {
 function encryptionToggle () {
     sendToContentScript();
 }
-
-// function reqBodyIntercept() {
-//     console.log('listening...');
-// }
-
-// function runScan () {
-//     chrome.tabs.getSelected(null, function(tab) {
-
-//         chrome.tabs.sendMessage(tab.id, {message: 'hello'})
-//     })
-// }
-
-
-
 
 // chrome.runtime.onMessage.addListener(function (message, sender) {
 // 	console.log('the message from background: ', message);

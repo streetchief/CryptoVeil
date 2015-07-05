@@ -12,13 +12,14 @@ app.config(function ($stateProvider) {
 app.controller('loginController', function ($scope, $http, AuthService, BackgroundFactory, $state, $window, $location) {
     $scope.login = {};
     $scope.error = null;
+    $scope.loggedInUser = {};
 
     $scope.sendLogin = function (loginInfo) {
 
         $scope.error = null;
 
         var req = {
-         method: 'POST', //'POST'
+         method: 'POST',
          url: 'http://127.0.0.1:1337/login',
          headers: {
             'Access-Control-Allow-Origin': '*',
@@ -30,12 +31,16 @@ app.controller('loginController', function ($scope, $http, AuthService, Backgrou
 
         $http(req)
         .then(function(userInfo) {
-            console.log('this is userInfo', userInfo)
-        }) //$http.jsonp(req)
+            console.log('userinfo initial', userInfo)
+            $scope.loggedInUser = BackgroundFactory.setUser(userInfo.data.user);
+            console.log('this is $scope.loggedInUser', $scope.loggedInUser)
+        })
+        .then(function() {
+            $state.go('home')
+        })
         .catch(function(err) {
             console.log(err);
         })
-        console.log('this is loginInfo', loginInfo);
     };
 
     $scope.redirectLogin = function(location){
