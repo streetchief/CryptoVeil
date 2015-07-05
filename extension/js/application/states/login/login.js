@@ -35,6 +35,9 @@ app.controller('loginController', function ($scope, $http, AuthService, Backgrou
             $scope.loggedInUser = BackgroundFactory.setUser(userInfo.data.user);
             console.log('this is $scope.loggedInUser', $scope.loggedInUser)
         })
+        .then(function() {
+            $state.go('home')
+        })
         .catch(function(err) {
             console.log(err);
         })
