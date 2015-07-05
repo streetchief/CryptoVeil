@@ -1,68 +1,77 @@
 'use strict';
-var user;
 var server = 'http://localhost:1337'
 
-function login (userInfo) {
-	// console.log('In background.js');
-	// console.log(userInfo);
- //    var xhr = new XMLHttpRequest();
- //    xhr.open("POST", server + '/login', true);
- //    xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
- //    xhr.send(userInfo);
+var userHello = function (email) {
+    var useremail = email;
+
+    this.setSayHi = function(someEmail) {
+        useremail = someEmail;
+    }
+
+    this.getSayHi = function() {
+        return 'Hi, my email is ' + useremail;
+    }
 }
 
-var user = function () {
-    var myCircles = [],
-    email = "",
-    nickname = "",
-    picUrl = "",
-    selectedCircle = {
-        _id: "",
-        name: "",
-        creator: "",
-        members: [];
-        key: ""
-    };
+userHello.prototype.setHi = function(email) {
+    this.setSayHi(email);
+}
+
+userHello.prototype.getHi = function() {
+    return this.getSayHi();
+}
+// var user = function () {
+//     var myCircles = [],
+//     email = "",
+//     nickname = "",
+//     picUrl = "",
+//     selectedCircle = {
+//         _id: "",
+//         name: "",
+//         creator: "",
+//         members: [],
+//         key: ""
+//     };
     
 
-    this.setLoggedInUser = function (user) {
-        myCircles = user.myCircles;
-        email = user.email;
-        nickname = user.nickname;
-        picUrl = user.picUrl;
-    };
+//     this.setLoggedInUser = function (user) {
+//         myCircles = user.myCircles;
+//         email = user.email;
+//         nickname = user.nickname;
+//         picUrl = user.picUrl;
+//     };
 
-    this.setSelectedCircle = function (circle) {
-        selectedCircle._id = circle._id;
-        selectedCircle.name = circle.name;
-        selectedCircle.creator = circle.creator;
-        selectedCircle.members = circle.members;
-        selectedCircle.key = circle.key;
-    };
+//     this.setSelectedCircle = function (circle) {
+//         selectedCircle._id = circle._id;
+//         selectedCircle.name = circle.name;
+//         selectedCircle.creator = circle.creator;
+//         selectedCircle.members = circle.members;
+//         selectedCircle.key = circle.key;
+//     };
 
-    this.getLoggedInUser = function () {
-        return {
-            myCircles: myCircles,
-            email: email,
-            nickname: nickname,
-            picUrl: picUrl
-        };
-    };
+//     this.getLoggedInUser = function () {
+//         return {
+//             myCircles: myCircles,
+//             email: email,
+//             nickname: nickname,
+//             picUrl: picUrl
+//         };
+//     };
 
-    this.getSelectedCircle = function () {
-        return {
-            _id: selectedCircle._id,
-            name: selectedCircle.name,
-            creator: selectedCircle.creator,
-            members: selectedCircle.members;
-            key: selectedCircle.key
-        };
-    };
+//     this.getSelectedCircle = function () {
+//         return {
+//             _id: selectedCircle._id,
+//             name: selectedCircle.name,
+//             creator: selectedCircle.creator,
+//             members: selectedCircle.members,
+//             key: selectedCircle.key
+//         };
+//     };
 
-    this.getSelectedCircleKey = function () {
-        return selectedCircle.key;
-    };
-}; //END OF USER
+//     this.getSelectedCircleKey = function () {
+//         return selectedCircle.key;
+//     };
+// }; //END OF USER
 
 function tabGetter () {
     chrome.tabs.getSelected(null, function(tab) {
