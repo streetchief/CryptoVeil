@@ -1,23 +1,24 @@
 
   <label class="checkbox">
-    <input type="checkbox" ng-model="oneAtATime">
+    <input type="checkbox" data-ng-model="oneAtATime">
     Open only one at a time
   </label>
   <div class="container">
 	  <accordion close-others="oneAtATime">
 	    
-	    <accordion-group ng-repeat="group in groups" is-open="group.status">
+	    <accordion-group data-ng-repeat="group in groups" data-is-open="group.status">
 		    <div class="row">
 		    	<div class="col-lg-2">
 		    		<accordion-heading>
-		           <i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': group.status, 'glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.title }} 
+		           <i class="pull-left glyphicon" data-ng-class="{'glyphicon-chevron-down': group.status, 'glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.title }} 
 		    	<div class="btn-group pull-right">
-		    		<button class="btn btn-default btn-xs" ng-click="$event.stopPropagation() || addItem();">Add member</button>
+		    		<button class="btn btn-default btn-xs" 
+            data-ng-click="$event.stopPropagation() || addMember(group.id)">Add member</button>
 		    	</div>
 		        	</accordion-heading>
 		    	</div>
-	        	<div class="row" ng-repeat="item in items">
-	        		<div class="col-lg-3">{{ item }}</div>
+	        	<div class="row" data-ng-repeat="member in group.members">
+	        		<div class="col-lg-3">{{ member }}</div>
 	        	</div>
 		    </div>
 	        

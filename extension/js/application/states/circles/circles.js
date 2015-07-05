@@ -13,24 +13,28 @@ app.controller('circlesController', function ($scope) {
 
 $scope.oneAtATime = true;
 
+  //userfactory.getmycircles.then
   $scope.groups = [
     {
       title: 'Dynamic Group Header - 1',
       content: 'Dynamic Group Body - 1',
-      status: true
+      status: true,
+      id: 24,
+      members: ['member 1', 'member 2']
     },
     {
       title: 'Dynamic Group Header - 2',
       content: 'Dynamic Group Body - 2',
-      status: false
+      status: false,
+      id: 6,
+      members: ['john', 'joe']
     }
   ];
 
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
+  $scope.addMember = function(circleId) {
+    console.log('this is addMember',circleId);
+    // var newItemNo = Math.random()
+    // $scope.items.push('Item ' + newItemNo);
   };
 
   $scope.status = {
