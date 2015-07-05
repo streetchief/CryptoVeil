@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('circlesController', function ($scope) {
+app.controller('circlesController', function ($scope, $modal, $log) {
 
 $scope.oneAtATime = true;
 
@@ -32,10 +32,38 @@ $scope.oneAtATime = true;
   ];
 
   $scope.addMember = function(circleId) {
-    console.log('this is addMember',circleId);
-    // var newItemNo = Math.random()
-    // $scope.items.push('Item ' + newItemNo);
-  };
+    $log.info('this is addMember',circleId);
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: 'js/application/states/circles/addmembermodal/addmembertocirclemodal.html',
+        controller: 'addMemberModalCtrl',
+        size: 'sm'
+        // resolve: {
+        //   items: function () {
+        //     return $scope.items;
+        //   }
+        // }
+      }); // end modal open
+
+    modalInstance.result.then(function (emailToAdd) {
+
+      $log.info('recieved from modal',emailToAdd)
+      
+      $scope.groups.forEach(function (group) {
+
+        if (group.id === circleId) {
+          //FIXME -- save added member
+          group.members.push(emailToAdd);
+        };
+      });
+
+    })
+    .then(null,  function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+
+  }; // end $scope.addMember
 
   $scope.status = {
     isFirstOpen: true,
