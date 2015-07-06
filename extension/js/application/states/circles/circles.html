@@ -1,28 +1,42 @@
-<div>Welcome to circle management!</div>
+<button class="btn btn-primary btn-block btn-sm" data-ng-click="createCircle()">Create Circle</button>
 
-<label class="checkbox">
-  <input type="checkbox" data-ng-model="oneAtATime">
-  Open only one at a time
-</label>
+<div>
+  <label class="checkbox">
+    <input type="checkbox" data-ng-model="oneAtATime">
+    Open only one at a time
+  </label>
+</div>
+
 <div class="container">
   <accordion close-others="oneAtATime">
-    
     <accordion-group data-ng-repeat="group in groups" data-is-open="group.status">
 	    <div class="row">
 	    	<div class="col-lg-2">
 	    		<accordion-heading>
-	           <i class="pull-left glyphicon" data-ng-class="{'glyphicon-chevron-down': group.status, 'glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.title }} 
-	    	<div class="btn-group pull-right">
-	    		<button class="btn btn-default btn-xs" 
-          data-ng-click="$event.stopPropagation() || addMember(group.id)">Add member</button>
+	           <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-hand-down': group.status, 'glyphicon glyphicon-hand-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }} 
+    	    	<div class="btn-group pull-right">
+    	    		<button class="btn btn-default btn-xs" 
+              data-ng-click="$event.stopPropagation() || deleteCircle(group.id)">Delete Circle</button>
+    	    	</div>
+        	</accordion-heading>
 	    	</div>
-	        	</accordion-heading>
-	    	</div>
-        	<div class="row" data-ng-repeat="member in group.members">
-        		<div class="col-lg-3">{{ member }}</div>
-        	</div>
-	    </div>
-        
+
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="addme@cryptoveil.com">
+          </div>
+          <div class="btn-group" role="group" aria-label="...">
+            <button type="submit" class="btn btn-info btn-xs" ng-click="addMember(group.id)">Add Member</button>
+            <button type="button" class="btn btn-danger btn-xs" data-ng-click="showDelete()">Remove Member</button>
+          </div>            
+        </form>
+
+      	<div class="row" data-ng-repeat="member in group.members">
+      		<div class="col-lg-3" data-ng-click="showDelete()">{{ member }}</div><span ng-if="deleteMemb" class="glyphicon glyphicon-remove"></span>
+      	</div>
+
+	    </div>  
     </accordion-group>
   </accordion>
 </div>
