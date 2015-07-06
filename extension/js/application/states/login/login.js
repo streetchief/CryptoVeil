@@ -19,15 +19,17 @@ app.controller('loginController', function ($scope, BackgroundFactory, $state, $
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
-        .then(function(userInfo) {
+        // .then(function(userInfo) {
 
-            $log.info('login.js', userInfo);
+        //     $log.info('login.js', userInfo);
 
-            $scope.loggedInUser = BackgroundFactory.setUser(userInfo.user);
+        //     $scope.loggedInUser = BackgroundFactory.setUser(userInfo.user);
             
-            console.log('this is $scope.loggedInUser', $scope.loggedInUser)
-        })
-        .then(function() {
+        //     console.log('this is $scope.loggedInUser', $scope.loggedInUser)
+        // })
+        .then(function(userInfo) {
+            $log.info('we logged in user: ', userInfo);
+
             $state.go('home')
         })
         .catch(function(err) {
