@@ -22,20 +22,21 @@ app.factory('BackgroundFactory', function($http) {
       return currentUser.getLoggedInUser();
     };
 
-    return {
-        // setUser: function(info) {
-        //   currentUser.setLoggedInUser(info);
-        //   return currentUser.getLoggedInUser();
-        // },
+    var setUserToNull = function() {
+      currentUser.setLogOutUser();
+    };
 
-        setUserToNull: function() {
-          currentUser.setLogOutUser();
-        },
+    return {
+        // setUserToNull: function() {
+        //   currentUser.setLogOutUser();
+        // },
 
         registerUser: function(signUpInfo) {
             return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
-              return response.data;
+				var registeredUser = response.data.user;
+				setUser(registeredUser);
+				return registeredUser;
             })
             .catch(function (err) {
               console.log(err);
@@ -45,9 +46,10 @@ app.factory('BackgroundFactory', function($http) {
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
-            	var returnedUser = response.data.user;
-            	setUser(returnedUser);
-              return returnedUser;
+
+				var returnedUser = response.data.user;
+				setUser(returnedUser);
+				return returnedUser;
             })
             .catch(function (err) {
               console.log(err);
@@ -57,11 +59,19 @@ app.factory('BackgroundFactory', function($http) {
         logOutUser: function() {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
-              return response.data;
+            	console.log('inside BackgroundFactory, after logout', response);
+
+            	setUserToNull();
+              return response.status;
             })
             .catch(function (err) {
               console.log(err);
             })
+        },
+
+        isLoggedIn: function () {
+
+        	return backgroundPage.user.isLoggedIn();
         }
     }
 })
