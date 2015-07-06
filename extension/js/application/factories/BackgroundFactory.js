@@ -2,11 +2,12 @@ app.factory('BackgroundFactory', function($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
+    var server = 'http://127.0.0.1:1337';
     
     var composeRequest = function (method, url, data) {
         return {
             method: method,
-            url: url,
+            url: server + url,
             headers: {
               'Access-Control-Allow-Origin': '*',
               'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -14,22 +15,28 @@ app.factory('BackgroundFactory', function($http) {
             },
             data: data
         }
-    }
+    };
+
+    var setUser = function(info) {
+      currentUser.setLoggedInUser(info);
+      return currentUser.getLoggedInUser();
+    };
+
+    var setUserToNull = function() {
+      currentUser.setLogOutUser();
+    };
 
     return {
-        setUser: function(info) {
-          currentUser.setLoggedInUser(info);
-          return currentUser.getLoggedInUser();
-        },
-
-        setUserToNull: function() {
-          currentUser.setLogOutUser();
-        },
+        // setUserToNull: function() {
+        //   currentUser.setLogOutUser();
+        // },
 
         registerUser: function(signUpInfo) {
-            return $http(composeRequest('POST','http://127.0.0.1:1337/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
+            return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
-              return response.data;
+				var registeredUser = response.data.user;
+				setUser(registeredUser);
+				return registeredUser;
             })
             .catch(function (err) {
               console.log(err);
@@ -37,9 +44,12 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logInUser: function(info) {
-            return $http(composeRequest('POST', 'http://127.0.0.1:1337/login', { email: info.email, password: info.password }))
+            return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
-              return response.data;
+
+				var returnedUser = response.data.user;
+				setUser(returnedUser);
+				return returnedUser;
             })
             .catch(function (err) {
               console.log(err);
@@ -47,13 +57,21 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logOutUser: function() {
-            return $http(composeRequest('GET', 'http://127.0.0.1:1337/logout'))
+            return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
-              return response.data;
+            	console.log('inside BackgroundFactory, after logout', response);
+
+            	setUserToNull();
+              return response.status;
             })
             .catch(function (err) {
               console.log(err);
             })
+        },
+
+        isLoggedIn: function () {
+
+        	return backgroundPage.user.isLoggedIn();
         }
     }
 })

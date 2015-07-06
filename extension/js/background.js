@@ -62,6 +62,10 @@ function User (userInfo) {
     this.getSelectedCircleKey = function () {
         return selectedCircle.key;
     };
+
+    this.isLoggedIn = function () {
+        return !!user.email;
+    };
 }; //END OF USER
 
 function tabGetter () {

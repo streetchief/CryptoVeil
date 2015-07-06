@@ -19,10 +19,6 @@ app.controller('registerController', function ($scope, BackgroundFactory, $state
 
         BackgroundFactory.registerUser(signUpInfo)
         .then(function(userInfo) {
-            $scope.register = BackgroundFactory.setUser(userInfo.data.user);
-            console.log('this is $scope.register', $scope.register)
-        })
-        .then(function() {
             $state.go('home')
         })
         .catch(function(err) {

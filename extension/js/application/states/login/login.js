@@ -21,14 +21,7 @@ app.controller('loginController', function ($scope, BackgroundFactory, $state, $
         BackgroundFactory.logInUser(loginInfo)
         .then(function(userInfo) {
 
-            $log.info('login.js', userInfo);
-
-            $scope.loggedInUser = BackgroundFactory.setUser(userInfo.user);
-            
-            console.log('this is $scope.loggedInUser', $scope.loggedInUser)
-        })
-        .then(function() {
-            $state.go('home')
+            $state.go('home');
         })
         .catch(function(err) {
             console.log(err);
