@@ -37,12 +37,14 @@ var seedUsers = function () {
         {
             nickname: 'Tester',
             email: 'testing@fsa.com',
-            password: 'password'
+            password: 'password',
+            myCircles: []
         },
         {
             nickname: 'Obama',
             email: 'obama@gmail.com',
-            password: 'potus'
+            password: 'potus',
+            myCircles: []
         }
     ];
 
@@ -60,11 +62,13 @@ var seedCircles = function (creator) {
         {
             name: 'SuperDopeHotness',
             creator: creator,
-            members: [creator]
+            members: [creator],
+            key: '1234'
 
         },
         {
-            name: 'PartyTime'
+            name: 'PartyTime',
+            key: '4321'
         }
     ];
 
@@ -72,6 +76,7 @@ var seedCircles = function (creator) {
 
 };
 
+var users;
 
 connectToDb.then(function () {
     getCurrentUserData().then(function (users) {
@@ -83,19 +88,25 @@ connectToDb.then(function () {
             // process.kill(0);
             return;
         }
-    }).then(function (user) {
-        console.log('users: ', user);
+    }).then(function (dbUsers) {
         console.log('Entered circle seeding!');
+        users = dbUsers;
         return getCurrentCircleData().then(function (circles) {
+            
             if (circles.length === 0) {
                 console.log('Seeding circles...');
-                var temp = user._id
+                var temp = dbUsers[0]._id
                 return seedCircles(temp);
             } else {
                 console.log(chalk.magenta('Seems to have existing circles!'));
                 process.kill(0);
             }
         })
+    }).then(function (circles) {
+
+        users[0].myCircles.push(circles[0]._id);
+        return users[0].save();
+
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
