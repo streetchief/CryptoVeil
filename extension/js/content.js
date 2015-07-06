@@ -26,8 +26,12 @@ $(document).ready(function(){
 	// });
 	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
 	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+		if (message.command === 'set-encryption-circle') {
+			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
+		}
+
 		if (message.command === 'toggle-encryption') {
-			document.dispatchEvent(new CustomEvent('message-from-content', { detail: 'toggle-encryption' }));
+			document.dispatchEvent(new Event(message.command));
 		}
 	});
 });

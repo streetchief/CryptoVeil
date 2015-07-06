@@ -4,45 +4,47 @@ var encryptedMain = function () {
 	gmail1 = new Gmail();
 	console.log('Hello from encryptedMain,', gmail1.get.user_email());
 
-
-	var key = 'Secret Passphrase';
+	var selectedCircleKey;
+	var selectedCircleId;
 	var encryptionEnabled = false;
 
-	document.addEventListener('message-from-content', function(e) {
-		
-		if (e.detail === 'toggle-encryption') {
+	document.addEventListener('set-encryption-circle', function(e) {
+		selectedCircleKey = e.detail.key;
+		selectedCircleId = e.detail._id;
+	});
+
+	document.addEventListener('toggle-encryption', function(e) {
 			
-			if(!encryptionEnabled) {
+		if(!encryptionEnabled) {
 
-				console.log('encryption enabled!');
+			console.log('encryption enabled!');
 
-				encryptionEnabled = true;
-				
-				gmail1.observe.before('send_message', function(url, body, data, xhr){
-				
-					var body_params;
-					body_params = xhr.xhrParams.body_params;
-					body_params.body = encrypt(body_params.body, key);
-				});
-			} else {
+			encryptionEnabled = true;
+			
+			gmail1.observe.before('send_message', function(url, body, data, xhr){
+			
+				var body_params;
+				body_params = xhr.xhrParams.body_params;
+				body_params.body = encrypt(body_params.body, selectedCircleKey, selectedCircleId);
+			});
+		} else {
 
-				console.log('encryption disabled!');
-				
-				encryptionEnabled = false;
-				gmail1.observe.off('send_message', 'before');
-			}
+			console.log('encryption disabled!');
+			
+			encryptionEnabled = false;
+			gmail1.observe.off('send_message', 'before');
 		}
 	});
 
 }; //END OF MAIN
 
-function encrypt(text, key) {
-	
+function encrypt(text, key, id) {
+	console.log('arguments for encrypt', arguments);
 	var temp = "";
 
 	encrypted = CryptoJS.AES.encrypt(text, key);
 	
-	temp = '<div dir="ltr"> %%%%' + encrypted + '%%%% </div>'
+	temp = '<div dir="ltr"> %%%%' + encrypted + id + '%%%% </div>'
 
 	return temp;
 }

@@ -46,6 +46,8 @@ function User (userInfo) {
         selectedCircle.creator = circle.creator;
         selectedCircle.members = circle.members;
         selectedCircle.key = circle.key;
+
+        sendSelectedCircle(selectedCircle);
     };
 
 
@@ -74,15 +76,19 @@ function tabGetter () {
     });
 }
 
-function sendToContentScript () {
+function sendToContentScript (command, payload) {
 
     chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.sendMessage(tab.id, {command: 'toggle-encryption'})
+        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
     });
 }
 
+function sendSelectedCircle (circle) {
+    sendToContentScript('set-encryption-circle', circle);
+}
+
 function encryptionToggle () {
-    sendToContentScript();
+    sendToContentScript('toggle-encryption');
 }
 
 // chrome.runtime.onMessage.addListener(function (message, sender) {
