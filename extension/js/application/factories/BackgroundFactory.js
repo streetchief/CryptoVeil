@@ -27,9 +27,19 @@ app.factory('BackgroundFactory', function($http) {
     };
 
     return {
-        // setUserToNull: function() {
-        //   currentUser.setLogOutUser();
-        // },
+
+        getBackgroundPage: function () {
+            return backgroundPage;
+        },
+
+        getUserCircles: function () {
+            var promiseForCircles = new Promise(function (resolve, rejrect) {
+                resolve(currentUser.getLoggedInUser().myCircles)
+            });
+            // promiseForCircles = [{name: "purtytime"}, {name: "gotime"}];
+            
+            return promiseForCircles;
+        },
 
         registerUser: function(signUpInfo) {
             return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
