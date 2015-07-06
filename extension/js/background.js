@@ -64,7 +64,7 @@ function User (userInfo) {
     };
 
     this.isLoggedIn = function () {
-        return !!user.email;
+        return !!email;
     };
 }; //END OF USER
 

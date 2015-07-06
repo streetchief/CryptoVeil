@@ -16,7 +16,7 @@
 	</head>
 	<body data-ng-app="CryptoveilExt">
 		<div class="container">
-			<nav-bar></nav-bar>
+			<nav-bar data-ng-if="isLoggedIn"></nav-bar>
 			<div data-ui-view></div>
 		</div>
 	</body>

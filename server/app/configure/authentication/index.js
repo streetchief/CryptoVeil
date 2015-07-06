@@ -46,7 +46,10 @@ module.exports = function (app) {
     // This is used by the browser application (Angular) to determine if a user is
     // logged in already.
     app.get('/session', function (req, res) {
+        console.log('hit session');
+        
         if (req.user) {
+            console.log('req.user', req.user);
             res.send({ user: _.omit(req.user.toJSON(), ['salt', 'password']) });
         } else {
             res.status(401).send('No authenticated user.');
