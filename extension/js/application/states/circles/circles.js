@@ -133,8 +133,16 @@ $scope.oneAtATime = true;
       $scope.deleteMemb = true;
   }
 
-  $scope.deleteMember = function(groupId,memId){
-
+  $scope.deleteMember = function(circleId, memId){
+    for(var i=0; i<$scope.groups.length; i++){
+      if($scope.groups[i].id === circleId){
+        for(var j=0; j<$scope.groups[i].members.length; j++){
+          if($scope.groups[i].members[j].id === memId){
+            $scope.groups[i].members.splice(i,1);
+          }
+        }
+      }
+    }
   }
 
 });
