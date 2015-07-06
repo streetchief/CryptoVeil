@@ -22,11 +22,12 @@ app.run(function ($rootScope, AuthService, $state, BackgroundFactory) {
     };
 
     //FIXME -- this is bad and broken; how to implement?
-    // $rootScope.isLoggedIn = BackgroundFactory.isLoggedIn;
 
     // $stateChangeStart is an event fired
     // whenever the process of changing a state begins.
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+        
+        $rootScope.isLoggedIn = BackgroundFactory.isLoggedIn();
 
         if (!destinationStateRequiresAuth(toState)) {
             // The destination state does not require authentication

@@ -64,7 +64,8 @@ function User (userInfo) {
     };
 
     this.isLoggedIn = function () {
-        return !!user.email;
+        console.log('checking for logged in user', !!email);
+        return !!email;
     };
 }; //END OF USER
 
