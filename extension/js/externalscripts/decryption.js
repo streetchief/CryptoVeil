@@ -3,26 +3,32 @@ var decryptedMain = function () {
 	gmail2 = new Gmail();
 
 	console.log('Hello from decryptedMain,', gmail2.get.user_email());
-
+	
 	var regEx = /%%%%(.+)%%%%/gmi,
 		sentinel = '%%%%',
 		sentinelLength = sentinel.length,
 		selectedCircleKey,
 		selectedCircleId,
 		selectedCircleName,
+		userDecryptionCircles,
+		matches = [],
 		unhacked;
 
-	document.addEventListener('set-encryption-circle', function(e) {
-		selectedCircleKey = e.detail.key;
-		selectedCircleId = e.detail._id;
-		selectedCircleName = e.detail.name;
+	// document.addEventListener('set-encryption-circle', function(e) {
+	// 	selectedCircleKey = e.detail.key;
+	// 	selectedCircleId = e.detail._id;
+	// 	selectedCircleName = e.detail.name;
+	// });
+
+	document.addEventListener('set-decryption-circles', function(e) {
+		userDecryptionCircles = e.detail;
 	});
 
 	gmail2.observe.on("view_thread", function (thread) {});
 
 	gmail2.observe.on("view_email", function (email) {
 
-		var email, body, encryptedMsg, circleId;
+		var email, body, encryptedMsg, extractedId, matchedKey;
 	
 		email = new gmail2.dom.email(email.id)
 		body = email.body();
@@ -35,12 +41,20 @@ var decryptedMain = function () {
 		if(body.indexOf(sentinel) > -1) {
 
 			encryptedMsg = body.match(regEx)[0].slice(sentinelLength, -sentinelLength);
-			circleId = encryptedMsg.slice(-24);
+			extractedId = encryptedMsg.slice(-24);
 			encryptedMsg = encryptedMsg.slice(0, -24);
 
-			// sendToContentScript(body);
-			unhacked = decrypt(encryptedMsg, selectedCircleKey);
-			email.body(unhacked + '<h5>' + selectedCircleName +' | Decrypted by CryptoVeil</h5>')
+			// matchedKey = _.result(_.find(userDecryptionCircles, '_id', extractedId), 'key');
+			matches = userDecryptionCircles.filter(function (circle) {
+				return circle._id == extractedId;
+			})
+			console.log('matches: ', matches);
+			if (matches.length) {
+				unhacked = decrypt(encryptedMsg, matches[0].key);
+				email.body(unhacked + '<h5>' + matches[0].name +' | Decrypted by CryptoVeil</h5>');
+			} else {
+				email.body('<h4>Unathorized</h4>')
+			}
 		} 
 	});
 };
