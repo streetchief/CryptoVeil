@@ -47,9 +47,8 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
 
 
   $scope.setDecryptionCircle = function (selectedCircle) {
-
     $scope.currentCircle = selectedCircle.name;
-    // TODO -- backgroundFactory.setCurrentCircle(selectedCircle.id)
+    BackgroundFactory.setSelectedCircle(selectedCircle)
 
   };
 

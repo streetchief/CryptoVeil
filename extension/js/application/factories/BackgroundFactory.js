@@ -28,12 +28,16 @@ app.factory('BackgroundFactory', function($http) {
 
     return {
 
+        setSelectedCircle: function (circle) {
+            currentUser.setSelectedCircle(circle);
+        },
+
         getBackgroundPage: function () {
             return backgroundPage;
         },
 
         getUserCircles: function () {
-            var promiseForCircles = new Promise(function (resolve, rejrect) {
+            var promiseForCircles = new Promise(function (resolve, reject) {
                 resolve(currentUser.getLoggedInUser().myCircles)
             });
             // promiseForCircles = [{name: "purtytime"}, {name: "gotime"}];
