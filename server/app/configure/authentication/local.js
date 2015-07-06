@@ -36,14 +36,21 @@ module.exports = function (app) {
                 return next(error);
             }
 
-            // req.logIn will establish our session.
-            req.logIn(user, function (err) {
-                if (err) return next(err);
-                // We respond with a reponse object that has user with _id and email.
-                res.status(200).send({ user: _.omit(user.toJSON(), ['password', 'salt']) });
-            });
+            UserModel.findById(user._id)
+            .populate('myCircles')
+            .exec()
+            .then(function (user) {
+                
+                // req.logIn will establish our session.
+                req.logIn(user, function (err) {
 
-        };
+                    if (err) return next(err);
+                    // We respond with a reponse object that has user with _id and email and myCircles.
+                    res.status(200).send({ user: _.omit(user.toJSON(), ['password', 'salt']) });
+                });
+            })
+            .then(null, next);
+        }; //END authCb
 
         passport.authenticate('local', authCb)(req, res, next);
 
