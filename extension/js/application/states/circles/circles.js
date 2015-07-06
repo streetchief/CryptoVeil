@@ -39,11 +39,6 @@ $scope.oneAtATime = true;
         templateUrl: 'js/application/states/circles/modals/createCircleModal.html',
         controller: 'createCircleModalCtrl',
         size: 'sm'
-        // resolve: {
-        //   items: function () {
-        //     return $scope.items;
-        //   }
-        // }
       }); // end modal open
 
     modalInstance.result.then(function (circleName) {
@@ -60,25 +55,29 @@ $scope.oneAtATime = true;
   }; // end $scope.createCircle
 
 /*************************************/
-  $scope.deleteCircle = function() {
+  $scope.deleteCircle = function(circleId) {
 
     var modalInstance = $modal.open({
       animation: true,
       templateUrl: 'js/application/states/circles/modals/deleteCircleModal.html',
       controller: 'deleteCircleModalCtrl',
-      size: 'sm'
-      // resolve: {
-      //   items: function () {
-      //     return $scope.items;
-      //   }
-      // }
+      size: 'sm',
+      resolve: {
+          circleId: function () {
+            return circleId;
+          }
+        }
     }); // end modal open
 
     modalInstance.result.then(function (circleId) {
 
       $log.info('recieved from modal',circleId)
       
-      $scope.group.indexOf()
+      for(var i=0; i<$scope.groups.length; i++){
+        if($scope.groups[i].id === circleId){
+          $scope.groups.splice(i,1);
+        }
+      }
 
     })
     .then(null,  function () {
@@ -131,15 +130,10 @@ $scope.oneAtATime = true;
 
   $scope.deleteMemb = false;
   $scope.showDelete = function(){
-    console.log('hit show delete',$scope.deleteMemb )
-    if($scope.deleteMemb = true){
-      $scope.deleteMemb = false;
-    }else{
-      $scope.deleteMemb = true;   
-    }
+      $scope.deleteMemb = true;
   }
 
-  $scope.deleteMember = function(memId){
+  $scope.deleteMember = function(groupId,memId){
 
   }
 

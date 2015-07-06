@@ -1,12 +1,12 @@
 <div class="modal-header">
   <div>
-    <alert type="danger" ng-hide="showAlert">Are you sure you want to delete this product?</alert>
+    <p class="text-danger" ng-if="showAlert">Are you sure you want to delete this circle?</p>
   </div>
     <div>
-      <alert type="success" ng-show="showAlert" class="glyphicon glyphicon-ok">Product information updated successfully!</alert>
+      <alert type="success" ng-if="!showAlert" class="glyphicon glyphicon-ok">Circle Deleted!</alert>
     </div>
 </div>
-<div class="modal-body">
-  <button class="btn btn-primary" ng-hide="showAlert" ng-click="close()">Cancel</button>
-  <button class='btn btn-danger' ng-hide="showAlert" ng-click="deleteProductConf(product);close()">Delete</button>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-if="showAlert" ng-click="cancel()">Cancel</button>
+  <button class='btn btn-danger' ng-if="showAlert" ng-click="ok()">Delete</button>
 </div>
