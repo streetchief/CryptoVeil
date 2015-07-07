@@ -77,7 +77,8 @@ app.factory('BackgroundFactory', function($http) {
             .then(function (response) {
             	console.log('inside BackgroundFactory, after logout', response);
 
-            	setUserToNull();
+            	// setUserToNull();
+                currentUser.setLogOutUser();
               return response.status;
             })
             .catch(function (err) {
