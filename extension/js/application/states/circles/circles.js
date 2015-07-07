@@ -12,12 +12,16 @@ app.config(function ($stateProvider) {
 app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory) {
 
 $scope.oneAtATime = true;
-$scope.groups
+// $scope.groups
 
 BackgroundFactory.getUserCircles().then(function(circlesInfo){
   $scope.groups = circlesInfo;
   console.log('this is circles', $scope.groups)
 })
+// BackgroundFactory.getLoggedInUser().then(function(user){
+//   $scope.user = user;
+//   $log.info('this is user', $scope.user);
+// })
 
 /*******************************/
 
@@ -31,14 +35,19 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
       }); // end modal open
 
     modalInstance.result.then(function (circleName) {
+      CircleFactory.createCircle(circleName)
+      .then(function(res){
+        $log.info('hit modal createcircle', res)
+        $scope.groups.unshift(res);
+      })
+      .then(null, function(err){
+        $log.info('Modal dismissed at: ' + new Date());
+      })
+    //   $scope.groups.unshift({name:circleName, status:true, id:12})
 
-      $log.info('recieved from modal',circleName)
-      
-      $scope.groups.unshift({name:circleName, status:true, id:12})
-
-    })
-    .then(null,  function () {
-      $log.info('Modal dismissed at: ' + new Date());
+    // })
+    // .then(null,  function () {
+    //   $log.info('Modal dismissed at: ' + new Date());
     });
 
   }; // end $scope.createCircle
