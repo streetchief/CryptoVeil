@@ -61,7 +61,7 @@ app.factory('BackgroundFactory', function($http) {
                             })
                         };
                     })            
-
+                    console.log('response.data.user: ', response.data.user)
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
 				return returnedUser;
