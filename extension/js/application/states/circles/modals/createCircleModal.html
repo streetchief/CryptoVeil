@@ -1,0 +1,18 @@
+<div class='create-circle'>
+    <div id='createCircle-form' class="modal-header">
+        <h2>New Circle Name</h2>
+        <form id="createCircle-form" class="form-inline" name="createCircleForm" ng-submit="createCircleForm.$valid && createCircle()">
+            <!--             <alert type="danger" ng-show="error">
+                {{ error }}
+            </alert> -->
+            
+        <div class="form-group modal-body">
+            <input type="text" ng-model="circleName" class='form-control input-fields' placeholder="Enter Circle Name">
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success btn-default">Submit</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+    </form>
+</div>
+</div>

@@ -30,7 +30,9 @@ $(document).ready(function(){
 	// });
 	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
 	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-		console.log('listener message: ', message)
+		
+		console.log('listener message: ', message);
+
 		if (message.command === 'set-decryption-circles') {
 			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
 		}

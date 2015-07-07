@@ -17,11 +17,17 @@ function User (userInfo) {
     };
     
     this.setLogOutUser = function () {
-        myCircles = null;
-        email = null;
-        nickname = null;
-        picUrl = null;
-        selectedCircle = null;
+        myCircles = [];
+        email = '';
+        nickname = '';
+        picUrl = '';
+        selectedCircle = {
+            _id: "",
+            name: "",
+            creator: "",
+            members: [],
+            key: ""
+        };
     };
 
     this.setLoggedInUser = function (user) {
@@ -44,26 +50,25 @@ function User (userInfo) {
     };
     
     this.setSelectedCircle = function (circle) {
-        console.log('trying to setSelectedCircle', circle);
-        
-        selectedCircle._id = circle._id;
-        selectedCircle.name = circle.name;
-        selectedCircle.creator = circle.creator;
-        selectedCircle.members = circle.members;
-        selectedCircle.key = circle.key;
 
-        sendSelectedCircle(selectedCircle);
+            selectedCircle._id = circle._id;
+            selectedCircle.name = circle.name;
+            selectedCircle.creator = circle.creator;
+            selectedCircle.members = circle.members;
+            selectedCircle.key = circle.key;
+
+            sendSelectedCircle(selectedCircle);        
     };
 
-
     this.getSelectedCircle = function () {
-        return {
-            _id: selectedCircle._id,
-            name: selectedCircle.name,
-            creator: selectedCircle.creator,
-            members: selectedCircle.members,
-            key: selectedCircle.key
-        };
+        // return {
+        //     _id: selectedCircle._id,
+        //     name: selectedCircle.name,
+        //     creator: selectedCircle.creator,
+        //     members: selectedCircle.members,
+        //     key: selectedCircle.key
+        // };
+        return selectedCircle;
     };
 
     this.getSelectedCircleKey = function () {

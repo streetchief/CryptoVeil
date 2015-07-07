@@ -1,4 +1,4 @@
-app.factory('BackgroundFactory', function($http) {
+app.factory('CircleFactory', function($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -22,30 +22,31 @@ app.factory('BackgroundFactory', function($http) {
       return currentUser.getLoggedInUser();
     };
 
+    var setUserToNull = function() {
+      currentUser.setLogOutUser();
+    };
+
     return {
-
-        setSelectedCircle: function (circle) {
-            currentUser.setSelectedCircle(circle);
-        },
-
-        getBackgroundPage: function () {
-            return backgroundPage;
-        },
-
-        getUserCircles: function () {
-            var promiseForCircles = new Promise(function (resolve, reject) {
-                resolve(currentUser.getLoggedInUser().myCircles)
-            });
-            
-            return promiseForCircles;
+        // setUserToNull: function() {
+        //   currentUser.setLogOutUser();
+        // },
+        getCircles: function() {
+            return $http(composeRequest('GET', '/api/circles'))
+            .then(function (response) {
+            	console.log('inside BackgroundFactory', response);
+              return response.data;
+            })
+            .catch(function (err) {
+              console.log(err);
+            })
         },
 
         registerUser: function(signUpInfo) {
             return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
-				var registeredUser = response.data.user;
-				setUser(registeredUser);
-				return registeredUser;
+                var registeredUser = response.data.user;
+                setUser(registeredUser);
+                return registeredUser;
             })
             .catch(function (err) {
               console.log(err);
@@ -56,26 +57,15 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
 
-				var returnedUser = response.data.user;
-				setUser(returnedUser);
-				return returnedUser;
+                var returnedUser = response.data.user;
+                setUser(returnedUser);
+                return returnedUser;
             })
             .catch(function (err) {
               console.log(err);
             })
         },
 
-        logOutUser: function() {
-            return $http(composeRequest('GET', '/logout'))
-            .then(function (response) {
-
-                currentUser.setLogOutUser();
-              return response.status;
-            })
-            .catch(function (err) {
-              console.log(err);
-            })
-        },
 
         isLoggedIn: function () {
 
