@@ -33,7 +33,7 @@ $(document).ready(function(){
 		
 		console.log('listener message: ', message);
 
-		if (message.command === 'set-decryption-circles') {
+		if (message.command === 'process-login') {
 			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
 		}
 
