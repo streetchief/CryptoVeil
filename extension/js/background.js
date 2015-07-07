@@ -37,7 +37,7 @@ function User (userInfo) {
         nickname = user.nickname;
         picUrl = user.picUrl;
 
-        sendUserCircles(user.myCircles);
+        processLogin(user.myCircles);
     };
 
     this.getLoggedInUser = function () {
@@ -86,25 +86,25 @@ function User (userInfo) {
 //     });
 // }
 
-function sendToContentScript (command, payload) {
-
-    chrome.tabs.getSelected(null, function(tab) {
-        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
-    });
-}
 
 function sendSelectedCircle (circle) {
     sendToContentScript('set-encryption-circle', circle);
 }
 
-function sendUserCircles (userCircles) {
-    sendToContentScript('set-decryption-circles', userCircles);
+function processLogin (userCircles) {
+    sendToContentScript('process-login', userCircles);
 }
 
 function encryptionToggle () {
     sendToContentScript('toggle-encryption');
 }
 
+function sendToContentScript (command, payload) {
+
+    chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
+    });
+}
 // chrome.runtime.onMessage.addListener(function (message, sender) {
 // 	console.log('the message from background: ', message);
 // });

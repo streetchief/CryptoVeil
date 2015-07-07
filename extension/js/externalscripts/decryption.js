@@ -20,7 +20,7 @@ var decryptedMain = function () {
 	// 	selectedCircleName = e.detail.name;
 	// });
 
-	document.addEventListener('set-decryption-circles', function(e) {
+	document.addEventListener('process-login', function(e) {
 		userDecryptionCircles = e.detail;
 	});
 

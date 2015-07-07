@@ -56,10 +56,13 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {      
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
-                    tabs.forEach(function(tab) {
-                        chrome.tabs.reload(tab.id)
-                    })
-                })
+                    if (tabs.length) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    };
+                });
+
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
 				return returnedUser;
@@ -73,10 +76,13 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
-                    tabs.forEach(function(tab) {
-                        chrome.tabs.reload(tab.id)
-                    })
-                })
+                    if (tabs) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    };
+                });
+                
                 currentUser.setLogOutUser();
                 return response.status;
             })
