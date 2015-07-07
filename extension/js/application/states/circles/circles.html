@@ -21,16 +21,16 @@
         	</accordion-heading>
 	    	</div>
 
-        <form class="form-inline">
+<!--         <form class="form-inline">
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" placeholder="addme@cryptoveil.com">
-          </div>
+          </div> -->
           <div class="btn-group" role="group" aria-label="...">
             <button type="submit" class="btn btn-info btn-xs" ng-click="addMember(group.id)">Add Member</button>
             <button type="button" class="btn btn-danger btn-xs" data-ng-click="showDelete()">Remove Member</button>
           </div>            
-        </form>
+        <!-- </form> -->
 
       	<div class="row" data-ng-repeat="member in group.members">
       		<div class="col-lg-3" data-ng-click="showDelete()">{{ member }}<span ng-if="deleteMemb" ng-click="deleteMember(group.id, member.id)"class="glyphicon glyphicon-remove"></span></div>

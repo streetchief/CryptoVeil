@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('circlesController', function ($scope, $modal, $log, BackgroundFactory) {
+app.controller('circlesController', function ($scope, $modal, $log, CircleFactory) {
 
 $scope.oneAtATime = true;
 
@@ -94,12 +94,12 @@ $scope.oneAtATime = true;
         animation: false,
         templateUrl: 'js/application/states/circles/modals/addmembertocirclemodal.html',
         controller: 'addMemberModalCtrl',
-        size: 'sm'
-        // resolve: {
-        //   items: function () {
-        //     return $scope.items;
-        //   }
-        // }
+        size: 'sm',
+        resolve: {
+          circleId: function () {
+            return circleId;
+          }
+        }
       }); // end modal open
 
     modalInstance.result.then(function (emailToAdd) {
@@ -130,7 +130,10 @@ $scope.oneAtATime = true;
 
   $scope.deleteMemb = false;
   $scope.showDelete = function(){
+    if($scope.deleteMemb === false)
       $scope.deleteMemb = true;
+    else
+      $scope.deleteMemb = false;
   }
 
   $scope.deleteMember = function(circleId, memId){
