@@ -33,7 +33,9 @@
 		        <span class="caret"></span>
 		      </button>
 		      <ul class="dropdown-menu" role="menu">
-		        <li data-ng-repeat="circle in userCircles"><a href="#" data-ng-click="setDecryptionCircle(circle)">{{circle.name}}</a></li>
+		        <li data-ng-repeat="circle in userCircles">
+		        	<a href="#" data-ng-click="setDecryptionCircle(circle)">{{circle.name}}</a>
+	        	</li>
 		      </ul>
 		    </div>
     	</div>

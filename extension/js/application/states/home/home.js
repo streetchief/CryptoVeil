@@ -30,8 +30,7 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
 
   $scope.encryptionToggle = function (toggledOn) {
 
-    //FIXME -- THIS IS NOT CORRECT, RESETS ON POPUP CLOSE
-      // use backgroundFactory.getStatus when it's built
+    //FIXME -- This is broken.
 
     if (!toggledOn) {
       
@@ -47,8 +46,9 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
 
 
   $scope.setDecryptionCircle = function (selectedCircle) {
+
     $scope.currentCircle = selectedCircle.name;
-    BackgroundFactory.setSelectedCircle(selectedCircle)
+    BackgroundFactory.setSelectedCircle(selectedCircle);
 
   };
 
