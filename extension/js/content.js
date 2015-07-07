@@ -15,6 +15,10 @@ var e = document.createElement('script');
 e.src = chrome.extension.getURL('/js/dependencies/aes.js');
 (document.head || document.documentElement).appendChild(e);
 
+// var l = document.createElement('script');
+// l.src = chrome.extension.getURL('/js/dependencies/lodash.js');
+// (document.head || document.documentElement).appendChild(l);
+
 ///////////////////		EXTENSION CODE	///////////////////
 
 $(document).ready(function(){
@@ -26,8 +30,17 @@ $(document).ready(function(){
 	// });
 	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
 	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+		console.log('listener message: ', message)
+		if (message.command === 'set-decryption-circles') {
+			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
+		}
+
+		if (message.command === 'set-encryption-circle') {
+			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
+		}
+
 		if (message.command === 'toggle-encryption') {
-			document.dispatchEvent(new CustomEvent('message-from-content', { detail: 'toggle-encryption' }));
+			document.dispatchEvent(new Event(message.command));
 		}
 	});
 });
