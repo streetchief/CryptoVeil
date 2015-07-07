@@ -56,6 +56,25 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
 
+                /*
+                chrome.cookies.get({ url: server, name: 'connect.sid' }, function (cookie) {
+                        console.log('this is a cookie from logging in', cookie);
+                        // chrome.runtime.sendMessage({cookie: cookie}, function(response) {
+                        //     console.log('response from logInUser', response);
+                        // })
+                        // chrome.tabs.query({active:true, currentWindow: true}, function (tabs) {
+                        //     chrome.tabs.sendMessage(tabs[0].id, {cookie: cookie}, function (response) {
+                        //         console.log('response from logInUser', response);
+                        //     })
+                        // })
+                        chrome.tabs.query({url: server + '/*'}, function (tabs) {
+                            chrome.tabs.sendMessage(tabs[0].id, {cookie: cookie}, function (response) {
+                                console.log('response from logInUser', response);
+                            })
+                        })
+                    })
+                */
+
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
 				return returnedUser;
@@ -69,11 +88,33 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
 
+                /*
+                console.log('inside BackgroundFactory, after logout', response);
+                chrome.cookies.get({ url: server, name: 'connect.sid' }, function (cookie) {
+                    chrome.cookies.remove({ url: server, name: 'connect.sid' }, function (details) {
+                        console.log('details', details)
+                    });
+                    console.log('this is a cookie from logging out', cookie);
+                })
+                */
+
                 currentUser.setLogOutUser();
-              return response.status;
+                return response.status;
             })
             .catch(function (err) {
-              console.log(err);
+                console.log(err);
+            })
+        },
+
+        checkLoggedIn: function() {
+
+            return $http(composeRequest('GET', '/session'))
+            .then(function (response) {
+
+                return response;
+            })
+            .catch(function (err) {
+                console.log(err);
             })
         },
 

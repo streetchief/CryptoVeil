@@ -4,7 +4,7 @@
   "name": "CryptoVeil",
   "externally_connectable": {
     "ids": ["*"],
-    "matches": ["*://mail.google.com/*"]
+    "matches": ["*://mail.google.com/*", "*://127.0.0.1/*"]
     },
   "description": "Super awesome data crypto",
   "version": "0.1.0",
@@ -25,6 +25,10 @@
     {
       "matches": ["https://mail.google.com/*", "http://mail.google.com/*"],
       "js": ["/js/jquery-1.10.2.min.js", "/js/content.js"]
+    },
+    {
+      "matches": ["*://127.0.0.1/*"],
+      "js": ["/js/jquery-1.10.2.min.js", "/js/webapp.js"]
     }
   ],
 
