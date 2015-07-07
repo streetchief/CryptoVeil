@@ -5,9 +5,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
         scope: {},
         templateUrl: '/js/application/directives/navbar/navbar.html',
         link: function (scope) {
-
-            // scope.background = BackgroundFactory.backgroundPage();
-
+            
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'Manage Circles', state: 'circles' },
@@ -16,10 +14,6 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             ];
 
             scope.user;
-
-            scope.isLoggedIn = function () {
-                return BackgroundFactory.isLoggedIn();
-            };
 
             scope.logout = function () {
                 BackgroundFactory.logOutUser()
@@ -45,11 +39,6 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             };
 
             showUserOnNavbar();
-
-            // var removeUserOnScope = function () {
-            //     scope.user = null;
-            // };
-
 
             // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);

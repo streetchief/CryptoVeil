@@ -54,11 +54,12 @@ app.factory('BackgroundFactory', function($http) {
 
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-            .then(function (response) {
-                    chrome.tabs.query({url: server + '/*'}, function (tabs) {
-                        chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {
-                        })
-                    })            
+            .then(function (response) {      
+                chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
+                    tabs.forEach(function(tab) {
+                        chrome.tabs.reload(tab.id)
+                    })
+                })
 
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
@@ -72,10 +73,11 @@ app.factory('BackgroundFactory', function($http) {
         logOutUser: function() {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
-                chrome.tabs.query({url: server + '/*'}, function (tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {
+                chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
+                    tabs.forEach(function(tab) {
+                        chrome.tabs.reload(tab.id)
                     })
-                })      
+                })
 
                 currentUser.setLogOutUser();
                 return response.status;
