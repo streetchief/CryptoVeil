@@ -3,18 +3,6 @@ var user = new User();
 
 var server = 'http://127.0.0.1:1337'
 
-// chrome.cookies.get({ url: server, name: 'connect.sid' }, function (cookie) {
-//     console.log('this is a cookie from background.js', cookie);
-// })
-
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//     console.log('this is listening to BackgroundFactory', request)
-// })
-
-// chrome.cookies.set({ url: server }, function (cookie) {
-//     console.log('this is the cookie set', cookie);
-// })
-
 function User (userInfo) {
     var myCircles = [],
     email = "",

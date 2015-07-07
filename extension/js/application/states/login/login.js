@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('loginController', function ($scope, BackgroundFactory, $state, $window, $location, $log) {
+app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log) {
     $scope.login = {};
     $scope.error = null;
     $scope.loggedInUser = {};
@@ -18,7 +18,6 @@ app.controller('loginController', function ($scope, BackgroundFactory, $state, $
     var currentUser = backgroundPage.user;
 
     function checkUserLoggedIn() {
-
         BackgroundFactory.checkLoggedIn()
         .then(function(response) {
 
@@ -26,8 +25,13 @@ app.controller('loginController', function ($scope, BackgroundFactory, $state, $
 
             if(userLoggedIn) {
                 currentUser.setLoggedInUser(userLoggedIn);
-                $state.go('home')
-            };
+                $rootScope.isLoggedIn = true;
+                $state.go('home');
+            } else {
+                currentUser.setLogOutUser();
+                $rootScope.isLoggedIn = false;
+                $state.go('login');
+            }
         })
         .catch(function(err) {
             console.log(err);
@@ -42,7 +46,7 @@ app.controller('loginController', function ($scope, BackgroundFactory, $state, $
 
         BackgroundFactory.logInUser(loginInfo)
         .then(function(userInfo) {
-
+            $rootScope.isLoggedIn = true;
             $state.go('home');
         })
         .catch(function(err) {
