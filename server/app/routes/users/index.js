@@ -27,7 +27,7 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.populate('myCircles')
 	.exec()
 	.then(function (foundUser) {
-
+		console.log('his router to get user info using deeppopulate', foundUser)
 		res.status(200).send({ 
 			user: _.pluck(foundUser.toJSON(),
 			['nickname', 'picUrl', 'myCircles', 'email'])

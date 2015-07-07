@@ -9,30 +9,14 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('circlesController', function ($scope, $modal, $log, CircleFactory) {
+app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory) {
 
 $scope.oneAtATime = true;
+$scope.groups
 
-
-  //userfactory.getmycircles.then
-  $scope.groups = [
-    {
-      name: 'Dynamic Group Header - 1',
-      status: true,
-      id: 24,
-      members: ['member 1', 'member 2']
-    },
-    {
-      name: 'Dynamic Group Header - 2',
-      status: false,
-      id: 6,
-      members: ['john', 'joe']
-    }
-  ];
-
-CircleFactory.getCircles().then(function(circlesInfo){
-  console.log('this is circles', circlesInfo)
+BackgroundFactory.getUserCircles().then(function(circlesInfo){
   $scope.groups = circlesInfo;
+  console.log('this is circles', $scope.groups)
 })
 
 /*******************************/
@@ -143,10 +127,10 @@ CircleFactory.getCircles().then(function(circlesInfo){
 
   $scope.deleteMember = function(circleId, memId){
     for(var i=0; i<$scope.groups.length; i++){
-      if($scope.groups[i].id === circleId){
+      if($scope.groups[i]._id === circleId){
         for(var j=0; j<$scope.groups[i].members.length; j++){
-          if($scope.groups[i].members[j].id === memId){
-            $scope.groups[i].members.splice(i,1);
+          if($scope.groups[i].members[j]._id === memId){
+            $scope.groups[i].members.splice(j,1);
           }
         }
       }

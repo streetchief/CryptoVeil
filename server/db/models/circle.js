@@ -3,6 +3,7 @@ var Circle;
 
 var mongoose = require('mongoose');
 
+
 var circleSchema = new mongoose.Schema({
 	name: {type: String},
 	creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -74,5 +75,7 @@ circleSchema.method('removeMember', function (userId) {
 		throw new Error(err.message);
 	});
 });
+
+
 
 Circle = mongoose.model('Circle', circleSchema);
