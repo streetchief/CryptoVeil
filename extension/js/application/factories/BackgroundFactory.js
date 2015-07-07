@@ -27,15 +27,30 @@ app.factory('BackgroundFactory', function($http) {
     };
 
     return {
-        // setUserToNull: function() {
-        //   currentUser.setLogOutUser();
-        // },
+
+        setSelectedCircle: function (circle) {
+            currentUser.setSelectedCircle(circle);
+        },
+
+        getBackgroundPage: function () {
+            return backgroundPage;
+        },
+
+        getUserCircles: function () {
+            var promiseForCircles = new Promise(function (resolve, reject) {
+                resolve(currentUser.getLoggedInUser().myCircles)
+            });
+            // promiseForCircles = [{name: "purtytime"}, {name: "gotime"}];
+            
+            return promiseForCircles;
+        },
 
         registerUser: function(signUpInfo) {
             return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
 				var registeredUser = response.data.user;
 				setUser(registeredUser);
+                // currentUser.setLoggedInUser(info);
 				return registeredUser;
             })
             .catch(function (err) {
@@ -49,6 +64,7 @@ app.factory('BackgroundFactory', function($http) {
 
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
+                // currentUser.setLoggedInUser(info);
 				return returnedUser;
             })
             .catch(function (err) {
@@ -61,7 +77,8 @@ app.factory('BackgroundFactory', function($http) {
             .then(function (response) {
             	console.log('inside BackgroundFactory, after logout', response);
 
-            	setUserToNull();
+            	// setUserToNull();
+                currentUser.setLogOutUser();
               return response.status;
             })
             .catch(function (err) {

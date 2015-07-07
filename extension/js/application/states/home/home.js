@@ -5,19 +5,28 @@ app.config(function ($stateProvider) {
         url: '/home',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
+        // ,resolve: {
+        //     userCircles: function (BackgroundFactory) {
+        //       return BackgroundFactory.getUserCircles(); 
+        //     }
+        // }
     });
 
 });
 
-app.controller('homeController', function ($scope) {
+app.controller('homeController', function ($scope, BackgroundFactory, $log) {
 
-	var backgroundPage, decryptionEngaged, googleEncryptionOn;
+	var decryptionEngaged, googleEncryptionOn;
 
-	backgroundPage = chrome.extension.getBackgroundPage();
-  $scope.msg = 'Req Intercept Toggle';
+  var backgroundPage = BackgroundFactory.getBackgroundPage();
+  
   $scope.googleEncryptionOn = 0;
 
   $scope.currentCircle = 'Your Circle';
+
+  BackgroundFactory.getUserCircles().then(function (circles) {
+    $scope.userCircles = circles;
+  }).then(null, $log.info);
 
   $scope.encryptionToggle = function (toggledOn) {
 
@@ -25,10 +34,10 @@ app.controller('homeController', function ($scope) {
       // use backgroundFactory.getStatus when it's built
 
     if (!toggledOn) {
-      //go red
+      
       chrome.browserAction.setIcon({path: "/green128.png"});
     } else {
-      //go green 
+      
       chrome.browserAction.setIcon({path: "/red128.png"});
     }
 
@@ -36,16 +45,10 @@ app.controller('homeController', function ($scope) {
 
   };// End encryptionToggle
 
-  //backgroundFactory.getUserCircles.then
-  $scope.userCircles = [
-    {name: 'SuperHotness', id: '123344'},
-    {name: 'Partytime', id: '5555555'}
-  ];
 
   $scope.setDecryptionCircle = function (selectedCircle) {
-
     $scope.currentCircle = selectedCircle.name;
-    // TODO -- backgroundFactory.setCurrentCircle(selectedCircle.id)
+    BackgroundFactory.setSelectedCircle(selectedCircle)
 
   };
 
