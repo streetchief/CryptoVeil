@@ -26,9 +26,9 @@
       </div>
     </ul>
 
-    <div ng-show="user" class="welcome">
-        <span>Welcome, {{ user.nickname }}</span>
-        <a ng-click="logout()">Logout</a>
+    <div data-ng-show="user" class="welcome">
+        <span>Welcome, {{ user.nickname }}!</span>
+        <a href="#" data-ng-click="logout()">Logout</a>
     </div>
 
     </div>

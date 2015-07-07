@@ -15,38 +15,41 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
                 { label: 'Register', state: 'register' }
             ];
 
-            // scope.user = null;
+            scope.user;
 
             scope.isLoggedIn = function () {
                 return BackgroundFactory.isLoggedIn();
             };
 
             scope.logout = function () {
-
                 BackgroundFactory.logOutUser()
                 .then(function (statusCode) {
-
-                    $state.go('login');
+                    $state.go('login');                
+                    $rootScope.isLoggedIn = false;
+                    scope.user = null;
                 })
                 .catch(function(err) {
                     console.log(err);
                 })
             };
 
-            // var setUser = function () {
-            //     AuthService.getLoggedInUser().then(function (user) {
-            //         console.log('hit navbar', user)
-            //         scope.user = user;
-            //         // if (user.userType !== 'User')
-            //         //     scope.items[2].label = 'Manage Store';
-            //     });
-            // };
+            var showUserOnNavbar = function () {
+                BackgroundFactory.checkLoggedIn()
+                .then(function (response) {
+                    var userLoggedIn = response.data.user;
+                    scope.user = userLoggedIn;
+                })
+                .catch(function(err) {
+                    console.log(err);
+                })
+            };
 
-            // var removeUser = function () {
+            showUserOnNavbar();
+
+            // var removeUserOnScope = function () {
             //     scope.user = null;
             // };
 
-            // setUser();
 
             // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
             // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
