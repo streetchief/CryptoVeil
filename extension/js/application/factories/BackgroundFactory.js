@@ -60,7 +60,6 @@ app.factory('BackgroundFactory', function($http) {
                         chrome.tabs.reload(tab.id)
                     })
                 })
-
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
 				return returnedUser;
@@ -78,7 +77,6 @@ app.factory('BackgroundFactory', function($http) {
                         chrome.tabs.reload(tab.id)
                     })
                 })
-
                 currentUser.setLogOutUser();
                 return response.status;
             })
@@ -91,11 +89,12 @@ app.factory('BackgroundFactory', function($http) {
 
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
+                console.log('hit checkloggedin', response)
 
-                return response;
+                return response.data;
             })
             .catch(function (err) {
-                console.log(err);
+                console.log('In checkLoggedIn', err);
             })
         },
 

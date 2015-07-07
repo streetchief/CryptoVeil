@@ -9,31 +9,19 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('circlesController', function ($scope, $modal, $log, CircleFactory) {
+app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory) {
 
 $scope.oneAtATime = true;
+// $scope.groups
 
-
-  //userfactory.getmycircles.then
-  $scope.groups = [
-    {
-      name: 'Dynamic Group Header - 1',
-      status: true,
-      id: 24,
-      members: ['member 1', 'member 2']
-    },
-    {
-      name: 'Dynamic Group Header - 2',
-      status: false,
-      id: 6,
-      members: ['john', 'joe']
-    }
-  ];
-
-CircleFactory.getCircles().then(function(circlesInfo){
-  console.log('this is circles', circlesInfo)
+BackgroundFactory.getUserCircles().then(function(circlesInfo){
   $scope.groups = circlesInfo;
+  console.log('this is circles', $scope.groups)
 })
+// BackgroundFactory.getLoggedInUser().then(function(user){
+//   $scope.user = user;
+//   $log.info('this is user', $scope.user);
+// })
 
 /*******************************/
 
@@ -47,14 +35,19 @@ CircleFactory.getCircles().then(function(circlesInfo){
       }); // end modal open
 
     modalInstance.result.then(function (circleName) {
+      CircleFactory.createCircle(circleName)
+      .then(function(res){
+        $log.info('hit modal createcircle', res)
+        $scope.groups.unshift(res);
+      })
+      .then(null, function(err){
+        $log.info('Modal dismissed at: ' + new Date());
+      })
+    //   $scope.groups.unshift({name:circleName, status:true, id:12})
 
-      $log.info('recieved from modal',circleName)
-      
-      $scope.groups.unshift({name:circleName, status:true, id:12})
-
-    })
-    .then(null,  function () {
-      $log.info('Modal dismissed at: ' + new Date());
+    // })
+    // .then(null,  function () {
+    //   $log.info('Modal dismissed at: ' + new Date());
     });
 
   }; // end $scope.createCircle
@@ -79,7 +72,7 @@ CircleFactory.getCircles().then(function(circlesInfo){
       $log.info('recieved from modal',circleId)
       
       for(var i=0; i<$scope.groups.length; i++){
-        if($scope.groups[i].id === circleId){
+        if($scope.groups[i]._id === circleId){
           $scope.groups.splice(i,1);
         }
       }
@@ -107,15 +100,16 @@ CircleFactory.getCircles().then(function(circlesInfo){
         }
       }); // end modal open
 
-    modalInstance.result.then(function (emailToAdd) {
+    modalInstance.result.then(function (memberToAdd) {
 
-      $log.info('recieved from modal',emailToAdd)
+      $log.info('recieved from modal',memberToAdd)
       
       $scope.groups.forEach(function (group) {
 
-        if (group.id === circleId) {
+        if (group._id === circleId) {
+          console.log('hit group', group, circleId, memberToAdd)
           //FIXME -- save added member
-          group.members.push(emailToAdd);
+          group.members.push({nickname:memberToAdd});
         };
       });
 
@@ -143,10 +137,10 @@ CircleFactory.getCircles().then(function(circlesInfo){
 
   $scope.deleteMember = function(circleId, memId){
     for(var i=0; i<$scope.groups.length; i++){
-      if($scope.groups[i].id === circleId){
+      if($scope.groups[i]._id === circleId){
         for(var j=0; j<$scope.groups[i].members.length; j++){
-          if($scope.groups[i].members[j].id === memId){
-            $scope.groups[i].members.splice(i,1);
+          if($scope.groups[i].members[j]._id === memId){
+            $scope.groups[i].members.splice(j,1);
           }
         }
       }

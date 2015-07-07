@@ -12,7 +12,7 @@ require('./configure')(app);
 
 //This is to allow cross-origin request
 app.all('*', function (req, res, next) {
-    console.log('this is cors configuration')
+    console.log('this is cors configuration');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.header("Access-Control-Allow-Headers", "X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");

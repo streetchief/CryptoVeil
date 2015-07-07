@@ -1,6 +1,7 @@
 'use strict';
 var crypto = require('crypto');
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate');
 
 var schema = new mongoose.Schema({
     email: {
@@ -160,5 +161,16 @@ schema.statics.encryptPassword = encryptPassword;
 schema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
+
+schema.plugin(deepPopulate, {
+    populate: {
+        'myCircles.creator':{
+            select: 'email nickname'
+        },
+        'myCircles.members':{
+            select: 'email nickname'
+        }   
+    }
+})
 
 mongoose.model('User', schema);

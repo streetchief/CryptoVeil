@@ -30,7 +30,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             var showUserOnNavbar = function () {
                 BackgroundFactory.checkLoggedIn()
                 .then(function (response) {
-                    var userLoggedIn = response.data.user;
+                    var userLoggedIn = response.user;
                     scope.user = userLoggedIn;
                 })
                 .catch(function(err) {

@@ -19,11 +19,11 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
 
     function checkUserLoggedIn() {
         BackgroundFactory.checkLoggedIn()
-        .then(function(response) {
+        .then(function (response) {
+            console.log('hit login.js', response)
 
-            var userLoggedIn = response.data.user;
-
-            if(userLoggedIn) {
+            if(response) {
+            var userLoggedIn = response.user;
                 currentUser.setLoggedInUser(userLoggedIn);
                 $rootScope.isLoggedIn = true;
                 $state.go('home');
@@ -34,7 +34,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             }
         })
         .catch(function(err) {
-            console.log(err);
+            console.log('in checkUserLoggedIn', err);
         })
     };
 
@@ -45,7 +45,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         $scope.error = null;
 
         BackgroundFactory.logInUser(loginInfo)
-        .then(function(userInfo) {
+        .then(function (userInfo) {
             $rootScope.isLoggedIn = true;
             $state.go('home');
         })

@@ -1,7 +1,7 @@
 app.factory('CircleFactory', function($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
-    var currentUser = backgroundPage.user;
+    var currentLoggedUser = backgroundPage.user.getLoggedInUser();
     var server = 'http://127.0.0.1:1337';
     
     var composeRequest = function (method, url, data) {
@@ -17,19 +17,26 @@ app.factory('CircleFactory', function($http) {
         }
     };
 
-    var setUser = function(info) {
-      currentUser.setLoggedInUser(info);
-      return currentUser.getLoggedInUser();
-    };
-
-    var setUserToNull = function() {
-      currentUser.setLogOutUser();
-    };
-
     return {
-        // setUserToNull: function() {
-        //   currentUser.setLogOutUser();
-        // },
+        // get user circle = background
+        //create circle, update user too
+        //get circle
+        //update circle, for user remove, add
+        //delete circle, updat user too
+        //leave circle: get circle, delete user, update circle
+
+        //CREATE CIRCLE
+        createCircle: function(circleName) {
+            return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, circle: circleName}))
+            .then(function(response){
+                console.log('hit factory createcircle', response)
+                return response.data;
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        },
+
         getCircles: function() {
             return $http(composeRequest('GET', '/api/circles'))
             .then(function (response) {
@@ -41,35 +48,35 @@ app.factory('CircleFactory', function($http) {
             })
         },
 
-        registerUser: function(signUpInfo) {
-            return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
-            .then(function (response) {
-                var registeredUser = response.data.user;
-                setUser(registeredUser);
-                return registeredUser;
-            })
-            .catch(function (err) {
-              console.log(err);
-            })
-        },
+        // registerUser: function(signUpInfo) {
+        //     return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
+        //     .then(function (response) {
+        //         var registeredUser = response.data.user;
+        //         setUser(registeredUser);
+        //         return registeredUser;
+        //     })
+        //     .catch(function (err) {
+        //       console.log(err);
+        //     })
+        // },
 
-        logInUser: function(info) {
-            return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-            .then(function (response) {
+        // logInUser: function(info) {
+        //     return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
+        //     .then(function (response) {
 
-                var returnedUser = response.data.user;
-                setUser(returnedUser);
-                return returnedUser;
-            })
-            .catch(function (err) {
-              console.log(err);
-            })
-        },
+        //         var returnedUser = response.data.user;
+        //         setUser(returnedUser);
+        //         return returnedUser;
+        //     })
+        //     .catch(function (err) {
+        //       console.log(err);
+        //     })
+        // },
 
 
-        isLoggedIn: function () {
+        // isLoggedIn: function () {
 
-        	return backgroundPage.user.isLoggedIn();
-        }
+        // 	return backgroundPage.user.isLoggedIn();
+        // }
     }
 })

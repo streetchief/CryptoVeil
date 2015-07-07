@@ -21,39 +21,39 @@ function isAuthenticatedUser (req, res, next) {
 	// UPDATING OR RESETTING A KEY
 router.put('/key', isAuthenticatedUser, function (req, res, next){});
 
-// GET ALL CIRCLES FROM LOGGED IN USER
-router.get('/', isAuthenticatedUser, function (req, res, next) {
+// GET ALL CIRCLES FROM LOGGED IN USER, IMPLEMENTED DURING LOGIN, USE BACKGROUDFACTORY
+// router.get('/', isAuthenticatedUser, function (req, res, next) {
 
-	var userId = req.user._id;
+// 	var userId = req.user._id;
 	
-	User.findById(userId)
-	.populate('myCircles')
-	.exec()
-	.then(function (user) {
+// 	User.findById(userId)
+// 	.populate('myCircles')
+// 	.exec()
+// 	.then(function (user) {
 
-		res.send(user.myCircles);
-	})
-	.then(null, next);
-});
+// 		res.send(user.myCircles);
+// 	})
+// 	.then(null, next);
+// });
 
 // CREATE NEW CIRCLE
 router.post('/', isAuthenticatedUser, function (req, res, next) {
-
-	var userId = req.user._id;
-	var circleToAdd = req.body.circleToAdd;
+	console.log('hit post circle router', req.body)
+	// var userId = req.user._id;
+	// var circleToAdd = req.body.circleToAdd;
 	
-	User.findById(userId)
-	.exec()
-	.then(function (user) {
+	// User.findById(userId)
+	// .exec()
+	// .then(function (user) {
 
-		return user.createNewCircle(circleToAdd);
+	// 	return user.createNewCircle(circleToAdd);
 
-	})
-	.then(function (newCircle) {
+	// })
+	// .then(function (newCircle) {
 
-		res.json(newCircle);
-	})
-	.then(null, next);
+	// 	res.json(newCircle);
+	// })
+	// .then(null, next);
 });
 
 // ADD USER TO A CIRCLE
