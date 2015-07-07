@@ -63,7 +63,7 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
       $log.info('recieved from modal',circleId)
       
       for(var i=0; i<$scope.groups.length; i++){
-        if($scope.groups[i].id === circleId){
+        if($scope.groups[i]._id === circleId){
           $scope.groups.splice(i,1);
         }
       }
@@ -91,15 +91,16 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
         }
       }); // end modal open
 
-    modalInstance.result.then(function (emailToAdd) {
+    modalInstance.result.then(function (memberToAdd) {
 
-      $log.info('recieved from modal',emailToAdd)
+      $log.info('recieved from modal',memberToAdd)
       
       $scope.groups.forEach(function (group) {
 
-        if (group.id === circleId) {
+        if (group._id === circleId) {
+          console.log('hit group', group, circleId, memberToAdd)
           //FIXME -- save added member
-          group.members.push(emailToAdd);
+          group.members.push({nickname:memberToAdd});
         };
       });
 
