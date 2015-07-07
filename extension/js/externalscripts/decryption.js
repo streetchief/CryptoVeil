@@ -45,10 +45,18 @@ var decryptedMain = function () {
 			encryptedMsg = encryptedMsg.slice(0, -24);
 
 			// matchedKey = _.result(_.find(userDecryptionCircles, '_id', extractedId), 'key');
-			matches = userDecryptionCircles.filter(function (circle) {
-				return circle._id == extractedId;
-			})
+			try {
+				matches = userDecryptionCircles.filter(function (circle) {
+					return circle._id == extractedId;
+				})
+			}
+
+			catch (err) {
+				console.log('error; no user logged in.', err)
+			}
+
 			console.log('matches: ', matches);
+			
 			if (matches.length) {
 				unhacked = decrypt(encryptedMsg, matches[0].key);
 				email.body(unhacked + '<h5>' + matches[0].name +' | Decrypted by CryptoVeil</h5>');

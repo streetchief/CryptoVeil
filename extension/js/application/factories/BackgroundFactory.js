@@ -50,6 +50,7 @@ app.factory('BackgroundFactory', function($http) {
             .then(function (response) {
 				var registeredUser = response.data.user;
 				setUser(registeredUser);
+                // currentUser.setLoggedInUser(info);
 				return registeredUser;
             })
             .catch(function (err) {
@@ -63,6 +64,7 @@ app.factory('BackgroundFactory', function($http) {
 
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
+                // currentUser.setLoggedInUser(info);
 				return returnedUser;
             })
             .catch(function (err) {

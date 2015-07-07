@@ -24,6 +24,11 @@ app.run(function ($rootScope, AuthService, $state, BackgroundFactory) {
     // $stateChangeStart is an event fired
     // whenever the process of changing a state begins.
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+
+        // if (BackgroundFactory.isLoggedIn()) {
+        //     $rootScope.isLoggedIn = true;
+        //     // BackgroundFactory.se
+        // };
         
         $rootScope.isLoggedIn = BackgroundFactory.isLoggedIn();
 

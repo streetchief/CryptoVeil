@@ -44,6 +44,8 @@ function User (userInfo) {
     };
     
     this.setSelectedCircle = function (circle) {
+        console.log('trying to setSelectedCircle', circle);
+        
         selectedCircle._id = circle._id;
         selectedCircle.name = circle.name;
         selectedCircle.creator = circle.creator;

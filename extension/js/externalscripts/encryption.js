@@ -9,6 +9,7 @@ var encryptedMain = function () {
 	var encryptionEnabled = false;
 
 	document.addEventListener('set-encryption-circle', function(e) {
+		console.log('trying to assign key and id to selectedCircleKey', e);
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
 	});
