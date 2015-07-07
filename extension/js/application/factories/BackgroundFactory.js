@@ -56,8 +56,10 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
             .then(function (response) {
                     chrome.tabs.query({url: server + '/*'}, function (tabs) {
-                        chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {
-                        })
+                        if (tabs.length) {
+                            chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {
+                            })
+                        };
                     })            
 
 				var returnedUser = response.data.user;
@@ -73,8 +75,9 @@ app.factory('BackgroundFactory', function($http) {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
                 chrome.tabs.query({url: server + '/*'}, function (tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {
-                    })
+                    if (tabs.length) {
+                        chrome.tabs.sendMessage(tabs[0].id, {greeting: 'hello'}, function (res) {});
+                    };
                 })      
 
                 currentUser.setLogOutUser();
@@ -89,11 +92,12 @@ app.factory('BackgroundFactory', function($http) {
 
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
+                console.log('hit checkloggedin', response)
 
-                return response;
+                return response.data;
             })
             .catch(function (err) {
-                console.log(err);
+                console.log('In checkLoggedIn', err);
             })
         },
 

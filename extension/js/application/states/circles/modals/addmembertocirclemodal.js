@@ -1,9 +1,9 @@
 app.controller('addMemberModalCtrl', function ($scope, $modalInstance) {
 
-  $scope.emailToSearch;
+  $scope.memberToAdd;
 
   $scope.ok = function () {
-    $modalInstance.close($scope.emailToSearch);
+    $modalInstance.close($scope.memberToAdd);
   };
 
   $scope.cancel = function () {

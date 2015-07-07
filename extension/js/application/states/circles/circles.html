@@ -16,7 +16,7 @@
 	           <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-hand-down': group.status, 'glyphicon glyphicon-hand-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }} 
     	    	<div class="btn-group pull-right">
     	    		<button class="btn btn-default btn-xs" 
-              data-ng-click="$event.stopPropagation() || deleteCircle(group.id)">Delete Circle</button>
+              data-ng-click="$event.stopPropagation() || deleteCircle(group._id)">Delete Circle</button>
     	    	</div>
         	</accordion-heading>
 	    	</div>
@@ -27,13 +27,13 @@
             <input type="email" class="form-control" id="email" placeholder="addme@cryptoveil.com">
           </div> -->
           <div class="btn-group" role="group" aria-label="...">
-            <button type="submit" class="btn btn-info btn-xs" ng-click="addMember(group.id)">Add Member</button>
+            <button type="submit" class="btn btn-info btn-xs" ng-click="addMember(group._id)">Add Member</button>
             <button type="button" class="btn btn-danger btn-xs" data-ng-click="showDelete()">Remove Member</button>
           </div>            
         <!-- </form> -->
 
       	<div class="row" data-ng-repeat="member in group.members">
-      		<div class="col-lg-3" data-ng-click="showDelete()">{{ member }}<span ng-if="deleteMemb" ng-click="deleteMember(group.id, member.id)"class="glyphicon glyphicon-remove"></span></div>
+      		<div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member._id)"class="glyphicon glyphicon-remove"></span></div>
       	</div>
 
 	    </div>  

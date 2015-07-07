@@ -4,6 +4,7 @@ var _ = require('lodash');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
+var deepPopulate = require('mongoose-deep-populate');
 
 module.exports = function (app) {
 
@@ -26,7 +27,6 @@ module.exports = function (app) {
         
         var authCb = function (err, user) {
 
-            console.log('this is user', user);
             
             if (err) return next(err);
 
@@ -38,8 +38,10 @@ module.exports = function (app) {
 
             UserModel.findById(user._id)
             .populate('myCircles')
+            .deepPopulate(['myCircles.creator','myCircles.members'])
             .exec()
             .then(function (user) {
+                console.log('this is user deeppopulated', user);
                 
                 // req.logIn will establish our session.
                 req.logIn(user, function (err) {
