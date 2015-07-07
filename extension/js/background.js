@@ -1,7 +1,7 @@
 'use strict';
-var server = 'http://localhost:1337'
+var user = new User();
 
-var user = new User();    
+var server = 'http://127.0.0.1:1337'
 
 function User (userInfo) {
     var myCircles = [],
