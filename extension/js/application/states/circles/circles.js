@@ -30,6 +30,11 @@ $scope.oneAtATime = true;
     }
   ];
 
+CircleFactory.getCircles().then(function(circlesInfo){
+  console.log('this is circles', circlesInfo)
+  $scope.groups = circlesInfo;
+})
+
 /*******************************/
 
   $scope.createCircle = function() {
