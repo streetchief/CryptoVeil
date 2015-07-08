@@ -39,21 +39,22 @@ router.put('/key', isAuthenticatedUser, function (req, res, next){});
 // CREATE NEW CIRCLE
 router.post('/', isAuthenticatedUser, function (req, res, next) {
 	console.log('hit post circle router', req.body)
-	// var userId = req.user._id;
-	// var circleToAdd = req.body.circleToAdd;
+	var userId = req.user._id;
+	var circleToAdd = req.body.circleToAdd;
 	
-	// User.findById(userId)
-	// .exec()
-	// .then(function (user) {
+	User.findById(userId)
+	.populate('myCircles')
+	.exec()
+	.then(function (user) {
+		console.log('post user', user)
+		return user.createNewCircle(req.body.circle);
 
-	// 	return user.createNewCircle(circleToAdd);
-
-	// })
-	// .then(function (newCircle) {
-
-	// 	res.json(newCircle);
-	// })
-	// .then(null, next);
+	})
+	.then(function (newCircle) {
+		console.log('return new circle', newCircle)
+		res.json(newCircle);
+	})
+	.then(null, next);
 });
 
 // ADD USER TO A CIRCLE

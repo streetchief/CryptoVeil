@@ -53,29 +53,56 @@ schema.method('createNewCircle', function (nameForCircle) {
 
     var cleansedName, _this = this;
 
-    if (!isValidName(nameForCircle)) throw new Error('Not a valid name.');
-
     cleansedName = cleanseName(nameForCircle);
+    console.log('this is cleansedName', cleansedName)
+    // try{if (!isValidName(nameForCircle)) throw new Error('Not a valid name.');
+    // }catch(err){
+    //     console.log('this is regex err', err)
+    // }
 
     //check to see if user has already made a circle with nameForCircle
-    return this.Model('Circle').findOne({creator: this._id, name: cleansedName})
-        .exec()
-        .then(function (duplicateCircle) {
+    this.myCircles.forEach(function(circle){
+        if(circle.name === cleansedName){
+            throw new Error('Circle name already in use!')
+        }
+    })
 
-            if (duplicateCircle) throw new Error('Circle name already in use.');
 
-            var circleToCreate = {
-                    name: cleansedName,
-                    creator: _this,
-                    members: [_this]
-                };
+    var circleToCreate = {
+            name: cleansedName,
+            creator: _this._id,
+            members: []
+        };
 
-            return this.Model('Circle').create(circleToCreate);
-
+    mongoose.Model('Circle')
+        .create(circleToCreate)
+        .then(function(circle) {
+            _this.myCircles.push(circle._id);
+            return circle;
         })
         .then(null, function (error) {
-            throw new Error(error.message);
-        });
+            error.msg = 'error from createNewCircle method'
+        })
+
+    // mongoose.Model('Circle').findOne({creator: this._id, name: cleansedName})
+    //     .exec()
+    //     .then(function (duplicateCircle) {
+
+    //         if (duplicateCircle) throw new Error('Circle name already in use.');
+
+    //         var circleToCreate = {
+    //                 name: cleansedName,
+    //                 creator: _this,
+    //                 members: [_this]
+    //             };
+
+    //         return this.Model('Circle').create(circleToCreate);
+
+    //     })
+    //     .then(null, function (error) {
+    //         error.msg = 'from createNewCircle method'
+    //         // throw new Error(error.message);
+    //     });
 });
 
 // user.deleteCircle()
