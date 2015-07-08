@@ -28,6 +28,7 @@ function User (userInfo) {
             members: [],
             key: ""
         };
+        processLogout();
     };
 
     this.setLoggedInUser = function (user) {
@@ -86,6 +87,9 @@ function User (userInfo) {
 //     });
 // }
 
+function processLogout () {
+    sendToContentScript('process-logout');
+}
 
 function sendSelectedCircle (circle) {
     sendToContentScript('set-encryption-circle', circle);
