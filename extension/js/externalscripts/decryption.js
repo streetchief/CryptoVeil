@@ -20,8 +20,12 @@ var decryptedMain = function () {
 	// 	selectedCircleName = e.detail.name;
 	// });
 
-	document.addEventListener('process-login', function(e) {
+	document.addEventListener('process-login', function (e) {
 		userDecryptionCircles = e.detail;
+	});
+
+	document.addEventListener('process-logout', function (e) {
+		console.log('process-logout', e);
 	});
 
 	gmail2.observe.on("view_thread", function (thread) {});
