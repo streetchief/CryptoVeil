@@ -46,10 +46,7 @@ app.factory('BackgroundFactory', function($http) {
 				var registeredUser = response.data.user;
 				setUser(registeredUser);
 				return registeredUser;
-            })
-            .catch(function (err) {
-              console.log(err);
-            })
+            });
         },
 
         logInUser: function(info) {
@@ -66,10 +63,7 @@ app.factory('BackgroundFactory', function($http) {
 				var returnedUser = response.data.user;
 				setUser(returnedUser);
 				return returnedUser;
-            })
-            .catch(function (err) {
-              console.log(err);
-            })
+            });
         },
 
         logOutUser: function() {
@@ -85,10 +79,7 @@ app.factory('BackgroundFactory', function($http) {
                 
                 currentUser.setLogOutUser();
                 return response.status;
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
+            });
         },
 
         checkLoggedIn: function() {
@@ -98,10 +89,7 @@ app.factory('BackgroundFactory', function($http) {
                 console.log('hit checkloggedin', response)
 
                 return response.data;
-            })
-            .catch(function (err) {
-                console.log('In checkLoggedIn', err);
-            })
+            });
         },
 
         isLoggedIn: function () {
