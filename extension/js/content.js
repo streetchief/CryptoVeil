@@ -33,6 +33,10 @@ $(document).ready(function(){
 		
 		console.log('listener message: ', message);
 
+		if (message.command === 'process-logout') {
+			document.dispatchEvent(new Event(message.command));
+		}
+
 		if (message.command === 'process-login') {
 			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
 		}
