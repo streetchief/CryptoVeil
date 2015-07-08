@@ -97,24 +97,19 @@ BackgroundFactory.checkLoggedIn().then(function(response){
         }
       }); // end modal open
 
-    modalInstance.result.then(function (memberToAdd) {
-
-      $log.info('recieved from modal',memberToAdd)
-      
-      $scope.groups.forEach(function (group) {
-
-        if (group._id === circleId) {
-          console.log('hit group', group, circleId, memberToAdd)
-          //FIXME -- save added member
-          group.members.push({nickname:memberToAdd});
-        };
-      });
-
+    modalInstance.result.then(function (memberEmail) {
+      CircleFactory.editMember(circleId, memberEmail, 'add')
+      .then(function(newMember){
+        $scope.groups.forEach(function (group) {
+          if (group._id.toString() === circleId) {
+            group.members.push(newMember)
+          };
+        }); 
+      })
     })
     .then(null,  function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
-
   }; // end $scope.addMember
 
   $scope.status = {
@@ -132,16 +127,20 @@ BackgroundFactory.checkLoggedIn().then(function(response){
       $scope.deleteMemb = false;
   }
 
-  $scope.deleteMember = function(circleId, memId){
-    for(var i=0; i<$scope.groups.length; i++){
-      if($scope.groups[i]._id === circleId){
-        for(var j=0; j<$scope.groups[i].members.length; j++){
-          if($scope.groups[i].members[j]._id === memId){
-            $scope.groups[i].members.splice(j,1);
+  $scope.deleteMember = function(circleId, memEmail){
+    CircleFactory.editMember(circleId, memEmail, 'delete')
+      .then(function(newMember){
+        for(var i=0; i<$scope.groups.length; i++){
+          if($scope.groups[i]._id === circleId){
+            for(var j=0; j<$scope.groups[i].members.length; j++){
+              if($scope.groups[i].members[j]._id === newMember._id){
+                $scope.groups[i].members.splice(j,1);
+              }
+            }
           }
         }
-      }
-    }
+        
+      })
   }
 
 });

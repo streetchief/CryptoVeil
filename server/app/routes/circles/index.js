@@ -21,24 +21,8 @@ function isAuthenticatedUser (req, res, next) {
 	// UPDATING OR RESETTING A KEY
 router.put('/key', isAuthenticatedUser, function (req, res, next){});
 
-// GET ALL CIRCLES FROM LOGGED IN USER, IMPLEMENTED DURING LOGIN, USE BACKGROUDFACTORY
-// router.get('/', isAuthenticatedUser, function (req, res, next) {
-
-// 	var userId = req.user._id;
-	
-// 	User.findById(userId)
-// 	.populate('myCircles')
-// 	.exec()
-// 	.then(function (user) {
-
-// 		res.send(user.myCircles);
-// 	})
-// 	.then(null, next);
-// });
-
 // CREATE NEW CIRCLE
 router.post('/', isAuthenticatedUser, function (req, res, next) {
-	console.log('hit post circle router', req.body)
 	var userId = req.user._id;
 	// var circleToAdd = req.body.circleToAdd;
     var circleToCreate = {
@@ -47,7 +31,6 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
         members: []
     };
 
-	console.log('found user', req.user)
 	Circle
 	.create(circleToCreate)
 	.then(function(circle){
@@ -63,39 +46,77 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 });
 
 // ADD USER TO A CIRCLE
-router.post('/user', isAuthenticatedUser, function (req, res, next) {
+// router.post('/user', isAuthenticatedUser, function (req, res, next) {
 
-	var circleToEdit = req.body.circleId;
-	var userToAddId = req.body.userId; //MUST BE USER ID SENT FROM FRONT END
+// 	var circleToEdit = req.body.circleId;
+// 	var userToAddId = req.body.userId; //MUST BE USER ID SENT FROM FRONT END
 	
-	Circle.findById(circleToEdit)
-	.then(function (circle) {
+// 	Circle.findById(circleToEdit)
+// 	.then(function (circle) {
 
-		return circle.addMember(userToAddId);
-	})
-	.then(function (savedCircle) {
+// 		return circle.addMember(userToAddId);
+// 	})
+// 	.then(function (savedCircle) {
 
-		res.json(savedCircle);
-	})
-	.then(null, next);
-});
+// 		res.json(savedCircle);
+// 	})
+// 	.then(null, next);
+// });
 
-// REMOVE USER FROM A CIRCLE
-router.put('/user', isAuthenticatedUser, function (req, res, next) {
+// ADD OR REMOVE USER FROM A CIRCLE
+router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
+	var circleId = req.params.circleId;
+	var emailToEdit = req.body.newEmail;
+	var editMode = req.body.edit;
+	var updatedCircle;
+	var userFound
+	var circleFound
+
+	// Promise.all([User.findOne({email: emailToEdit})
+	// .exec(), Circle.findById(circleId).exec()])
+	// .spread(function (user, circle) {})
 	
-	var circleToEdit = req.body.circleId;
-	var userToRemoveId = req.body.userId; //MUST BE USER ID SENT FROM FRONT END
-	
-	Circle.findById(circleToEdit)
-	.then(function (circle) {
+	User.findOne({email: emailToEdit})
+	.exec()
+	.then(function (foundUser) {
+		console.log('this is foundUser', foundUser)
+		userFound = foundUser
+		return Circle.findById(circleId)
+			.then(function(circle){
+				console.log('found circle', circle)
+				if(editMode.toString() === 'delete') {
+					console.log('hit delete router')
+					circle.members.pull(foundUser._id)
+					return circle;
 
-		return circle.removeMember(userToRemoveId);
+				} else {
+					console.log('hit add router')
+					circle.members.push(foundUser._id)
+					return circle;
+				}
+			})
+			.then(function(circle){
+				console.log('hit circle', circle)	
+				circleFound = circle
+				return circle.save();
+			}) 
+		// return foundUser;
 	})
-	.then(function (savedCircle) {
-
-		res.json(savedCircle);
+	.then(function (circleReturned) {
+		console.log('this is the userFound', userFound)
+		if(editMode.toString() === 'delete') {
+			userFound.myCircles.pull(userFound._id);
+			return userFound			
+		} else {
+			userFound.myCircles.push(userFound._id);
+			return userFound
+		}
 	})
-	.then(null, next);
+	.then(function(userFound){
+		userFound.save();
+		console.log('last user', userFound)
+		res.send(userFound)
+	}, next);
 });
 
 // DELETE A CIRCLE
