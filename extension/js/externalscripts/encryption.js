@@ -21,8 +21,6 @@ var encryptedMain = function () {
 	});
 
 	document.addEventListener('toggle-encryption', function(e) {
-		
-		var emailDrafts = [];
 
 		if(!encryptionEnabled) {
 
@@ -42,9 +40,9 @@ var encryptedMain = function () {
 				}
 			}); //END observe.on("compose")
 
-			emailDrafts = gmail1.get.compose_ids()
-			console.log('emailDrafts', emailDrafts);
-
+			if (gmail1.dom.composes().length && !selectedCircleId) {
+				alert('Please select a circle!');
+			}
 			
 			gmail1.observe.before('send_message', function(url, body, data, xhr){
 			
@@ -52,19 +50,6 @@ var encryptedMain = function () {
 
 				body_params = xhr.xhrParams.body_params;
 				body_params.body = encrypt(body_params.body, selectedCircleKey, selectedCircleId);
-
-				// if (!selectedCircleId) {
-				// 	gmail1.tools.add_modal_window('Select circle', 'Please select a circle!', function() {
-				// 	    console.log('this worked?', this)
-				// 	    console.log('xhr', xhr)
-				// 	 //    body_params = xhr.xhrParams.body_params;
-				// 		// body_params.body = encrypt(body_params.body, selectedCircleKey, selectedCircleId);
-				// 	});
-				// } else {
-				// 	body_params = xhr.xhrParams.body_params;
-				// 	body_params.body = encrypt(body_params.body, selectedCircleKey, selectedCircleId);
-				// }
-
 			});
 		} else {
 
@@ -89,18 +74,14 @@ function encrypt(text, key, id) {
 	return temp;
 }
 
-function returnFromModal () {
-	return;
-}
+// function gmailAlertModal () {
+// 	var startingStr = "Please select a circle this email is intended for: <br /><select>";
 
-function gmailAlertModal () {
-	var startingStr = "Please select a circle this email is intended for: <br /><select>";
+// 	userCircles.forEach(function (circle) {
+// 		startingStr += "<option value='" + circle._id +  "'>" + circle.name + "</option>"	
+// 	});
 
-	userCircles.forEach(function (circle) {
-		startingStr += "<option value='" + circle._id +  "'>" + circle.name + "</option>"	
-	});
+// 	startingStr += "</select>"
 
-	startingStr += "</select>"
-
-	return startingStr;
-}
+// 	return startingStr;
+// }
