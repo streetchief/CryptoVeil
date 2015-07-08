@@ -11,8 +11,8 @@ app.config(function ($stateProvider) {
 
 app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log) {
     $scope.login = {};
-    $scope.error = null;
     $scope.loggedInUser = {};
+    $scope.alerts = [];
 
     var backgroundPage = BackgroundFactory.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -34,7 +34,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             }
         })
         .catch(function(err) {
-            console.log('in checkUserLoggedIn', err);
+            console.log('No user logged in.');
         })
     };
 
@@ -50,8 +50,15 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             $state.go('home');
         })
         .catch(function(err) {
-            console.log(err);
+            $scope.alerts.push({
+                msg: err.data,
+                type: 'danger'
+            });
         })
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
     };
 
     $scope.redirectLogin = function(location){
