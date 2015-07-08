@@ -86,7 +86,6 @@ app.factory('BackgroundFactory', function($http) {
 
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
-                console.log('hit checkloggedin', response)
 
                 return response.data;
             });
