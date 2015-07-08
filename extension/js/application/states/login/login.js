@@ -20,7 +20,6 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
     function checkUserLoggedIn() {
         BackgroundFactory.checkLoggedIn()
         .then(function (response) {
-            console.log('hit login.js', response)
 
             if(response) {
             var userLoggedIn = response.user;
