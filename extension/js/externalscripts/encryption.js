@@ -22,21 +22,28 @@ var encryptedMain = function () {
 
 	document.addEventListener('toggle-encryption', function(e) {
 		
-		//if encryption is off, turn on
+		var emailDrafts = [];
 
 		if(!encryptionEnabled) {
 
 			console.log('encryption enabled!');
 			encryptionEnabled = true;
 
-			gmail1.observe.on("compose", function(compose, type) {
+			gmail1.observe.on('compose', function(compose, type) {
 
 				if (!selectedCircleId) {
-					alert('Please select a circle');
 
+					alert('Please select a circle!');
+
+					// FIXME -- ok button broken?
+					// gmail1.tools.add_modal_window('Select circle', 'Please select a circle!', function() {
+					    
+					// });
 				}
-			  
-			});
+			}); //END observe.on("compose")
+
+			emailDrafts = gmail1.get.compose_ids()
+			console.log('emailDrafts', emailDrafts);
 
 			
 			gmail1.observe.before('send_message', function(url, body, data, xhr){
@@ -65,7 +72,7 @@ var encryptedMain = function () {
 			
 			encryptionEnabled = false;
 			gmail1.observe.off('send_message', 'before');
-			gmail1.observe.off('compose', 'on');
+			gmail1.observe.off('compose');
 		}
 	});
 
@@ -80,6 +87,10 @@ function encrypt(text, key, id) {
 	temp = '<div dir="ltr"> %%%%' + encrypted + id + '%%%% </div>'
 
 	return temp;
+}
+
+function returnFromModal () {
+	return;
 }
 
 function gmailAlertModal () {
