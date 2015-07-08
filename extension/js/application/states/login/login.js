@@ -12,7 +12,7 @@ app.config(function ($stateProvider) {
 app.controller('loginController', function ($rootScope, $scope, BackgroundFactory, $state, $window, $location, $log) {
     $scope.login = {};
     $scope.loggedInUser = {};
-    $scope.alerts;
+    $scope.alerts = [];
 
     var backgroundPage = BackgroundFactory.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -50,11 +50,10 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             $state.go('home');
         })
         .catch(function(err) {
-            console.log(err);
-            $scope.alerts = [{
+            $scope.alerts.push({
                 msg: err.data,
                 type: 'danger'
-            }]
+            });
         })
     };
 
