@@ -28,7 +28,7 @@ app.factory('CircleFactory', function($http) {
         //CREATE CIRCLE
         createCircle: function(circleName) {
             return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, 
-                circle: circleName
+                circleName: circleName
                 }))
             .then(function(response){
                 console.log('hit factory createcircle', response)
@@ -39,16 +39,16 @@ app.factory('CircleFactory', function($http) {
             })
         },
 
-        getCircles: function() {
-            return $http(composeRequest('GET', '/api/circles'))
+        deleteCircle: function(circleId) {
+            return $http(composeRequest('DELETE', '/api/circles/' + circleId))
             .then(function (response) {
-            	console.log('inside BackgroundFactory', response);
+            	console.log('inside CircleFactory', response);
               return response.data;
             })
             .catch(function (err) {
               console.log(err);
             })
-        },
+        }
 
         // registerUser: function(signUpInfo) {
         //     return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))

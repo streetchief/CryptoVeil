@@ -40,21 +40,26 @@ router.put('/key', isAuthenticatedUser, function (req, res, next){});
 router.post('/', isAuthenticatedUser, function (req, res, next) {
 	console.log('hit post circle router', req.body)
 	var userId = req.user._id;
-	var circleToAdd = req.body.circleToAdd;
-	
-	User.findById(userId)
-	.populate('myCircles')
-	.exec()
-	.then(function (user) {
-		console.log('post user', user)
-		return user.createNewCircle(req.body.circle);
+	// var circleToAdd = req.body.circleToAdd;
+    var circleToCreate = {
+        name: req.body.circleName.trim(),
+        creator: req.user._id,
+        members: []
+    };
 
-	})
-	.then(function (newCircle) {
-		console.log('return new circle', newCircle)
-		res.json(newCircle);
-	})
-	.then(null, next);
+	console.log('found user', req.user)
+	Circle
+	.create(circleToCreate)
+	.then(function(circle){
+		console.log('circle created', circle)
+		req.user.myCircles.push(circle._id);
+		return req.user.save()
+		.then(function(user){
+		console.log('user add circle', user, circle)
+			res.json(circle);
+		});
+	}).then(null, next);
+
 });
 
 // ADD USER TO A CIRCLE
@@ -95,30 +100,27 @@ router.put('/user', isAuthenticatedUser, function (req, res, next) {
 
 // DELETE A CIRCLE
 router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
-
-	var circleId = req.params.circleId;
-	var loggedInUser = req.user._id;
-
+	var circleId = req.params.circleId;	
 	Circle.findById(circleId)
-	.populate('creator')
+	.populate('creator members')
+	.exec()
 	.then(function (circle) {
-
-		if (circle.creator._id === loggedInUser) {
-
-			User.findById(loggedInUser)
-			.then(function (user) {
-
-				return user.deleteCircle(circleId);
+		if (circle.creator._id.toString() !== req.user._id.toString()) {
+			res.sendStatus(403)
+		} else {
+			var promiseArr = [];
+			circle.members.forEach(function (member) {
+				member.myCircles.pull(circle._id);
+				promiseArr.push(member.save());
+			});
+			return Promise.all(promiseArr)
+			.then(function (savedMembers) {
+				return Circle.findByIdAndRemove(circle._id).exec();
 			})
 			.then(function (deletedCircle) {
-
 				res.sendStatus(204);
 			})
-			.then(null, next);
-
-		} else {
-
-			res.sendStatus(403);
 		}
-	});
+	})
+	.then(null, next)
 });

@@ -18,10 +18,10 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
   $scope.groups = circlesInfo;
   console.log('this is circles', $scope.groups)
 })
-// BackgroundFactory.getLoggedInUser().then(function(user){
-//   $scope.user = user;
-//   $log.info('this is user', $scope.user);
-// })
+BackgroundFactory.checkLoggedIn().then(function(response){
+  $scope.user = response.user;
+  $log.info('this is user on circle.js', $scope.user);
+})
 
 /*******************************/
 
@@ -31,7 +31,12 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
         animation: true,
         templateUrl: 'js/application/states/circles/modals/createCircleModal.html',
         controller: 'createCircleModalCtrl',
-        size: 'sm'
+        size: 'sm',
+        resolve: {
+          user: function () {
+            return $scope.user;
+          }
+        }
       }); // end modal open
 
     modalInstance.result.then(function (circleName) {
@@ -43,11 +48,6 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
       .then(null, function(err){
         $log.info('Modal dismissed at: ' + new Date());
       })
-    //   $scope.groups.unshift({name:circleName, status:true, id:12})
-
-    // })
-    // .then(null,  function () {
-    //   $log.info('Modal dismissed at: ' + new Date());
     });
 
   }; // end $scope.createCircle
@@ -68,21 +68,18 @@ BackgroundFactory.getUserCircles().then(function(circlesInfo){
     }); // end modal open
 
     modalInstance.result.then(function (circleId) {
-
-      $log.info('recieved from modal',circleId)
-      
-      for(var i=0; i<$scope.groups.length; i++){
-        if($scope.groups[i]._id === circleId){
-          $scope.groups.splice(i,1);
-        }
-      }
-
-    })
-    .then(null,  function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-
-  }; // end $scope.deleteCircle
+      CircleFactory.deleteCircle(circleId)
+      .then(function(stat){
+          $log.info('recieved from modal',circleId)
+          for(var i=0; i<$scope.groups.length; i++){
+            if($scope.groups[i]._id === circleId) $scope.groups.splice(i,1);
+          }     
+      }) 
+      .then(null,  function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
+  })
+}; // end $scope.deleteCircle
 
 /*****************************************/
   $scope.addMember = function(circleId) {
