@@ -25,7 +25,7 @@ var decryptedMain = function () {
 	});
 
 	document.addEventListener('process-logout', function (e) {
-		console.log('process-logout', e);
+		// gmail2.observe.off();
 	});
 
 	gmail2.observe.on("view_thread", function (thread) {});
