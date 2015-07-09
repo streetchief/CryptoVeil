@@ -68,8 +68,6 @@ var seedCircles = function (creator) {
         },
         {
             name: 'PartyTime',
-            creator: creator,
-            members: [],
             key: '4321'
         }
     ];
