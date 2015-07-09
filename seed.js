@@ -62,12 +62,14 @@ var seedCircles = function (creator) {
         {
             name: 'SuperDopeHotness',
             creator: creator,
-            members: [creator],
+            members: [],
             key: '1234'
 
         },
         {
             name: 'PartyTime',
+            creator: creator,
+            members: [],
             key: '4321'
         }
     ];
