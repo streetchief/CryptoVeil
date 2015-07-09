@@ -2,20 +2,6 @@ app.factory('BackgroundFactory', function($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
-    var server = 'http://127.0.0.1:1337';
-    
-    var composeRequest = function (method, url, data) {
-        return {
-            method: method,
-            url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
-            data: data
-        }
-    };
 
     var setUser = function(info) {
       currentUser.setLoggedInUser(info);
@@ -36,12 +22,12 @@ app.factory('BackgroundFactory', function($http) {
             var promiseForCircles = new Promise(function (resolve, reject) {
                 resolve(currentUser.getLoggedInUser().myCircles)
             });
-            
+
             return promiseForCircles;
         },
 
         registerUser: function(signUpInfo) {
-            return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
+            return $http.post('/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password })
             .then(function (response) {
 				var registeredUser = response.data.user;
 				setUser(registeredUser);
@@ -50,8 +36,8 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logInUser: function(info) {
-            return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-            .then(function (response) {      
+            return $http.post('/login', { email: info.email, password: info.password })
+            .then(function (response) {
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs.length) {
                         tabs.forEach(function(tab) {
@@ -67,7 +53,7 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         logOutUser: function() {
-            return $http(composeRequest('GET', '/logout'))
+            return $http.get('/logout')
             .then(function (response) {
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs) {
@@ -76,7 +62,7 @@ app.factory('BackgroundFactory', function($http) {
                         });
                     };
                 });
-                
+
                 currentUser.setLogOutUser();
                 return response.status;
             });
@@ -84,7 +70,7 @@ app.factory('BackgroundFactory', function($http) {
 
         checkLoggedIn: function() {
 
-            return $http(composeRequest('GET', '/session'))
+            return $http.get('/session')
             .then(function (response) {
 
                 return response.data;

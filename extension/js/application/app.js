@@ -1,7 +1,24 @@
 'use strict';
 window.app = angular.module('CryptoveilExt', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt']);
 
-app.config(function ($urlRouterProvider, $locationProvider) {
+app.config(function ($urlRouterProvider, $locationProvider, $httpProvider) {
+
+    var extendedHeaders = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+    };
+    _.assign($httpProvider.defaults.headers.common, extendedHeaders);
+
+    var server = 'http://127.0.0.1:1337';
+    $httpProvider.interceptors.push(function(){
+        return {
+            request: function (config) {
+                config.url = server + config.url;
+                return config;
+            }
+        };
+    });
 
     $locationProvider.html5Mode({
         enabled: true,
