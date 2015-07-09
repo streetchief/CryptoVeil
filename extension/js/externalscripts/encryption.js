@@ -9,6 +9,10 @@ var encryptedMain = function () {
 	var encryptionEnabled = false;
 	var userCircles;
 
+	function sendToContentScript (command) {
+		document.dispatchEvent(new Event(command));
+	}
+
 	document.addEventListener('set-encryption-circle', function(e) {
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
@@ -21,6 +25,8 @@ var encryptedMain = function () {
 	document.addEventListener('process-logout', function (e) {
 
 		encryptionEnabled = false;
+		sendToContentScript('toggle-encryption-off');
+
 		gmail1.observe.off('send_message', 'before');
 		gmail1.observe.off('compose');
 	});
@@ -31,6 +37,7 @@ var encryptedMain = function () {
 
 			console.log('encryption enabled!');
 			encryptionEnabled = true;
+			sendToContentScript('toggle-encryption-on');
 
 			gmail1.observe.on('compose', function(compose, type) {
 
@@ -61,6 +68,7 @@ var encryptedMain = function () {
 			console.log('encryption disabled!');
 			
 			encryptionEnabled = false;
+			sendToContentScript('toggle-encryption-off');
 			gmail1.observe.off('send_message', 'before');
 			gmail1.observe.off('compose');
 		}

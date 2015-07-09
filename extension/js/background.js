@@ -1,7 +1,7 @@
 'use strict';
 var user = new User();
 
-var toggle = new ControlEncryption();
+var encryptionState = new ControlEncryption();
 
 var server = 'http://127.0.0.1:1337'
 
@@ -86,7 +86,7 @@ function User (userInfo) {
 
 
 function processLogout () {
-    toggle.turnOff();
+    encryptionState.turnOff();
     sendToContentScript('process-logout');
 }
 
@@ -121,7 +121,7 @@ function ControlEncryption () {
 
 function encryptionToggle () {
     
-    toggle.toggle();
+    encryptionState.toggle();
     
     sendToContentScript('toggle-encryption');
 }
@@ -149,9 +149,17 @@ function sendToContentScript (command, payload) {
 //     ["blocking", "requestBody"]
 //   );
 
-// chrome.runtime.onMessage.addListener(function (message, sender) {
-//  console.log('the message from background: ', message);
-// });
+chrome.runtime.onMessage.addListener(function (message, sender) {
+
+    if (message === 'toggle-encryption-on') {
+        encryptionState.turnOn();
+    }
+
+    if (message === 'toggle-encryption-off') {
+        encryptionState.turnOff();
+    }
+ 
+});
 
 // function tabGetter () {
 //     chrome.tabs.getSelected(null, function(tab) {

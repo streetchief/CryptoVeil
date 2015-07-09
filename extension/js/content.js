@@ -24,11 +24,19 @@ e.src = chrome.extension.getURL('/js/dependencies/aes.js');
 $(document).ready(function(){
 
 	var extension_id = chrome.runtime.id
-	
-	// document.addEventListener('messageFromExternal', function(e) {
-	// 	console.log('from ext', e);
-	// });
-	// chrome.runtime.sendMessage(extension_id, {message: 'from content script'})
+	//THIS IS FORWARDING TO BACKGROUND SCRIPT
+	document.addEventListener('toggle-encryption-on', function (e) {
+		
+		chrome.runtime.sendMessage(extension_id, {message: e.type})
+	});
+
+	document.addEventListener('toggle-encryption-off', function (e) {
+		
+		chrome.runtime.sendMessage(extension_id, {message: e.type})
+	});
+
+
+	//THIS IS FORWARDING TO EXTERNAL SCRIPTS
 	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		
 		console.log('listener message: ', message);
@@ -50,8 +58,4 @@ $(document).ready(function(){
 		}
 	});
 });
-
-// function sendToExternalScript (data) {
-// 	document.dispatchEvent(new CustomEvent('messageFromExtension', { detail: data }));
-// }
 

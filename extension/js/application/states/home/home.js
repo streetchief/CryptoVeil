@@ -7,7 +7,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/application/states/home/home.html'
         ,resolve: {
             toggleState: function (BackgroundFactory) {
-              return BackgroundFactory.getBackgroundPage().toggle.getState();
+              return BackgroundFactory.getBackgroundPage().encryptionState.getState();
             }
         }
     });
