@@ -15,6 +15,7 @@ var encryptedMain = function () {
 	});
 
 	document.addEventListener('process-login', function (e) {
+		console.log('process-login from encryption ext')
 		userCircles = e.detail;
 	});
 
