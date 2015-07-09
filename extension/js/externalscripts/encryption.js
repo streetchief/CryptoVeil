@@ -10,14 +10,19 @@ var encryptedMain = function () {
 	var userCircles;
 
 	document.addEventListener('set-encryption-circle', function(e) {
-		console.log('trying to assign key and id to selectedCircleKey', e);
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
 	});
 
 	document.addEventListener('process-login', function (e) {
-		console.log('inside encryption process-login, circles:', e.detail)
 		userCircles = e.detail;
+	});
+
+	document.addEventListener('process-logout', function (e) {
+
+		encryptionEnabled = false;
+		gmail1.observe.off('send_message', 'before');
+		gmail1.observe.off('compose');
 	});
 
 	document.addEventListener('toggle-encryption', function(e) {
