@@ -1,6 +1,8 @@
 'use strict';
 var user = new User();
 
+var toggle = new ControlEncryption();
+
 var server = 'http://127.0.0.1:1337'
 
 function User (userInfo) {
@@ -28,6 +30,7 @@ function User (userInfo) {
             members: [],
             key: ""
         };
+
         processLogout();
     };
 
@@ -81,11 +84,6 @@ function User (userInfo) {
     };
 }; //END OF USER
 
-// function tabGetter () {
-//     chrome.tabs.getSelected(null, function(tab) {
-//       console.log('the tab argument: ', tab);
-//     });
-// }
 
 function processLogout () {
     sendToContentScript('process-logout');
@@ -99,11 +97,27 @@ function processLogin (userCircles) {
     sendToContentScript('process-login', userCircles);
 }
 
-// var encryptionState = false;
+function ControlEncryption () {
+
+    var toggleState = false; 
+
+    this.turnOff = function () {
+        toggleState = false;
+    }
+    
+    this.turnOn = function () {
+        toggleState = true;      
+    }
+
+    this.getState = function () {
+        return toggleState;
+    }
+}
 
 function encryptionToggle () {
-    
-    // encryptionState = !encryptionState;
+    console.log('before', toggleState)
+    toggleState = !toggleState;
+    console.log('after', toggleState)
     sendToContentScript('toggle-encryption');
 }
 
@@ -129,6 +143,13 @@ function sendToContentScript (command, payload) {
 //     {urls: ["*://mail.google.com/*"]},
 //     ["blocking", "requestBody"]
 //   );
+
 // chrome.runtime.onMessage.addListener(function (message, sender) {
-// 	console.log('the message from background: ', message);
+//  console.log('the message from background: ', message);
 // });
+
+// function tabGetter () {
+//     chrome.tabs.getSelected(null, function(tab) {
+//       console.log('the tab argument: ', tab);
+//     });
+// }

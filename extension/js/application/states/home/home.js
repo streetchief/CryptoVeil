@@ -5,21 +5,30 @@ app.config(function ($stateProvider) {
         url: '/home',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
-        // ,resolve: {
-        //     userCircles: function (BackgroundFactory) {
-        //       return BackgroundFactory.getUserCircles(); 
-        //     }
-        // }
+        ,resolve: {
+            toggleState: function (BackgroundFactory) {
+              return BackgroundFactory.getBackgroundPage().toggleState; 
+            }
+        }
     });
 
 });
 
-app.controller('homeController', function ($scope, BackgroundFactory, $log) {
+app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState) {
 
-	var decryptionEngaged;
-  $scope.encryptionState, $scope.stateMsg = 'Encryption is off';
+	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
+  $scope.encryptionState;
 
-  var backgroundPage = BackgroundFactory.getBackgroundPage();
+  encryptionOffMessage = 'Encryption is off';
+  encryptionOnMessage = 'Encryption is on';
+
+  backgroundPage = BackgroundFactory.getBackgroundPage();
+
+  if (backgroundPage.toggleState) {
+    $scope.stateMsg = encryptionOffMessage;
+  } else {
+    $scope.stateMsg = encryptionOnMessage;
+  }
 
   $scope.currentCircle = 'Your Circle';
 
@@ -33,9 +42,9 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
   $scope.encryptionToggle = function () {
 
     if ($scope.encryptionState) {
-      $scope.stateMsg = 'Encryption is off';
+      $scope.stateMsg = encryptionOffMessage;
     } else {
-      $scope.stateMsg = 'Encryption is on';
+      $scope.stateMsg = encryptionOnMessage;
     }
 
     //FIXME -- This is broken.
@@ -59,7 +68,5 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
     BackgroundFactory.setSelectedCircle(selectedCircle);
 
   };
-
-  // backgroundPage.tabGetter();
 
 });
