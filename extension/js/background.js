@@ -104,21 +104,21 @@ function ControlEncryption () {
 
 /////////////////////   LISTEN FOR REFRESH  /////////////////////
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
 
-    var lastUpdate = updateTime || Date.now();
-    var updateTime = Date.now();
+//     var lastUpdate = updateTime || Date.now();
+//     var updateTime = Date.now();
 
-    chrome.tabs.get(tabId, function (tab) {
+//     chrome.tabs.get(tabId, function (tab) {
 
-        if (tab.url.indexOf('mail.google' > -1)) {
-            //trigger state update
-            console.log('found a mail.google, triggering updateExtScriptState');
-            updateExtScriptState()
-        };
-    });
+//         if (tab.url.indexOf('mail.google' > -1)) {
+//             //trigger state update
+//             console.log('found a mail.google, triggering updateExtScriptState');
+//             updateExtScriptState()
+//         };
+//     });
 
-})
+// })
 
 /////////////////////   HELPER FUNCTIONS  /////////////////////
 function processLogout () {
@@ -175,17 +175,16 @@ function sendToContentScript (command, payload) {
 //   );
 
 // MESSAGES COMING FROM CONTENT SCRIPT, TRIGGERED BY EXTERNAL SCRIPTS
-// chrome.runtime.onMessage.addListener(function (message, sender) {
+chrome.runtime.onMessage.addListener(function (message, sender) {
 
-//     if (message === 'toggle-encryption-on') {
-//         encryptionState.turnOn();
-//     }
+    console.log('hit get-extension-session-status in bg. message:', message)
 
-//     if (message === 'toggle-encryption-off') {
-//         encryptionState.turnOff();
-//     }
+    if (message.message === 'get-extension-session-status') {
+        console.log('inside if statement in bg');
+        updateExtScriptState();
+    }
  
-// });
+});
 
 // function tabGetter () {
 //     chrome.tabs.getSelected(null, function(tab) {

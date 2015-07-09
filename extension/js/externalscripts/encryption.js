@@ -9,6 +9,12 @@ var encryptedMain = function () {
 		encryptionEnabled = false,
 		userCircles;
 
+	sendToContentScript('get-extension-session-status');
+
+	function sendToContentScript (command) {
+		document.dispatchEvent(new Event(command));
+	}
+
 	document.addEventListener('set-encryption-circle', function (e) {
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
@@ -54,16 +60,17 @@ var encryptedMain = function () {
 		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
 	}
 	
-	// setTimeout(function () {
 
-	// 	console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
-	// 	// CHECK FOR OPEN COMPOSE WINDOWS
-	// 	if (shouldWeAlet()) {
-	// 		alert('Please select a circle!');
-	// 	}
-	// 	console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
+		// console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
+		// CHECK FOR OPEN COMPOSE WINDOWS
+		// console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
 
-	// }, 1500);
+	setTimeout(function () {
+		if (shouldWeAlet()) {
+			alert('Please select a circle!');
+		}
+
+	}, 1000);
 
 	// $(document).ready(function () {
 
@@ -117,12 +124,6 @@ function encrypt(text, key, id) {
     
 // });
 
-// function sendToContentScript (command) {
-// 	document.dispatchEvent(new Event(command));
-// 	// EXAMPLE
-// 	// sendToContentScript('toggle-encryption-off');
-// 	// sendToContentScript('toggle-encryption-on');
-// 	}
 
 // function gmailAlertModal () {
 // 	var startingStr = "Please select a circle this email is intended for: <br /><select>";

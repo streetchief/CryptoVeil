@@ -29,7 +29,7 @@ app.factory('BackgroundFactory', function($http) {
         },
 
         getBackgroundPage: function () {
-            return backgroundPage;
+            return chrome.extension.getBackgroundPage();
         },
 
         getUserCircles: function () {
