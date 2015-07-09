@@ -1,4 +1,4 @@
-app.factory('BackgroundFactory', function($http) {
+app.factory('BackgroundFactory', function ($http, $q) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -26,6 +26,10 @@ app.factory('BackgroundFactory', function($http) {
 
         setSelectedCircle: function (circle) {
             currentUser.setSelectedCircle(circle);
+        },
+
+        getSelectedCircle: function () {
+            return $q.when(currentUser.getSelectedCircle());
         },
 
         getBackgroundPage: function () {
@@ -59,7 +63,7 @@ app.factory('BackgroundFactory', function($http) {
                         });
                     }
                 });
-                    
+
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs.length) {
                         tabs.forEach(function(tab) {

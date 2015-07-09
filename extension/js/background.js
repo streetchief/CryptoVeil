@@ -108,7 +108,6 @@ function ControlEncryption () {
 chrome.runtime.onMessage.addListener(function (message, sender) {
 
     if (message.message === 'get-extension-session-status') {
-        console.log('inside if statement in bg');
         updateExtScriptState();
     }
 });

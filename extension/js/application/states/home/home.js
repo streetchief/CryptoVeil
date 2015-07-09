@@ -6,13 +6,17 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/application/states/home/home.html',
         resolve: {
             toggleState: function (BackgroundFactory) {
-              return BackgroundFactory.getBackgroundPage().encryptionState.getState();
+              return BackgroundFactory.getBackgroundPage().encryptionState.getState()
+            }
+
+            , selectedCircle: function (BackgroundFactory) {
+              return BackgroundFactory.getSelectedCircle();
             }
         }
     });
 });
 
-app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState) {
+app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState, selectedCircle) {
 
 	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
 
@@ -28,7 +32,11 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
     $scope.stateMsg = encryptionOffMessage;
   }
 
-  $scope.currentCircle = 'Your Circle';
+  if (selectedCircle.name) {
+    $scope.currentCircle = selectedCircle.name;
+  } else {
+    $scope.currentCircle = 'Select a Circle';
+  }
 
   BackgroundFactory.getUserCircles()
   .then(function (circles) {
@@ -49,7 +57,6 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
     backgroundPage.encryptionToggle();
 
   };// End encryptionToggle
-
 
   $scope.setDecryptionCircle = function (selectedCircle) {
 
