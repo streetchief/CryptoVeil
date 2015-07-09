@@ -64,12 +64,9 @@ var decryptedMain = function () {
 					email.body("<h3>Oops! You're not authorized to view this message. Error #009 StreamOverload Flux</h3><h5>Encrypted by CryptoVeil</h5>")
 				}
 			} 
-			
 		}
-
-	
-	});
-};
+	}); // END observe.on("view_email")
+}; //END decryptedMain
 
 function decrypt(text, key) {
 

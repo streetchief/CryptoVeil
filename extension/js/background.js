@@ -55,23 +55,16 @@ function User (userInfo) {
     
     this.setSelectedCircle = function (circle) {
 
-            selectedCircle._id = circle._id;
-            selectedCircle.name = circle.name;
-            selectedCircle.creator = circle.creator;
-            selectedCircle.members = circle.members;
-            selectedCircle.key = circle.key;
+        selectedCircle._id = circle._id;
+        selectedCircle.name = circle.name;
+        selectedCircle.creator = circle.creator;
+        selectedCircle.members = circle.members;
+        selectedCircle.key = circle.key;
 
-            sendSelectedCircle(selectedCircle);        
+        sendSelectedCircle(selectedCircle);        
     };
 
     this.getSelectedCircle = function () {
-        // return {
-        //     _id: selectedCircle._id,
-        //     name: selectedCircle.name,
-        //     creator: selectedCircle.creator,
-        //     members: selectedCircle.members,
-        //     key: selectedCircle.key
-        // };
         return selectedCircle;
     };
 
@@ -104,25 +97,23 @@ function ControlEncryption () {
 
     this.toggle = function () {
         toggleState = !toggleState;
-    }
+    };
 
     this.turnOff = function () {
         toggleState = false;
-    }
+    };
 
     this.turnOn = function () {
         toggleState = true;      
-    }
+    };
 
     this.getState = function () {
         return toggleState;
-    }
+    };
 }
 
 function encryptionToggle () {
-    
     encryptionState.toggle();
-    
     sendToContentScript('toggle-encryption');
 }
 
@@ -133,6 +124,7 @@ function sendToContentScript (command, payload) {
     });
 }
 
+//FOR BLOCKING NON-EMPTY GMAIL EMAILS
 // chrome.webRequest.onBeforeRequest.addListener(
 //     function(details) { 
 
@@ -149,17 +141,18 @@ function sendToContentScript (command, payload) {
 //     ["blocking", "requestBody"]
 //   );
 
-chrome.runtime.onMessage.addListener(function (message, sender) {
+// MESSAGES COMING FROM CONTENT SCRIPT, TRIGGERED BY EXTERNAL SCRIPTS
+// chrome.runtime.onMessage.addListener(function (message, sender) {
 
-    if (message === 'toggle-encryption-on') {
-        encryptionState.turnOn();
-    }
+//     if (message === 'toggle-encryption-on') {
+//         encryptionState.turnOn();
+//     }
 
-    if (message === 'toggle-encryption-off') {
-        encryptionState.turnOff();
-    }
+//     if (message === 'toggle-encryption-off') {
+//         encryptionState.turnOff();
+//     }
  
-});
+// });
 
 // function tabGetter () {
 //     chrome.tabs.getSelected(null, function(tab) {
