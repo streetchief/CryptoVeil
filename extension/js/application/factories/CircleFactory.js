@@ -1,4 +1,4 @@
-app.factory('CircleFactory', function($http) {
+app.factory('CircleFactory', function ($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentLoggedUser = backgroundPage.user.getLoggedInUser();
@@ -27,56 +27,31 @@ app.factory('CircleFactory', function($http) {
 
         //CREATE CIRCLE
         createCircle: function(circleName) {
-            return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, circle: circleName}))
+            return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, 
+                circleName: circleName
+                }))
             .then(function(response){
                 console.log('hit factory createcircle', response)
                 return response.data;
             })
-            .catch(function(err){
-                console.log(err);
-            })
         },
 
-        getCircles: function() {
-            return $http(composeRequest('GET', '/api/circles'))
+        deleteCircle: function(circleId) {
+            return $http(composeRequest('DELETE', '/api/circles/' + circleId))
             .then(function (response) {
-            	console.log('inside BackgroundFactory', response);
+            	console.log('inside CircleFactory', response);
               return response.data;
             })
-            .catch(function (err) {
-              console.log(err);
-            })
         },
 
-        // registerUser: function(signUpInfo) {
-        //     return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
-        //     .then(function (response) {
-        //         var registeredUser = response.data.user;
-        //         setUser(registeredUser);
-        //         return registeredUser;
-        //     })
-        //     .catch(function (err) {
-        //       console.log(err);
-        //     })
-        // },
-
-        // logInUser: function(info) {
-        //     return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-        //     .then(function (response) {
-
-        //         var returnedUser = response.data.user;
-        //         setUser(returnedUser);
-        //         return returnedUser;
-        //     })
-        //     .catch(function (err) {
-        //       console.log(err);
-        //     })
-        // },
+        editMember: function(circleId, memberEmail, edit){
+            // edit is add or delete
+            return $http(composeRequest('PUT', '/api/circles/' + circleId, {newEmail: memberEmail, edit: edit}))
+            .then(function(response){
+                return response.data;
+            })
+        }
 
 
-        // isLoggedIn: function () {
-
-        // 	return backgroundPage.user.isLoggedIn();
-        // }
     }
 })

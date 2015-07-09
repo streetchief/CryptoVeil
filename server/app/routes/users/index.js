@@ -36,6 +36,22 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.then(null, next);
 });
 
+
+//CHECKS BY EMAIL IF THE USER (TO ADD TO THE CIRCLE) IS REGISTERED 
+router.get('/:userEmail', isAuthenticatedUser, function (req, res, next) {
+	
+	User.findOne({email: req.params.userEmail})
+	.exec()
+	.then(function (foundUser) {
+		if(!foundUser) res.send('no user');
+		else {
+			res.send('ok')
+		}
+	})
+	.then(null, next);
+});
+
+
 //REGISTERING A USER
 router.post('/', function (req, res, next) {
 	console.log('hit router', req.body)
@@ -44,7 +60,6 @@ router.post('/', function (req, res, next) {
 	if (!User.checkEmailIsUnique(email)) return next();
 
 	User.create(req.body)
-	// .exec()
 	.then(function (createdUser) {
 		
 		console.log('hit router 2', createdUser);

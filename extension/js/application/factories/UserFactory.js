@@ -1,6 +1,30 @@
-app.factory('UserFactory', function ($http){
-var server = 'http://localhost:1337'  
-  // return {
+app.factory('UserFactory', function ($http) {
+    // var backgroundPage = chrome.extension.getBackgroundPage();
+    // var currentLoggedUser = backgroundPage.user.getLoggedInUser();
+    var server = 'http://127.0.0.1:1337';
+    
+    var composeRequest = function (method, url, data) {
+        return {
+            method: method,
+            url: server + url,
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            },
+            data: data
+        }
+    };  
+
+    return {
+
+        checkUserByEmail: function(userEmail) {
+            return $http(composeRequest('GET', '/api/users/' + userEmail))
+            .then(function(response){
+                console.log('checkUserByEmail response', response)
+                return response.data;
+            })
+        }
   //   getAllUsers: function (){
   //     return $http.get("/users")
   //     .then(function (response){
@@ -52,5 +76,5 @@ var server = 'http://localhost:1337'
   //   deleteUserById: function (id) {
   //     return $http.delete('/delete/' + id);
   //   }
-  // };
+      };
 });
