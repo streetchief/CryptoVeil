@@ -109,6 +109,22 @@ function sendToContentScript (command, payload) {
         chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
     });
 }
+
+// chrome.webRequest.onBeforeRequest.addListener(
+//     function(details) { 
+
+//         if (details.requestBody && details.requestBody.body){
+//             if (details.requestBody.body[0] !== '<div dir="ltr"></div>') {
+//                 console.log('blocking email');
+//                 return {cancel: true}; 
+//             } else {
+//                 return {cancel: false};
+//             }
+//         }
+//     },
+//     {urls: ["*://mail.google.com/*"]},
+//     ["blocking", "requestBody"]
+//   );
 // chrome.runtime.onMessage.addListener(function (message, sender) {
 // 	console.log('the message from background: ', message);
 // });
