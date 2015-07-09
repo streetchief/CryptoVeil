@@ -109,21 +109,14 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
     var lastUpdate = updateTime || Date.now();
     var updateTime = Date.now();
 
-    console.log('tab update triggered, time diff: ', updateTime - lastUpdate);
-    
-        chrome.tabs.get(tabId, function (tab) {
+    chrome.tabs.get(tabId, function (tab) {
 
-            if (tab.url.indexOf('mail.google' > -1)) {
-                //trigger state update
-                console.log('found a mail.google, triggering updateExtScriptState');
-                updateExtScriptState()
-            };
-        });
-
-    // if (updateTime - lastUpdate > 750) {
-
-    // };
-
+        if (tab.url.indexOf('mail.google' > -1)) {
+            //trigger state update
+            console.log('found a mail.google, triggering updateExtScriptState');
+            updateExtScriptState()
+        };
+    });
 
 })
 

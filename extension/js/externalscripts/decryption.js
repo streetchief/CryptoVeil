@@ -20,7 +20,6 @@ var decryptedMain = function () {
 	});
 
 	document.addEventListener('process-login', function (e) {
-		console.log('process-login from decryption ext')
 		userLoggedIn = true;
 		userDecryptionCircles = e.detail;
 	});

@@ -6,7 +6,7 @@ var encryptedMain = function () {
 
 	var selectedCircleKey,
 		selectedCircleId,
-		encryptionEnabled,
+		encryptionEnabled = false,
 		userCircles;
 
 	document.addEventListener('set-encryption-circle', function (e) {
@@ -15,7 +15,6 @@ var encryptedMain = function () {
 	});
 
 	document.addEventListener('process-login', function (e) {
-		console.log('process-login from encryption ext')
 		userCircles = e.detail;
 	});
 
@@ -37,15 +36,6 @@ var encryptedMain = function () {
 
 	});
 
-	$(document).ready(function () {
-
-		console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
-		// CHECK FOR OPEN COMPOSE WINDOWS
-		if (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId) {
-			alert('Please select a circle!');
-		}
-	});
-
 	document.addEventListener('toggle-encryption', function(e) {
 
 		if(!encryptionEnabled) {
@@ -59,6 +49,26 @@ var encryptedMain = function () {
 			encryptionEnabled = false;
 		}
 	});
+
+	function shouldWeAlet () {
+		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
+	}
+	
+	// setTimeout(function () {
+
+	// 	console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
+	// 	// CHECK FOR OPEN COMPOSE WINDOWS
+	// 	if (shouldWeAlet()) {
+	// 		alert('Please select a circle!');
+	// 	}
+	// 	console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
+
+	// }, 1500);
+
+	// $(document).ready(function () {
+
+	// });
+
 
 
 	//WHEN COMPOSE WINDOW OPENS, CHECK FOR SELECTED CIRCLE
