@@ -45,7 +45,7 @@ router.get('/:userEmail', isAuthenticatedUser, function (req, res, next) {
 	.then(function (foundUser) {
 		if(!foundUser) res.send('no user');
 		else {
-			res.send('nope')
+			res.send('ok')
 		}
 	})
 	.then(null, next);
