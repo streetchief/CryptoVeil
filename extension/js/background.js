@@ -77,7 +77,22 @@ function User (userInfo) {
     };
 }; //END OF USER
 
+/////////////////////   LISTEN FOR REFRESH  /////////////////////
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+    console.log('tab update triggered');
 
+    chrome.tabs.get(tabId, function (tab) {
+        console.log('tab', tab);
+        if (tab.url.indexOf('mail.google' > -1)) {
+            //trigger state update
+            console.log('found a mail.google, triggering updateExtScriptState');
+            updateExtScriptState()
+        };
+    });
+
+})
+
+/////////////////////   HELPER FUNCTIONS  /////////////////////
 function processLogout () {
     encryptionState.turnOff();
     sendToContentScript('process-logout');
@@ -85,6 +100,17 @@ function processLogout () {
 
 function sendSelectedCircle (circle) {
     sendToContentScript('set-encryption-circle', circle);
+}
+
+function updateExtScriptState () {
+    var payload = {
+        userCircles: user.getLoggedInUser().myCircles,
+        encryptionState: encryptionState.getState(),
+        selectedCircle: user.getSelectedCircle(),
+        isLoggedIn: user.isLoggedIn()
+    };
+
+    sendToContentScript('update-state', payload);
 }
 
 function processLogin (userCircles) {

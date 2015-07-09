@@ -24,6 +24,13 @@ var decryptedMain = function () {
 		userDecryptionCircles = e.detail;
 	});
 
+	document.addEventListener('update-decryption-state', function (e) {
+		console.log('update-state, decryption', e.detail);
+		
+		userDecryptionCircles = e.detail.userCircles;
+		userLoggedIn = e.detail.isLoggedIn;
+	});
+
 	gmail2.observe.on("view_thread", function (thread) {});
 
 	gmail2.observe.on("view_email", function (email) {

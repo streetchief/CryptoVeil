@@ -9,13 +9,22 @@ var encryptedMain = function () {
 	var encryptionEnabled = false;
 	var userCircles;
 
-	document.addEventListener('set-encryption-circle', function(e) {
+	document.addEventListener('set-encryption-circle', function (e) {
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
 	});
 
 	document.addEventListener('process-login', function (e) {
 		userCircles = e.detail;
+	});
+
+	document.addEventListener('update-encryption-state', function (e) {
+		console.log('update-state, encryption', e.detail);
+
+		userCircles = e.detail.userCircles;
+		selectedCircleKey = e.detail.selectedCircle.key;
+		selectedCircleId = e.detail.selectedCircle._id;
+		encryptionEnabled = e.detail.encryptionState;
 	});
 
 	document.addEventListener('process-logout', function (e) {

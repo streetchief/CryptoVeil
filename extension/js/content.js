@@ -49,6 +49,11 @@ $(document).ready(function(){
 			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
 		}
 
+		if (message.command === 'update-state') {
+			document.dispatchEvent(new CustomEvent('update-decryption-state', {detail: message.payload}));
+			document.dispatchEvent(new CustomEvent('update-encryption-state', {detail: message.payload}));
+		}
+
 		if (message.command === 'set-encryption-circle') {
 			document.dispatchEvent(new CustomEvent(message.command, {detail: message.payload}))
 		}
