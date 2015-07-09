@@ -5,6 +5,8 @@ var encryptionState = new ControlEncryption();
 
 var server = 'http://127.0.0.1:1337'
 
+/////////////////////   USER STATE  /////////////////////
+
 function User (userInfo) {
     var myCircles = [],
     email = "",
@@ -77,18 +79,51 @@ function User (userInfo) {
     };
 }; //END OF USER
 
-/////////////////////   LISTEN FOR REFRESH  /////////////////////
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
-    console.log('tab update triggered');
+/////////////////////   ENCRYPTION STATE  /////////////////////
 
-    chrome.tabs.get(tabId, function (tab) {
-        console.log('tab', tab);
-        if (tab.url.indexOf('mail.google' > -1)) {
-            //trigger state update
-            console.log('found a mail.google, triggering updateExtScriptState');
-            updateExtScriptState()
-        };
-    });
+function ControlEncryption () {
+
+    var toggleState = false; 
+
+    this.toggle = function () {
+        toggleState = !toggleState;
+    };
+
+    this.turnOff = function () {
+        toggleState = false;
+    };
+
+    this.turnOn = function () {
+        toggleState = true;      
+    };
+
+    this.getState = function () {
+        return toggleState;
+    };
+}
+
+/////////////////////   LISTEN FOR REFRESH  /////////////////////
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+
+    var lastUpdate = updateTime || Date.now();
+    var updateTime = Date.now();
+
+    console.log('tab update triggered, time diff: ', updateTime - lastUpdate);
+    
+        chrome.tabs.get(tabId, function (tab) {
+
+            if (tab.url.indexOf('mail.google' > -1)) {
+                //trigger state update
+                console.log('found a mail.google, triggering updateExtScriptState');
+                updateExtScriptState()
+            };
+        });
+
+    // if (updateTime - lastUpdate > 750) {
+
+    // };
+
 
 })
 
@@ -115,27 +150,6 @@ function updateExtScriptState () {
 
 function processLogin (userCircles) {
     sendToContentScript('process-login', userCircles);
-}
-
-function ControlEncryption () {
-
-    var toggleState = false; 
-
-    this.toggle = function () {
-        toggleState = !toggleState;
-    };
-
-    this.turnOff = function () {
-        toggleState = false;
-    };
-
-    this.turnOn = function () {
-        toggleState = true;      
-    };
-
-    this.getState = function () {
-        return toggleState;
-    };
 }
 
 function encryptionToggle () {

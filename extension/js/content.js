@@ -23,17 +23,17 @@ e.src = chrome.extension.getURL('/js/dependencies/aes.js');
 
 $(document).ready(function(){
 
-	var extension_id = chrome.runtime.id
+	// var extension_id = chrome.runtime.id
 	//THIS IS FORWARDING TO BACKGROUND SCRIPT
-	document.addEventListener('toggle-encryption-on', function (e) {
+	// document.addEventListener('toggle-encryption-on', function (e) {
 		
-		chrome.runtime.sendMessage(extension_id, {message: e.type})
-	});
+	// 	chrome.runtime.sendMessage(extension_id, {message: e.type})
+	// });
 
-	document.addEventListener('toggle-encryption-off', function (e) {
+	// document.addEventListener('toggle-encryption-off', function (e) {
 		
-		chrome.runtime.sendMessage(extension_id, {message: e.type})
-	});
+	// 	chrome.runtime.sendMessage(extension_id, {message: e.type})
+	// });
 
 
 	//THIS IS FORWARDING TO EXTERNAL SCRIPTS
