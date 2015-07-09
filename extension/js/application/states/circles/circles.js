@@ -12,15 +12,38 @@ app.config(function ($stateProvider) {
 app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory) {
 
 $scope.oneAtATime = true;
-// $scope.groups
+$scope.groups = {};
 
-BackgroundFactory.getUserCircles().then(function(circlesInfo){
-  $scope.groups = circlesInfo;
-  console.log('this is circles', $scope.groups)
+BackgroundFactory.checkLoggedIn()
+.then(function(response){
+  return $scope.user = response.user;
 })
-BackgroundFactory.checkLoggedIn().then(function(response){
-  $scope.user = response.user;
-  $log.info('this is user on circle.js', $scope.user);
+.then(function(user){
+  BackgroundFactory.getUserCircles().then(function(circlesInfo){
+    var own = [], part = [];
+
+    $log.info('this is circle info on circle.js', circlesInfo, user)
+
+    for(var i=0; i<circlesInfo.length; i++){
+
+      console.log(circlesInfo[i], typeof circlesInfo[i].creator._id, typeof user._id)
+
+      if(circlesInfo[i].creator._id === $scope.user._id) { 
+        
+        own.push(circlesInfo[i])
+        console.log('hit if func own', own)
+
+      }else {part.push(circlesInfo[i]); console.log('hit else func part', part);}
+    }
+    $scope.groups.owned = own;
+    $scope.groups.part = part;
+    console.log('this is circles', $scope.groups)
+    return $scope.groups
+  })
+  
+})
+.then(null, function(err){
+  throw new Error('Error retrieving user and group data from factory')
 })
 
 /*******************************/
@@ -43,7 +66,7 @@ BackgroundFactory.checkLoggedIn().then(function(response){
       CircleFactory.createCircle(circleName)
       .then(function(res){
         $log.info('hit modal createcircle', res)
-        $scope.groups.unshift(res);
+        $scope.groups.owned.unshift(res);
       })
       .then(null, function(err){
         $log.info('Modal dismissed at: ' + new Date());

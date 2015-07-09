@@ -45,7 +45,32 @@ var seedUsers = function () {
             email: 'obama@gmail.com',
             password: 'potus',
             myCircles: []
+        },
+        {
+            nickname: 'Angie',
+            email: 'angie@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Rachel',
+            email: 'rachel@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Sam',
+            email: 'sam@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Tom',
+            email: 'tom@gmail.com',
+            password: 'potus',
+            myCircles: []
         }
+
     ];
 
     return q.invoke(User, 'create', users);

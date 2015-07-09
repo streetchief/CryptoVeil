@@ -5,18 +5,17 @@
 		<title>CryptoVeil</title>
 
 		<!-- <link rel="stylesheet" type="text/css" href="core/css/angular-csp.css" /> -->
-	    <link rel="stylesheet" type="text/css" href="/css/style.css" />
-
 	    <script src="/js/dependencies/lodash.js"></script>
 	    <script src="/js/dependencies/angular.min.js"></script>
 	    <script src="/js/dependencies/angular-ui-router.min.js"></script>
 	    <script src="/js/dependencies/ui-bootstrap.min.js"></script>
 	    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+	    <link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<script src="/js/main.js"></script>
 	</head>
 	<body data-ng-app="CryptoveilExt">
+		<nav-bar data-ng-if="isLoggedIn"></nav-bar>
 		<div class="container">
-			<nav-bar data-ng-if="isLoggedIn"></nav-bar>
 			<div data-ui-view></div>
 		</div>
 	</body>

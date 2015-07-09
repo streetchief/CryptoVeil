@@ -101,7 +101,7 @@ gulp.task('buildJSExtension', function () {
 });
 
 gulp.task('buildCSSExtension', function () {
-    return gulp.src('./extension/scss/main.scss')
+    return gulp.src(['./extension/scss/main.scss', './extension/scss/_variables.scss', './extension/scss/_bootswatch.scss'])
         .pipe(plumber())
         .pipe(sass())
         .pipe(rename('style.css'))

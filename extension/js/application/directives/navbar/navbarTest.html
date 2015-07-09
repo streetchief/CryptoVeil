@@ -1,0 +1,31 @@
+
+
+<nav class="navbar navbar-static-top">
+    <div class="container">
+    <!-- hamburger -->
+    <ul class="nav navbar-nav">
+      <div class="btn-group" dropdown>
+        <button type="button" class="btn btn-default btn-xs dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li data-ng-selected=""
+          data-ui-sref="{{item.state}}" 
+          data-ng-repeat="item in items">
+            <a href="#">{{item.label}}</a>
+              <li class="divider"></li>
+          </li>
+          <li>
+            <a href="#" data-ng-click="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </ul>
+
+    <div data-ng-show="user" class="welcome">
+        <span>Welcome, {{ user.nickname }}!</span>
+        <a href="#" data-ng-click="logout()">Logout</a>
+    </div>
+
+    </div>
+</nav>

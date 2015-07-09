@@ -35,7 +35,7 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	.create(circleToCreate)
 	.then(function(circle){
 		console.log('circle created', circle)
-		req.user.myCircles.push(circle._id);
+		req.user.myCircles.unshift(circle._id);
 		return req.user.save()
 		.then(function(user){
 		console.log('user add circle', user, circle)
