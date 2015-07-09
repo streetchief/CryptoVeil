@@ -24,7 +24,21 @@ app.factory('UserFactory', function ($http) {
                 console.log('checkUserByEmail response', response)
                 return response.data;
             })
-        }
+        },
+        resetPassword: function(userEmail) {
+            return $http(composeRequest('PUT', '/api/users/reset'))
+            .then(function(response){
+                console.log('resetPassword response', response)
+                return response.data;
+            })
+        },
+        changeNickname: function(userEmail) {
+            return $http(composeRequest('PUT', '/api/users/nickname'))
+            .then(function(response){
+                console.log('changeNickname response', response)
+                return response.data;
+            })
+        }        
   //   getAllUsers: function (){
   //     return $http.get("/users")
   //     .then(function (response){

@@ -76,8 +76,8 @@ router.post('/', function (req, res, next) {
 	.then(null, next);
 });
 
-//UPDATING USER INFO
-router.put('/', isAuthenticatedUser, function (req, res, next) {
+//RESET USER PASSWORD
+router.put('/reset', isAuthenticatedUser, function (req, res, next) {
 
 	var newPass = req.body.password;
 	var userId = req.user._id;
@@ -86,6 +86,25 @@ router.put('/', isAuthenticatedUser, function (req, res, next) {
 	.exec()
 	.then(function (foundUser) {
 		foundUser.password = newPass;
+		return foundUser.save();
+	})
+	.then(function (updatedUser) {
+		res.sendStatus(204);
+	})
+	.then(null, next);
+
+});
+
+//CHANGE USER NICKNAME
+router.put('/nickname', isAuthenticatedUser, function (req, res, next) {
+
+	var newNickname = req.body.nickname;
+	var userId = req.user._id;
+
+	User.findById(userId)
+	.exec()
+	.then(function (foundUser) {
+		foundUser.nickname = newNickname;
 		return foundUser.save();
 	})
 	.then(function (updatedUser) {
