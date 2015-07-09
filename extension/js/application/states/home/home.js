@@ -1,28 +1,26 @@
 app.config(function ($stateProvider) {
 
-    // Register our *about* state.
     $stateProvider.state('home', {
         url: '/home',
         controller: 'homeController',
-        templateUrl: 'js/application/states/home/home.html'
-        ,resolve: {
+        templateUrl: 'js/application/states/home/home.html',
+        resolve: {
             toggleState: function (BackgroundFactory) {
               return BackgroundFactory.getBackgroundPage().encryptionState.getState();
             }
         }
     });
-
 });
 
 app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState) {
 
 	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
-  $scope.encryptionState = toggleState;
 
+  backgroundPage = BackgroundFactory.getBackgroundPage();
+  $scope.encryptionState = toggleState;
   encryptionOffMessage = 'Encryption is off';
   encryptionOnMessage = 'Encryption is on';
 
-  backgroundPage = BackgroundFactory.getBackgroundPage();
 
   if (toggleState) {
     $scope.stateMsg = encryptionOnMessage;
@@ -34,7 +32,6 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
 
   BackgroundFactory.getUserCircles()
   .then(function (circles) {
-
     $scope.userCircles = circles;
   })
   .then(null, $log.info);
@@ -43,19 +40,11 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
 
     if ($scope.encryptionState) {
       $scope.stateMsg = encryptionOffMessage;
+      chrome.browserAction.setIcon({path: "/red128.png"})
     } else {
       $scope.stateMsg = encryptionOnMessage;
+      chrome.browserAction.setIcon({path: "/green128.png"})
     }
-
-    //FIXME -- This is broken.
-
-    // if (!toggledOn) {
-      
-    //   chrome.browserAction.setIcon({path: "/green128.png"});
-    // } else {
-      
-    //   chrome.browserAction.setIcon({path: "/red128.png"});
-    // }
 
     backgroundPage.encryptionToggle();
 
@@ -66,7 +55,6 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
 
     $scope.currentCircle = selectedCircle.name;
     BackgroundFactory.setSelectedCircle(selectedCircle);
-
   };
 
 });

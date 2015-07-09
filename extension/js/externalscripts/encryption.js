@@ -16,11 +16,13 @@ var encryptedMain = function () {
 	}
 
 	document.addEventListener('set-encryption-circle', function (e) {
+
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
 	});
 
 	document.addEventListener('process-login', function (e) {
+
 		userCircles = e.detail;
 	});
 
@@ -29,11 +31,9 @@ var encryptedMain = function () {
 		encryptionEnabled = false,
 		selectedCircleKey = '',
 		selectedCircleId = '';
-
 	});
 
 	document.addEventListener('update-encryption-state', function (e) {
-		console.log('update-state, encryption', e.detail);
 
 		userCircles = e.detail.userCircles;
 		selectedCircleKey = e.detail.selectedCircle.key;
@@ -45,38 +45,23 @@ var encryptedMain = function () {
 	document.addEventListener('toggle-encryption', function(e) {
 
 		if(!encryptionEnabled) {
-
-			console.log('encryption enabled!');
 			encryptionEnabled = true;
 			
 		} else {
-
-			console.log('encryption disabled!');
 			encryptionEnabled = false;
 		}
 	});
 
-	function shouldWeAlet () {
+	function shouldWeAlert () {
 		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
 	}
-	
-
-		// console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
-		// CHECK FOR OPEN COMPOSE WINDOWS
-		// console.log('in load listener', encryptionEnabled, gmail1.dom.composes().length, !selectedCircleId )
 
 	setTimeout(function () {
-		if (shouldWeAlet()) {
+
+		if (shouldWeAlert()) {
 			alert('Please select a circle!');
 		}
-
 	}, 1000);
-
-	// $(document).ready(function () {
-
-	// });
-
-
 
 	//WHEN COMPOSE WINDOW OPENS, CHECK FOR SELECTED CIRCLE
 	gmail1.observe.on('compose', function (compose, type) {
@@ -108,7 +93,7 @@ var encryptedMain = function () {
 }; //END OF MAIN
 
 function encrypt(text, key, id) {
-	console.log('arguments for encrypt', arguments);
+
 	var temp = "";
 
 	encrypted = CryptoJS.AES.encrypt(text, key);

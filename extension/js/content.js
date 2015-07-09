@@ -15,10 +15,6 @@ var e = document.createElement('script');
 e.src = chrome.extension.getURL('/js/dependencies/aes.js');
 (document.head || document.documentElement).appendChild(e);
 
-// var l = document.createElement('script');
-// l.src = chrome.extension.getURL('/js/dependencies/lodash.js');
-// (document.head || document.documentElement).appendChild(l);
-
 ///////////////////		EXTENSION CODE	///////////////////
 
 $(document).ready(function(){
@@ -27,7 +23,6 @@ $(document).ready(function(){
 	
 	//THIS IS FORWARDING TO BACKGROUND SCRIPT
 	document.addEventListener('get-extension-session-status', function (e) {
-		console.log('get-extension-session-status from content event: ', e)
 		chrome.runtime.sendMessage(extension_id, {message: e.type})
 	});
 
@@ -59,4 +54,3 @@ $(document).ready(function(){
 		}
 	});
 });
-

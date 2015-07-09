@@ -3,11 +3,10 @@ var user = new User();
 
 var encryptionState = new ControlEncryption();
 
-var server = 'http://127.0.0.1:1337'
-
 /////////////////////   USER STATE  /////////////////////
 
 function User (userInfo) {
+
     var myCircles = [],
     email = "",
     nickname = "",
@@ -21,6 +20,7 @@ function User (userInfo) {
     };
     
     this.setLogOutUser = function () {
+
         myCircles = [];
         email = '';
         nickname = '';
@@ -47,6 +47,7 @@ function User (userInfo) {
     };
 
     this.getLoggedInUser = function () {
+
         return {
             myCircles: myCircles,
             email: email,
@@ -104,21 +105,13 @@ function ControlEncryption () {
 
 /////////////////////   LISTEN FOR REFRESH  /////////////////////
 
-// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+chrome.runtime.onMessage.addListener(function (message, sender) {
 
-//     var lastUpdate = updateTime || Date.now();
-//     var updateTime = Date.now();
-
-//     chrome.tabs.get(tabId, function (tab) {
-
-//         if (tab.url.indexOf('mail.google' > -1)) {
-//             //trigger state update
-//             console.log('found a mail.google, triggering updateExtScriptState');
-//             updateExtScriptState()
-//         };
-//     });
-
-// })
+    if (message.message === 'get-extension-session-status') {
+        console.log('inside if statement in bg');
+        updateExtScriptState();
+    }
+});
 
 /////////////////////   HELPER FUNCTIONS  /////////////////////
 function processLogout () {
@@ -131,6 +124,7 @@ function sendSelectedCircle (circle) {
 }
 
 function updateExtScriptState () {
+
     var payload = {
         userCircles: user.getLoggedInUser().myCircles,
         encryptionState: encryptionState.getState(),
@@ -152,10 +146,11 @@ function encryptionToggle () {
 
 function sendToContentScript (command, payload) {
 
-    chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.getSelected(null, function (tab) {
         chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
     });
 }
+
 
 //FOR BLOCKING NON-EMPTY GMAIL EMAILS
 // chrome.webRequest.onBeforeRequest.addListener(
@@ -175,19 +170,23 @@ function sendToContentScript (command, payload) {
 //   );
 
 // MESSAGES COMING FROM CONTENT SCRIPT, TRIGGERED BY EXTERNAL SCRIPTS
-chrome.runtime.onMessage.addListener(function (message, sender) {
-
-    console.log('hit get-extension-session-status in bg. message:', message)
-
-    if (message.message === 'get-extension-session-status') {
-        console.log('inside if statement in bg');
-        updateExtScriptState();
-    }
- 
-});
 
 // function tabGetter () {
 //     chrome.tabs.getSelected(null, function(tab) {
 //       console.log('the tab argument: ', tab);
 //     });
 // }
+
+// LISTENING FOR REFRESH
+// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+//     var lastUpdate = updateTime || Date.now();
+//     var updateTime = Date.now();
+//     chrome.tabs.get(tabId, function (tab) {
+
+//         if (tab.url.indexOf('mail.google' > -1)) {
+//             //trigger state update
+//             console.log('found a mail.google, triggering updateExtScriptState');
+//             updateExtScriptState()
+//         };
+//     });
+// })

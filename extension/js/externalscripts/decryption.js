@@ -13,6 +13,7 @@ var decryptedMain = function () {
 		decryptedBody;
 
 	document.addEventListener('process-logout', function (e) {
+
 		userLoggedIn = false;
 		matches = [];
 		userDecryptionCircles = [];
@@ -20,12 +21,12 @@ var decryptedMain = function () {
 	});
 
 	document.addEventListener('process-login', function (e) {
+
 		userLoggedIn = true;
 		userDecryptionCircles = e.detail;
 	});
 
 	document.addEventListener('update-decryption-state', function (e) {
-		console.log('update-state, decryption', e.detail);
 		
 		userDecryptionCircles = e.detail.userCircles;
 		userLoggedIn = e.detail.isLoggedIn;
@@ -54,21 +55,17 @@ var decryptedMain = function () {
 				encryptedMsg = encryptedMsg.slice(0, -24);
 
 				// matchedKey = _.result(_.find(userDecryptionCircles, '_id', extractedId), 'key');
-				try {
+				if (userDecryptionCircles.length) {
 					matches = userDecryptionCircles.filter(function (circle) {
 						return circle._id == extractedId;
-					})
-				}
-
-				catch (err) {
-					console.log('error; no user logged in.', err)
+					});
 				}
 				
 				if (matches.length) {
 					decryptedBody = decrypt(encryptedMsg, matches[0].key);
 					email.body(decryptedBody + '<h5>' + matches[0].name +' | Decrypted by CryptoVeil</h5>');
 				} else {
-					email.body("<h3>Oops! You're not authorized to view this message. Error #009 StreamOverload Flux</h3><h5>Encrypted by CryptoVeil</h5>")
+					email.body("<h3>Oops! You're not authorized to view this message.</h3><h5>Encrypted by CryptoVeil</h5>");
 				}
 			} 
 		}
