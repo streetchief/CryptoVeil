@@ -60,7 +60,6 @@ router.post('/', function (req, res, next) {
 	if (!User.checkEmailIsUnique(email)) return next();
 
 	User.create(req.body)
-	// .exec()
 	.then(function (createdUser) {
 		
 		console.log('hit router 2', createdUser);

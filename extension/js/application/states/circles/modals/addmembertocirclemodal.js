@@ -1,4 +1,4 @@
-app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalInstance, UserFactory, CircleFactory) {
+app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalInstance, UserFactory) {
 
   $scope.emailToAdd;
   $scope.showAlert = false;
@@ -8,11 +8,8 @@ app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalI
   $scope.ok = function () {
     UserFactory.checkUserByEmail($scope.emailToAdd)
     .then(function(res) {
-      console.log('this is res!!!!!', res)        
         if(res === 'no user') return $scope.showInvalidAlert = true;      
         if(!$scope.emailToAdd) return $scope.showInvalidAlert = true;
-        return CircleFactory.editMember(circleId, $scope.emailToAdd, 'add')
-        .then(function(res) { 
             groups.forEach(function(group){
               $scope.emailToAdd.trim();
           		if(group._id.toString() === circleId) {
@@ -29,7 +26,6 @@ app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalI
         			      }
           		    }
           	 });
-        })
     })          
   }
 
