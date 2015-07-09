@@ -36,6 +36,22 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.then(null, next);
 });
 
+
+//CHECKS BY EMAIL IF THE USER (TO ADD TO THE CIRCLE) IS REGISTERED 
+router.get('/:userEmail', isAuthenticatedUser, function (req, res, next) {
+	
+	User.findOne({email: req.params.userEmail})
+	.exec()
+	.then(function (foundUser) {
+		if(!foundUser) res.send('no user');
+		else {
+			res.send('nope')
+		}
+	})
+	.then(null, next);
+});
+
+
 //REGISTERING A USER
 router.post('/', function (req, res, next) {
 	console.log('hit router', req.body)

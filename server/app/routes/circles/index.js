@@ -79,7 +79,6 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	User.findOne({email: emailToEdit})
 	.exec()
 	.then(function (foundUser) {
-		if(!foundUser) res.send('no user');
 		console.log('this is foundUser', foundUser)
 		userFound = foundUser
 		return Circle.findById(circleId)

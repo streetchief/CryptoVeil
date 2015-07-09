@@ -1,4 +1,4 @@
-app.factory('CircleFactory', function($http) {
+app.factory('CircleFactory', function ($http) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentLoggedUser = backgroundPage.user.getLoggedInUser();
