@@ -30,12 +30,9 @@ var decryptedMain = function () {
 		userDecryptionCircles = e.detail;
 	});
 
-
 	gmail2.observe.on("view_thread", function (thread) {});
 
 	gmail2.observe.on("view_email", function (email) {
-
-		console.log('userLoggedIn', userLoggedIn)
 
 		var email, body, encryptedMsg, extractedId, matchedKey;
 		
@@ -65,8 +62,6 @@ var decryptedMain = function () {
 				catch (err) {
 					console.log('error; no user logged in.', err)
 				}
-
-				console.log('matches: ', matches);
 				
 				if (matches.length) {
 					unhacked = decrypt(encryptedMsg, matches[0].key);

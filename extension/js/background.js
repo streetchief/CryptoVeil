@@ -99,7 +99,11 @@ function processLogin (userCircles) {
     sendToContentScript('process-login', userCircles);
 }
 
+// var encryptionState = false;
+
 function encryptionToggle () {
+    
+    // encryptionState = !encryptionState;
     sendToContentScript('toggle-encryption');
 }
 
