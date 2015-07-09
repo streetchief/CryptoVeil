@@ -2,13 +2,27 @@
     <h3 class="modal-title">Add a user to your circle</h3>
 </div>
 <div class="modal-body">
+    <alert type="danger" ng-if="showInvalidAlert" close="closeAlert()">
+       <p>Please enter a valid user email!</p> 
+       <p>Reminder: only CryptoVeil members can be added.</p>
+    </alert>
+
+    <alert type="danger" ng-if="showAlert" close="closeAlert()">
+       <p>User already exists in this circle, please enter a new user!</p>
+       <p>Reminder: only CryptoVeil members can be added.</p>
+    </alert>
+
+    <alert type="danger" ng-if="showEmailAlert" close="closeAlert()">
+       Please do not add yourself to the circle!
+    </alert>
+
     <div class="input-group">
     <label for="email">Email address</label>
       <input type="text" 
       class="form-control" 
       placeholder="Email" 
       id="email" 
-      data-ng-model="memberToAdd"
+      data-ng-model="emailToAdd"
       class=""
       aria-describedby="basic-addon1">
     </div>

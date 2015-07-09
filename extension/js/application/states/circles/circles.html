@@ -33,7 +33,7 @@
         <!-- </form> -->
 
       	<div class="row" data-ng-repeat="member in group.members">
-      		<div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member._id)"class="glyphicon glyphicon-remove"></span></div>
+      		<div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member.email)"class="glyphicon glyphicon-remove"></span></div>
       	</div>
 
 	    </div>  

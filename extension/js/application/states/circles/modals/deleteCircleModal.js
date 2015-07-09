@@ -2,12 +2,11 @@ app.controller('deleteCircleModalCtrl', function($scope, circleId, $modalInstanc
   // console.log('hit modal controller',product)
 
   $scope.showAlert=true;
-  $scope.circleId = circleId
 
   $scope.ok = function () {
   	// console.log($scope.circleId)
     $scope.showAlert=false;
-    $modalInstance.close($scope.circleId = circleId);
+    $modalInstance.close(circleId);
   };
 
   $scope.cancel = function () {
