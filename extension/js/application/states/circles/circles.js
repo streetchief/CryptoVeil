@@ -93,6 +93,9 @@ BackgroundFactory.checkLoggedIn().then(function(response){
         resolve: {
           circleId: function () {
             return circleId;
+          },
+          groups: function(){
+            return $scope.groups;
           }
         }
       }); // end modal open
