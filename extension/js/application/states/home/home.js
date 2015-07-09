@@ -7,9 +7,9 @@ app.config(function ($stateProvider) {
         resolve: {
             toggleState: function (BackgroundFactory) {
               return BackgroundFactory.getBackgroundPage().encryptionState.getState()
-            }
+            },
 
-            , selectedCircle: function (BackgroundFactory) {
+            selectedCircle: function (BackgroundFactory) {
               return BackgroundFactory.getSelectedCircle();
             }
         }
@@ -18,7 +18,7 @@ app.config(function ($stateProvider) {
 
 app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState, selectedCircle) {
 
-	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
+	var encryptionOffMessage, encryptionOnMessage, backgroundPage;
 
   backgroundPage = BackgroundFactory.getBackgroundPage();
   $scope.encryptionState = toggleState;
