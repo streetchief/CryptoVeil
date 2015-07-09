@@ -20,22 +20,36 @@ app.factory('UserFactory', function ($http) {
 
         checkUserByEmail: function(userEmail) {
             return $http(composeRequest('GET', '/api/users/' + userEmail))
-            .then(function(response){
+            .then(function (response){
                 console.log('checkUserByEmail response', response)
                 return response.data;
             })
         },
+        checkUserByPassword: function(userPassword) {
+            return $http(composeRequest('POST', '/api/users/checkPassword', {password: userPassword}))
+            .then(function (response){
+                console.log('checkUserByPassword response', response)
+                return response.data;
+            })
+        },        
         resetPassword: function(userEmail) {
             return $http(composeRequest('PUT', '/api/users/reset'))
-            .then(function(response){
+            .then(function (response){
                 console.log('resetPassword response', response)
                 return response.data;
             })
         },
         changeNickname: function(userEmail) {
             return $http(composeRequest('PUT', '/api/users/nickname'))
-            .then(function(response){
+            .then(function (response){
                 console.log('changeNickname response', response)
+                return response.data;
+            })
+        },
+        deleteAccount: function() {
+            return $http(composeRequest('DELETE', '/api/users/'))
+            .then(function (response) {
+                console.log('deleteAccount response', response)
                 return response.data;
             })
         }        

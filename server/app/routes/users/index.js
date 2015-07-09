@@ -36,6 +36,22 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.then(null, next);
 });
 
+//CHECKS IF PASSWORD IS CORRECT  
+router.post('/checkPassword', isAuthenticatedUser, function (req, res, next) {
+	
+	User.findOne({email: req.user.email})
+	.exec()
+	.then(function (foundUser) {
+		console.log('this is req.body.password', req.body.password)
+		var result = foundUser.correctPassword(req.body.password);
+		console.log('this is result', result)
+		if(!result) res.send('password does not match');
+		else {
+			res.send('password matches')
+		}
+	})
+	.then(null, next);
+});
 
 //CHECKS BY EMAIL IF THE USER (TO ADD TO THE CIRCLE) IS REGISTERED 
 router.get('/:userEmail', isAuthenticatedUser, function (req, res, next) {
@@ -117,8 +133,6 @@ router.put('/nickname', isAuthenticatedUser, function (req, res, next) {
 // TODO -- add functionality
 //DELETE YOUR ACCOUNT
 router.delete('/', isAuthenticatedUser, function (req, res, next) {
-
-		// Let the circle live (probably)
-		// Promote some member (who?) to creator
-		// Option to change key/destroy all sent messages
+		// check if user is creator of any circles, then transfer ownership
+		// check if user is member of any circles, then leave the circles (and delete that user from all the circles)
 });
