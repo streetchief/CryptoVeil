@@ -5,40 +5,57 @@ app.config(function ($stateProvider) {
         url: '/home',
         controller: 'homeController',
         templateUrl: 'js/application/states/home/home.html'
-        // ,resolve: {
-        //     userCircles: function (BackgroundFactory) {
-        //       return BackgroundFactory.getUserCircles(); 
-        //     }
-        // }
+        ,resolve: {
+            toggleState: function (BackgroundFactory) {
+              return BackgroundFactory.getBackgroundPage().encryptionState.getState();
+            }
+        }
     });
 
 });
 
-app.controller('homeController', function ($scope, BackgroundFactory, $log) {
+app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState) {
 
-	var decryptionEngaged, googleEncryptionOn;
+	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
+  $scope.encryptionState = toggleState;
 
-  var backgroundPage = BackgroundFactory.getBackgroundPage();
-  
-  $scope.googleEncryptionOn = 0;
+  encryptionOffMessage = 'Encryption is off';
+  encryptionOnMessage = 'Encryption is on';
+
+  backgroundPage = BackgroundFactory.getBackgroundPage();
+
+  if (toggleState) {
+    $scope.stateMsg = encryptionOnMessage;
+  } else {
+    $scope.stateMsg = encryptionOffMessage;
+  }
 
   $scope.currentCircle = 'Your Circle';
 
-  BackgroundFactory.getUserCircles().then(function (circles) {
-    $scope.userCircles = circles;
-  }).then(null, $log.info);
+  BackgroundFactory.getUserCircles()
+  .then(function (circles) {
 
-  $scope.encryptionToggle = function (toggledOn) {
+    $scope.userCircles = circles;
+  })
+  .then(null, $log.info);
+
+  $scope.encryptionToggle = function () {
+
+    if ($scope.encryptionState) {
+      $scope.stateMsg = encryptionOffMessage;
+    } else {
+      $scope.stateMsg = encryptionOnMessage;
+    }
 
     //FIXME -- This is broken.
 
-    if (!toggledOn) {
+    // if (!toggledOn) {
       
-      chrome.browserAction.setIcon({path: "/green128.png"});
-    } else {
+    //   chrome.browserAction.setIcon({path: "/green128.png"});
+    // } else {
       
-      chrome.browserAction.setIcon({path: "/red128.png"});
-    }
+    //   chrome.browserAction.setIcon({path: "/red128.png"});
+    // }
 
     backgroundPage.encryptionToggle();
 
@@ -51,7 +68,5 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log) {
     BackgroundFactory.setSelectedCircle(selectedCircle);
 
   };
-
-  // backgroundPage.tabGetter();
 
 });

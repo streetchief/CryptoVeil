@@ -9,14 +9,14 @@
 	<div class="row">
 		<div class="col-lg-3">
 		    <button
-		    data-ng-click="encryptionToggle(googleEncryptionOn)" 
+		    ng-model="encryptionState"
 		    type="button" 
 		    class="btn btn-default"
-		    ng-model="googleEncryptionOn" 
 		    btn-checkbox 
-		    btn-checkbox-true="1" 
-		    btn-checkbox-false="0">
-	        Encryption: {{googleEncryptionOn}}
+		    btn-checkbox-true="true" 
+		    btn-checkbox-false="false"
+		    data-ng-click="encryptionToggle()">
+		    {{stateMsg}}
 		    </button>
 		</div>
 	</div>
