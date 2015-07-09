@@ -86,6 +86,7 @@ function User (userInfo) {
 
 
 function processLogout () {
+    toggle.turnOff();
     sendToContentScript('process-logout');
 }
 
@@ -101,10 +102,14 @@ function ControlEncryption () {
 
     var toggleState = false; 
 
+    this.toggle = function () {
+        toggleState = !toggleState;
+    }
+
     this.turnOff = function () {
         toggleState = false;
     }
-    
+
     this.turnOn = function () {
         toggleState = true;      
     }
@@ -115,9 +120,9 @@ function ControlEncryption () {
 }
 
 function encryptionToggle () {
-    console.log('before', toggleState)
-    toggleState = !toggleState;
-    console.log('after', toggleState)
+    
+    toggle.toggle();
+    
     sendToContentScript('toggle-encryption');
 }
 

@@ -7,7 +7,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/application/states/home/home.html'
         ,resolve: {
             toggleState: function (BackgroundFactory) {
-              return BackgroundFactory.getBackgroundPage().toggleState; 
+              return BackgroundFactory.getBackgroundPage().toggle.getState();
             }
         }
     });
@@ -17,17 +17,17 @@ app.config(function ($stateProvider) {
 app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState) {
 
 	var decryptionEngaged, encryptionOffMessage, encryptionOnMessage, backgroundPage;
-  $scope.encryptionState;
+  $scope.encryptionState = toggleState;
 
   encryptionOffMessage = 'Encryption is off';
   encryptionOnMessage = 'Encryption is on';
 
   backgroundPage = BackgroundFactory.getBackgroundPage();
 
-  if (backgroundPage.toggleState) {
-    $scope.stateMsg = encryptionOffMessage;
-  } else {
+  if (toggleState) {
     $scope.stateMsg = encryptionOnMessage;
+  } else {
+    $scope.stateMsg = encryptionOffMessage;
   }
 
   $scope.currentCircle = 'Your Circle';
