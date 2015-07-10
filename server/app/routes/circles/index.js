@@ -34,12 +34,13 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	Circle
 	.create(circleToCreate)
 	.then(function(circle){
-		console.log('circle created', circle)
+		console.log('circle created', circle);
 		req.user.myCircles.unshift(circle._id);
-		return req.user.save()
+		req.user.save();
+		return circle;
 	})
-	.then(function(user){
-		console.log('user add circle', user, circle)
+	.then(function(circle){
+		console.log('user add circle', req.user, circle);
 		res.json(circle);
 	}).then(null, next);
 
