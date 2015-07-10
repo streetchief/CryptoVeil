@@ -95,13 +95,13 @@ router.post('/', function (req, res, next) {
 //RESET USER PASSWORD
 router.put('/reset', isAuthenticatedUser, function (req, res, next) {
 
-	var newPass = req.body.password;
+	var newPassword = req.body.password;
 	var userId = req.user._id;
 
 	User.findById(userId)
 	.exec()
 	.then(function (foundUser) {
-		foundUser.password = newPass;
+		foundUser.password = newPassword;
 		return foundUser.save();
 	})
 	.then(function (updatedUser) {
@@ -135,4 +135,5 @@ router.put('/nickname', isAuthenticatedUser, function (req, res, next) {
 router.delete('/', isAuthenticatedUser, function (req, res, next) {
 		// check if user is creator of any circles, then transfer ownership
 		// check if user is member of any circles, then leave the circles (and delete that user from all the circles)
+	
 });

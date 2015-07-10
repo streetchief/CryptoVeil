@@ -32,20 +32,23 @@ app.factory('UserFactory', function ($http) {
                 return response.data;
             })
         },        
-        resetPassword: function(userEmail) {
-            return $http(composeRequest('PUT', '/api/users/reset'))
+        resetPassword: function(userPassword) {
+            return $http(composeRequest('PUT', '/api/users/reset', {password: userPassword}))
             .then(function (response){
                 console.log('resetPassword response', response)
                 return response.data;
             })
         },
-        changeNickname: function(userEmail) {
-            return $http(composeRequest('PUT', '/api/users/nickname'))
+        changeNickname: function(userNickname) {
+            return $http(composeRequest('PUT', '/api/users/nickname', {nickname: userNickname}))
             .then(function (response){
                 console.log('changeNickname response', response)
                 return response.data;
             })
         },
+        promoteUser: function(userId) {
+            // return $http(composeRequest('PUT', '/api/users/promote', {creator:}))
+        }, 
         deleteAccount: function() {
             return $http(composeRequest('DELETE', '/api/users/'))
             .then(function (response) {

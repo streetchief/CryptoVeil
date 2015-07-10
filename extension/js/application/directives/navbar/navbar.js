@@ -14,6 +14,9 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             ];
 
             scope.user;
+            $rootScope.$on('nicknameChange', function (event, nickname) {
+                scope.user.nickname = nickname;
+            })
 
             scope.logout = function () {
                 BackgroundFactory.logOutUser()

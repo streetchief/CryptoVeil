@@ -16,36 +16,88 @@ app.config(function ($stateProvider) {
     $stateProvider.state('resetPassword', {
         url: '/password',
         controller: 'passwordController',
-        templateUrl: 'js/application/states/account/password.html'
+        templateUrl: 'js/application/states/account/new-password.html'
     });
 
     $stateProvider.state('checkPassword', {
-        url: '/delete',
+        url: '/check',
         controller: 'checkPasswordController',
-        templateUrl: 'js/application/states/account/delete-password.html'
+        templateUrl: 'js/application/states/account/check-password.html',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name
+              };
+              return currentStateData;
+            }
+          ]
+        }
+    });
+
+    $stateProvider.state('deleteProceed', {
+        url: '/deleteProceed',
+        controller: 'deleteProceedController',
+        templateUrl: 'js/application/states/account/delete-confirm.html'
     });
 
     $stateProvider.state('deleteAccount', {
         url: '/deleteAccount',
         controller: 'deleteAccountController',
         templateUrl: 'js/application/states/account/delete-submit.html'
-    });    
+    });     
 });
 
 app.controller('accountController', function ($scope, $state) {
 
 });
 
-app.controller('nicknameController', function ($scope, UserFactory) {
-
-});
-
-app.controller('passwordController', function ($scope, UserFactory) {
-
-});
-
-app.controller('checkPasswordController', function ($scope, $state, UserFactory) {
+app.controller('nicknameController', function ($rootScope, $scope, $state, UserFactory, BackgroundFactory) {
   
+  var backgroundPage = chrome.extension.getBackgroundPage();
+  var currentUser = backgroundPage.user;        
+  
+  $scope.sendNickname = function (nickname) {
+    UserFactory.changeNickname(nickname)
+    .then(function(res) {
+      $rootScope.$broadcast('nicknameChange', nickname)
+      })
+    .then(function(e) {
+      $state.go('home');      
+    })
+    .catch(function(err) {
+      console.log('error', err);
+    })
+  }
+});
+
+app.controller('passwordController', function ($scope, $state, UserFactory) {
+
+  $scope.alert = false;
+
+  $scope.sendNewPassword = function (password) {
+    UserFactory.resetPassword(password)
+    .then(function(res) {
+      if(res === 'password invalid') {
+        return $scope.alert = true;
+      } else {
+        $state.go('home');
+      }
+    })
+    .catch(function(err) {
+      console.log('error', err);
+    })
+  }
+
+  $scope.closeAlert = function() {
+      $scope.alert = false;
+  };  
+});
+
+app.controller('checkPasswordController', function ($scope, $state, UserFactory, PreviousState) {
+
+
   $scope.alert = false;
 
   $scope.sendPassword = function (password) {
@@ -54,9 +106,13 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory)
       console.log('this is res')
       if(res === 'password does not match') {        
         return $scope.alert = true;              
-        console.log('Oops, your password does not match.');
       } else {
-        $state.go('deleteAccount');
+        if(PreviousState === 'deleteProceed') {
+          $state.go('deleteAccount')
+        }
+        else {          
+          $state.go('deleteAccount');
+        }
       }
     })
     .catch(function(err) {
@@ -69,6 +125,9 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory)
   };  
 })
 
+app.controller('deleteProceedController', function ($scope, $state) {
+
+});
 
 app.controller('deleteAccountController', function ($scope, UserFactory) {
 
