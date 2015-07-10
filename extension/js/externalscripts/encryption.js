@@ -8,6 +8,7 @@ var encryptedMain = function () {
 		selectedCircleId,
 		encryptionEnabled = false,
 		userCircles,
+		userLoggedIn,
 		noCircleMsg = '<div dir="ltr">This message has been deleted' + 
 	  	' because an encryption circle was not selected</div>';
 
@@ -27,18 +28,20 @@ var encryptedMain = function () {
 	});
 
 	document.addEventListener('process-login', function (e) {
+		userLoggedIn = true;
 		userCircles = e.detail;
 	});
 
 	document.addEventListener('process-logout', function (e) {
 
+		userLoggedIn = false;
 		encryptionEnabled = false,
 		selectedCircleKey = '',
 		selectedCircleId = '';
 	});
 
 	document.addEventListener('update-encryption-state', function (e) {
-
+		
 		userCircles = e.detail.userCircles;
 		selectedCircleKey = e.detail.selectedCircle.key;
 		selectedCircleId = e.detail.selectedCircle._id;
@@ -60,6 +63,16 @@ var encryptedMain = function () {
 		if (encryptionEnabled && !selectedCircleId) {
 			alert('Please select a circle!');
 		}
+
+		console.log('compose arg: ', compose);
+		console.log('compose arg textContent: ', compose.$el[1].context.textContent)
+
+		// if (userLoggedIn) {
+		// 	var currentPage = gmail1.get.current_page();
+		// 	if (currentPage === 'drafts') {
+		// 		console.log('grab compose body')
+		// 	}
+		// }
 	});
 
 	setTimeout(function () {
@@ -79,6 +92,11 @@ var encryptedMain = function () {
 
 	  	data.body = noCircleMsg;
 	  }
+	});
+
+	gmail1.observe.on('http_event', function (e) {
+		console.log('the http event: ', e);
+		console.log('current_page: ', gmail1.get.current_page())
 	});
 	
 	gmail1.observe.before('send_message', function(url, body, data, xhr){
