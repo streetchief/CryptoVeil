@@ -58,10 +58,10 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
 
   };// End encryptionToggle
 
-  $scope.setDecryptionCircle = function (selectedCircle) {
+  $scope.setEncryptionCircle = function (pickedCircle) {
 
-    $scope.currentCircle = selectedCircle.name;
-    BackgroundFactory.setSelectedCircle(selectedCircle);
+    $scope.currentCircle = pickedCircle.name;
+    BackgroundFactory.setSelectedCircle(pickedCircle);
   };
 
 });
