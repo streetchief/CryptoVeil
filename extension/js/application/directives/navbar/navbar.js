@@ -42,11 +42,6 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             };
 
             showUserOnNavbar();
-
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
-
         }
     };
 });

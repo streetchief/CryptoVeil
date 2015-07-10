@@ -97,7 +97,6 @@ app.controller('passwordController', function ($scope, $state, UserFactory) {
 
 app.controller('checkPasswordController', function ($scope, $state, UserFactory, PreviousState) {
 
-
   $scope.alert = false;
 
   $scope.sendPassword = function (password) {
@@ -111,7 +110,7 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory,
           $state.go('deleteAccount')
         }
         else {          
-          $state.go('deleteAccount');
+          $state.go('resetPassword');
         }
       }
     })
