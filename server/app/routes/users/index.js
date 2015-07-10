@@ -42,9 +42,7 @@ router.post('/checkPassword', isAuthenticatedUser, function (req, res, next) {
 	User.findOne({email: req.user.email})
 	.exec()
 	.then(function (foundUser) {
-		console.log('this is req.body.password', req.body.password)
 		var result = foundUser.correctPassword(req.body.password);
-		console.log('this is result', result)
 		if(!result) res.send('password does not match');
 		else {
 			res.send('password matches')
