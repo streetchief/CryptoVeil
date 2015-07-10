@@ -7,7 +7,9 @@ var encryptedMain = function () {
 	var selectedCircleKey,
 		selectedCircleId,
 		encryptionEnabled = false,
-		userCircles;
+		userCircles,
+		noCircleMsg = '<div dir="ltr">This message has been deleted' + 
+	  	' because an encryption circle was not selected</div>';
 
 	sendToContentScript('get-extension-session-status');
 
@@ -15,14 +17,16 @@ var encryptedMain = function () {
 		document.dispatchEvent(new Event(command));
 	}
 
-	document.addEventListener('set-encryption-circle', function (e) {
+	function shouldWeAlert () {
+		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
+	}
 
+	document.addEventListener('set-encryption-circle', function (e) {
 		selectedCircleKey = e.detail.key;
 		selectedCircleId = e.detail._id;
 	});
 
 	document.addEventListener('process-login', function (e) {
-
 		userCircles = e.detail;
 	});
 
@@ -39,22 +43,24 @@ var encryptedMain = function () {
 		selectedCircleKey = e.detail.selectedCircle.key;
 		selectedCircleId = e.detail.selectedCircle._id;
 		encryptionEnabled = e.detail.encryptionState;
-
 	});
 
-	document.addEventListener('toggle-encryption', function(e) {
+	document.addEventListener('toggle-encryption', function (e) {
 
 		if(!encryptionEnabled) {
 			encryptionEnabled = true;
-			
 		} else {
 			encryptionEnabled = false;
 		}
 	});
 
-	function shouldWeAlert () {
-		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
-	}
+	//WHEN COMPOSE WINDOW OPENS, CHECK FOR SELECTED CIRCLE
+	gmail1.observe.on('compose', function (compose, type) {
+
+		if (encryptionEnabled && !selectedCircleId) {
+			alert('Please select a circle!');
+		}
+	});
 
 	setTimeout(function () {
 
@@ -63,13 +69,16 @@ var encryptedMain = function () {
 		}
 	}, 1000);
 
-	//WHEN COMPOSE WINDOW OPENS, CHECK FOR SELECTED CIRCLE
-	gmail1.observe.on('compose', function (compose, type) {
+	gmail1.observe.before("save_draft", function(url, body, data, xhr) {
 
-		if (encryptionEnabled && !selectedCircleId) {
-			alert('Please select a circle!');
-		}
-		
+	  if (encryptionEnabled && selectedCircleId) {
+	  	
+	  	data.body = encrypt(data.body, selectedCircleKey, selectedCircleId);
+
+	  } else if (encryptionEnabled && !selectedCircleId){
+
+	  	data.body = noCircleMsg;
+	  }
 	});
 	
 	gmail1.observe.before('send_message', function(url, body, data, xhr){
@@ -78,18 +87,13 @@ var encryptedMain = function () {
 
 		if (encryptionEnabled && selectedCircleId) {
 
-			body_params = xhr.xhrParams.body_params;
-			body_params.body = encrypt(body_params.body, selectedCircleKey, selectedCircleId);
+			data.body = encrypt(data.body, selectedCircleKey, selectedCircleId);
 
 		} else if (encryptionEnabled && !selectedCircleId){
 
-			body_params = xhr.xhrParams.body_params;
-			body_params.body = '<div dir="ltr">This message has been deleted' + 
-			' because an encryption circle was not selected</div>';
+			data.body = noCircleMsg;
 		}
-
 	});
-
 }; //END OF MAIN
 
 function encrypt(text, key, id) {
