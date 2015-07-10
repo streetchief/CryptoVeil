@@ -89,20 +89,20 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		userFound = foundUser
 		return Circle.findById(circleId)
 			.then(function(circle){
-				console.log('found circle', circle)
+				console.log('found circle', circle, foundUser)
 				if(editMode.toString() === 'delete') {
 					console.log('hit delete router')
 					circle.members.pull(foundUser._id)
 					return circle;
 
 				} else {
-					console.log('hit add router')
 					circle.members.push(foundUser._id)
+					console.log('hit add router', circle.members, foundUser._id)
 					return circle;
 				}
 			})
 			.then(function(circle){
-				console.log('hit circle', circle)	
+				console.log('hit circle added member to circle', circle)	
 				circleFound = circle
 				return circle.save();
 			}) 
@@ -110,10 +110,11 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	.then(function (circleReturned) {
 		console.log('this is the userFound', userFound)
 		if(editMode.toString() === 'delete') {
-			userFound.myCircles.pull(userFound._id);
+			userFound.myCircles.pull(circleFound._id);
 			return userFound			
 		} else {
-			userFound.myCircles.push(userFound._id);
+			userFound.myCircles.push(circleFound._id);
+			console.log('hit user, adding circle to user')
 			return userFound
 		}
 	})
