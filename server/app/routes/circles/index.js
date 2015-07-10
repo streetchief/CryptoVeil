@@ -34,13 +34,13 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	Circle
 	.create(circleToCreate)
 	.then(function(circle){
-		console.log('circle created', circle);
+		// console.log('circle created', circle);
 		req.user.myCircles.unshift(circle._id);
 		req.user.save();
 		return circle;
 	})
 	.then(function(circle){
-		console.log('user add circle', req.user, circle);
+		// console.log('user add circle', req.user, circle);
 		res.json(circle);
 	}).then(null, next);
 
@@ -123,12 +123,13 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 // DELETE A CIRCLE
 router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	var circleId = req.params.circleId;	
+
 	Circle.findById(circleId)
 	.populate('creator members')
 	.exec()
 	.then(function (circle) {
 		if (circle.creator._id.toString() !== req.user._id.toString()) {
-			res.sendStatus(403)
+			res.sendStatus(403);
 		} else {
 			var promiseArr = [];
 			circle.members.forEach(function (member) {
@@ -140,8 +141,8 @@ router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 				return Circle.findByIdAndRemove(circle._id).exec();
 			})
 			.then(function (deletedCircle) {
-				console.log('the circle deleted', deletedCircle, req.user)
-				return req.user.myCircles.splice(req.user.myCircles.indexOf(deletedCircle._id), 1);
+				console.log('the circle deleted', deletedCircle, req.user);
+				return req.user.myCircles.splice(req.user.myCircles.indexOf(circle._id), 1);
 			})
 			.then(function(user){
 				console.log('the deleted circle user', req.user)
