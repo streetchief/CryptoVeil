@@ -37,10 +37,10 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 		console.log('circle created', circle)
 		req.user.myCircles.unshift(circle._id);
 		return req.user.save()
-		.then(function(user){
+	})
+	.then(function(user){
 		console.log('user add circle', user, circle)
-			res.json(circle);
-		});
+		res.json(circle);
 	}).then(null, next);
 
 });
@@ -139,6 +139,12 @@ router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 				return Circle.findByIdAndRemove(circle._id).exec();
 			})
 			.then(function (deletedCircle) {
+				console.log('the circle deleted', deletedCircle, req.user)
+				return req.user.myCircles.splice(req.user.myCircles.indexOf(deletedCircle._id), 1);
+			})
+			.then(function(user){
+				console.log('the deleted circle user', req.user)
+				req.user.save();
 				res.sendStatus(204);
 			})
 		}

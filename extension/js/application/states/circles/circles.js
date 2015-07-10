@@ -22,25 +22,17 @@ BackgroundFactory.checkLoggedIn()
   BackgroundFactory.getUserCircles().then(function(circlesInfo){
     var own = [], part = [];
 
-    $log.info('this is circle info on circle.js', circlesInfo, user)
+    $log.info('this is user on front', circlesInfo, user)
 
     for(var i=0; i<circlesInfo.length; i++){
-
-      console.log(circlesInfo[i], typeof circlesInfo[i].creator._id, typeof user._id)
-
-      if(circlesInfo[i].creator._id === $scope.user._id) { 
-        
-        own.push(circlesInfo[i])
-        console.log('hit if func own', own)
-
-      }else {part.push(circlesInfo[i]); console.log('hit else func part', part);}
+      if(circlesInfo[i].creator._id === $scope.user._id) own.push(circlesInfo[i])
+      else part.push(circlesInfo[i]);
     }
     $scope.groups.owned = own;
     $scope.groups.part = part;
-    console.log('this is circles', $scope.groups)
+    console.log('this is circles on front', $scope.groups)
     return $scope.groups
-  })
-  
+  })  
 })
 .then(null, function(err){
   throw new Error('Error retrieving user and group data from factory')
@@ -66,7 +58,7 @@ BackgroundFactory.checkLoggedIn()
       CircleFactory.createCircle(circleName)
       .then(function(res){
         $log.info('hit modal createcircle', res)
-        $scope.groups.owned.unshift(res);
+        return $scope.groups.owned.unshift(res);
       })
       .then(null, function(err){
         $log.info('Modal dismissed at: ' + new Date());
@@ -94,8 +86,8 @@ BackgroundFactory.checkLoggedIn()
       CircleFactory.deleteCircle(circleId)
       .then(function(stat){
           $log.info('recieved from modal',circleId)
-          for(var i=0; i<$scope.groups.length; i++){
-            if($scope.groups[i]._id === circleId) $scope.groups.splice(i,1);
+          for(var i=0; i<$scope.groups.owned.length; i++){
+            if($scope.groups.owned[i]._id === circleId) $scope.groups.owned.splice(i,1);
           }     
       }) 
       .then(null,  function () {
