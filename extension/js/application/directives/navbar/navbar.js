@@ -9,12 +9,15 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'Manage Circles', state: 'circles' },
-                { label: 'Account Management', state: 'account' },
-                { label: 'Register', state: 'register' }
+                { label: 'Account Management', state: 'account' }
             ];
 
             scope.user;
-
+            $rootScope.$on('nicknameChange', function (event, nickname) {
+                if (scope.user) {
+                    scope.user.nickname = nickname;
+                };
+            })
             scope.logout = function () {
                 BackgroundFactory.logOutUser()
                 .then(function (statusCode) {
@@ -39,11 +42,6 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             };
 
             showUserOnNavbar();
-
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
-
         }
     };
 });
