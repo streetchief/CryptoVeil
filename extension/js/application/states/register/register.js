@@ -8,23 +8,31 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('registerController', function ($scope, BackgroundFactory, $state, $rootScope) {
+app.controller('registerController', function ($scope, BackgroundFactory, $state, $rootScope, UserFactory) {
 
     var backgroundPage = BackgroundFactory.getBackgroundPage();
     var currentUser = backgroundPage.user;
 
     $scope.register = {};
-    $scope.error = null;
+    $scope.userExistError = false;
+    $scope.passwordError = false;
+    $scope.emailAddressError = false;
 
     $scope.createUser = function (signUpInfo) {
-
-        $scope.error = null;
-
-        BackgroundFactory.registerUser(signUpInfo)
-        .then(function(userInfo) {
-            currentUser.setLoggedInUser(signUpInfo);
-            $rootScope.isLoggedIn = true;            
-            $state.go('home')
+        
+        if(!/@/.test(signUpInfo.email)) return $scope.emailAddressError = true;
+        if(signUpInfo.password.length < 10) return $scope.passwordError = true;
+        UserFactory.checkUserByEmail(signUpInfo.email)
+        .then(function(response) {
+            if(response === 'exists') return $scope.userExistError = true;
+            else {
+                BackgroundFactory.registerUser(signUpInfo)
+                .then(function(userInfo) {
+                    currentUser.setLoggedInUser(signUpInfo);
+                    $rootScope.isLoggedIn = true;            
+                    $state.go('home')
+                })
+            }
         })
         .catch(function(err) {
             console.log(err);

@@ -11,10 +11,16 @@
     <div id='register-form'>
         <h2>Register Here</h2>
         <form id="register-form"name="registerForm" ng-submit="registerForm.$valid && createUser(register)">
-
-<!--             <alert type="danger" ng-show="error">
-                {{ error }}
-            </alert> -->
+            
+            <alert type="danger" ng-if="userExistError" close="closeAlert()">
+               <p>The email you entered is already registered.</p>
+            </alert>
+            <alert type="danger" ng-if="emailAddressError" close="closeAlert()">
+               <p>Please check again if this is a valid email address.</p>
+            </alert>
+            <alert type="danger" ng-if="passwordError" close="closeAlert()">
+               <p>Please enter a password with more than 10 characters.</p>
+            </alert>
             
             <div class="form-group">
                 <label for="nickname" class='input-fields'>Nickname</label>
