@@ -40,12 +40,9 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 			return user.myCircles.unshift(circle._id);
 		})
 		.then(function(user){
-			return user.save;
+			user.save();
+			return user;
 		})
-		return circle;
-	})
-	.then(function(circle){
-		// console.log('user add circle', req.user, circle);
 		res.json(circle);
 	})
 	.then(null, next);
@@ -111,17 +108,17 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		console.log('this is the userFound', userFound)
 		if(editMode.toString() === 'delete') {
 			userFound.myCircles.pull(circleFound._id);
-			return userFound			
+			return userFound;			
 		} else {
 			userFound.myCircles.push(circleFound._id);
-			console.log('hit user, adding circle to user')
-			return userFound
+			console.log('hit user, adding circle to user');
+			return userFound;
 		}
 	})
 	.then(function(userFound){
 		userFound.save();
 		console.log('last user', userFound)
-		res.send(userFound)
+		res.send(userFound);
 	})
 	.then(null, next);
 });

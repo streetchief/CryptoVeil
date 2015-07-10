@@ -19,7 +19,8 @@ BackgroundFactory.checkLoggedIn()
   return $scope.user = response.user;
 })
 .then(function(user){
-  BackgroundFactory.getUserCircles().then(function(circlesInfo){
+  BackgroundFactory.getUserCircles()
+  .then(function(circlesInfo){
     var own = [], part = [];
 
     $log.info('this is user on front', circlesInfo, user)
@@ -29,10 +30,19 @@ BackgroundFactory.checkLoggedIn()
       else part.push(circlesInfo[i]);
     }
     $scope.groups.owned = own;
-    $scope.groups.part = part;
     console.log('this is circles on front', $scope.groups)
-    return $scope.groups
-  })  
+    return part
+  })
+  .then(function(partCircle){
+    partCircle.forEach(function(circle){
+      for(var i=0; i<circle.members.length; i++){
+        if(circle.members[i]._id === $scope.user._id){
+          circle.members.splice(i,1)
+        }
+      }
+    })
+    return $scope.groups.part = partCircle;
+  }) 
 })
 .then(null, function(err){
   throw new Error('Error retrieving user and group data from factory')
@@ -161,5 +171,34 @@ BackgroundFactory.checkLoggedIn()
         
       })
   }
+
+/*************************************/
+  $scope.leaveCircle = function(circleId) {
+
+    var modalInstance = $modal.open({
+      animation: true,
+      templateUrl: 'js/application/states/circles/modals/deleteCircleModal.html',
+      controller: 'deleteCircleModalCtrl',
+      size: 'sm',
+      resolve: {
+          circleId: function () {
+            return circleId;
+          }
+        }
+    }); // end modal open
+
+  //   modalInstance.result.then(function (circleId) {
+  //     CircleFactory.deleteCircle(circleId)
+  //     .then(function(stat){
+  //         $log.info('recieved from modal',circleId)
+  //         for(var i=0; i<$scope.groups.owned.length; i++){
+  //           if($scope.groups.owned[i]._id === circleId) $scope.groups.owned.splice(i,1);
+  //         }     
+  //     }) 
+  //     .then(null,  function () {
+  //       $log.info('Modal dismissed at: ' + new Date());
+  //     });
+  // })
+}; // end $scope.deleteCircle
 
 });

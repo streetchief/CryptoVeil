@@ -51,10 +51,10 @@
             <div class="row">
               <div class="col-lg-2">
                 <accordion-heading>
-                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }}
+                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }} --- Owner: <b><i>{{group.creator.nickname}}</i></b>
                   <div class="btn-group pull-right">
                     <button class="btn btn-default btn-xs"
-                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)">Leave Group</button>
+                    data-ng-click="$event.stopPropagation() || leaveGroup(group._id)">Leave Group</button>
                   </div>
                 </accordion-heading>
               </div>
