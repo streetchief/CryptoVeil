@@ -111,7 +111,7 @@ BackgroundFactory.checkLoggedIn()
             return circleId;
           },
           groups: function(){
-            return $scope.groups;
+            return $scope.groups.owned;
           }
         }
       }); // end modal open
@@ -119,7 +119,7 @@ BackgroundFactory.checkLoggedIn()
     modalInstance.result.then(function (memberEmail) {
       CircleFactory.editMember(circleId, memberEmail, 'add')
       .then(function(newMember){
-        $scope.groups.forEach(function (group) {
+        $scope.groups.owned.forEach(function (group) {
           if (group._id.toString() === circleId) {
             group.members.push(newMember)
           };
@@ -149,11 +149,11 @@ BackgroundFactory.checkLoggedIn()
   $scope.deleteMember = function(circleId, memEmail){
     CircleFactory.editMember(circleId, memEmail, 'delete')
       .then(function(newMember){
-        for(var i=0; i<$scope.groups.length; i++){
-          if($scope.groups[i]._id === circleId){
-            for(var j=0; j<$scope.groups[i].members.length; j++){
-              if($scope.groups[i].members[j]._id === newMember._id){
-                $scope.groups[i].members.splice(j,1);
+        for(var i=0; i<$scope.groups.owned.length; i++){
+          if($scope.groups.owned[i]._id === circleId){
+            for(var j=0; j<$scope.groups.owned[i].members.length; j++){
+              if($scope.groups.owned[i].members[j]._id === newMember._id){
+                $scope.groups.owned[i].members.splice(j,1);
               }
             }
           }

@@ -35,15 +35,20 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	.create(circleToCreate)
 	.then(function(circle){
 		// console.log('circle created', circle);
-		req.user.myCircles.unshift(circle._id);
-		req.user.save();
+		User.findById(userId)
+		.then(function(user){
+			return user.myCircles.unshift(circle._id);
+		})
+		.then(function(user){
+			return user.save;
+		})
 		return circle;
 	})
 	.then(function(circle){
 		// console.log('user add circle', req.user, circle);
 		res.json(circle);
-	}).then(null, next);
-
+	})
+	.then(null, next);
 });
 
 // ADD USER TO A CIRCLE
@@ -101,7 +106,6 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 				circleFound = circle
 				return circle.save();
 			}) 
-		// return foundUser;
 	})
 	.then(function (circleReturned) {
 		console.log('this is the userFound', userFound)
@@ -117,7 +121,8 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		userFound.save();
 		console.log('last user', userFound)
 		res.send(userFound)
-	}, next);
+	})
+	.then(null, next);
 });
 
 // DELETE A CIRCLE
@@ -142,11 +147,15 @@ router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 			})
 			.then(function (deletedCircle) {
 				console.log('the circle deleted', deletedCircle, req.user);
-				return req.user.myCircles.splice(req.user.myCircles.indexOf(circle._id), 1);
+				return User.findById(req.user._id)
+				.then(function(user){
+					return user.myCircles.splice(user.myCircles.indexOf(circle._id), 1);
+				})
+
 			})
 			.then(function(user){
-				console.log('the deleted circle user', req.user)
-				req.user.save();
+				console.log('the deleted circle user', user, req.user)
+				user.save();
 				res.sendStatus(204);
 			})
 		}
