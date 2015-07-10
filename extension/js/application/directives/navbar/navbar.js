@@ -9,8 +9,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'Manage Circles', state: 'circles' },
-                { label: 'Account Management', state: 'account' },
-                { label: 'Register', state: 'register' }
+                { label: 'Account Management', state: 'account' }
             ];
 
             scope.user;

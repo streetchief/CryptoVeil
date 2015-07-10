@@ -102,16 +102,15 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory,
   $scope.sendPassword = function (password) {
     UserFactory.checkUserByPassword(password)
     .then(function(res) {
-      console.log('this is res')
       if(res === 'password does not match') {        
         return $scope.alert = true;              
       } else {
-        if(PreviousState === 'deleteProceed') {
-          $state.go('deleteAccount')
-        }
-        else {          
-          $state.go('resetPassword');
-        }
+          if(PreviousState.Name === 'deleteProceed') {
+            $state.go('deleteAccount')
+          }
+          else {          
+            $state.go('resetPassword');
+          }
       }
     })
     .catch(function(err) {
