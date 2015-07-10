@@ -1,57 +1,67 @@
 app.config(function ($stateProvider) {
 
-    // Register our *about* state.
     $stateProvider.state('home', {
         url: '/home',
         controller: 'homeController',
-        templateUrl: 'js/application/states/home/home.html'
-        // ,resolve: {
-        //     userCircles: function (BackgroundFactory) {
-        //       return BackgroundFactory.getUserCircles(); 
-        //     }
-        // }
-    });
+        templateUrl: 'js/application/states/home/home.html',
+        resolve: {
+            toggleState: function (BackgroundFactory) {
+              return BackgroundFactory.getBackgroundPage().encryptionState.getState()
+            },
 
+            selectedCircle: function (BackgroundFactory) {
+              return BackgroundFactory.getSelectedCircle();
+            }
+        }
+    });
 });
 
-app.controller('homeController', function ($scope, BackgroundFactory, $log) {
+app.controller('homeController', function ($scope, BackgroundFactory, $log, toggleState, selectedCircle) {
 
-	var decryptionEngaged, googleEncryptionOn;
+	var encryptionOffMessage, encryptionOnMessage, backgroundPage;
 
-  var backgroundPage = BackgroundFactory.getBackgroundPage();
-  
-  $scope.googleEncryptionOn = 0;
+  backgroundPage = BackgroundFactory.getBackgroundPage();
+  $scope.encryptionState = toggleState;
+  encryptionOffMessage = 'Encryption is off';
+  encryptionOnMessage = 'Encryption is on';
 
-  $scope.currentCircle = 'Your Circle';
 
-  BackgroundFactory.getUserCircles().then(function (circles) {
+  if (toggleState) {
+    $scope.stateMsg = encryptionOnMessage;
+  } else {
+    $scope.stateMsg = encryptionOffMessage;
+  }
+
+  if (selectedCircle.name) {
+    $scope.currentCircle = selectedCircle.name;
+  } else {
+    $scope.currentCircle = 'Select a Circle';
+  }
+
+  BackgroundFactory.getUserCircles()
+  .then(function (circles) {
     $scope.userCircles = circles;
-  }).then(null, $log.info);
+  })
+  .then(null, $log.info);
 
-  $scope.encryptionToggle = function (toggledOn) {
+  $scope.encryptionToggle = function () {
 
-    //FIXME -- This is broken.
-
-    if (!toggledOn) {
-      
-      chrome.browserAction.setIcon({path: "/green128.png"});
+    if ($scope.encryptionState) {
+      $scope.stateMsg = encryptionOffMessage;
+      chrome.browserAction.setIcon({path: "/red128.png"})
     } else {
-      
-      chrome.browserAction.setIcon({path: "/red128.png"});
+      $scope.stateMsg = encryptionOnMessage;
+      chrome.browserAction.setIcon({path: "/green128.png"})
     }
 
     backgroundPage.encryptionToggle();
 
   };// End encryptionToggle
 
-
   $scope.setDecryptionCircle = function (selectedCircle) {
 
     $scope.currentCircle = selectedCircle.name;
     BackgroundFactory.setSelectedCircle(selectedCircle);
-
   };
-
-  // backgroundPage.tabGetter();
 
 });

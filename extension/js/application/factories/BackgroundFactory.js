@@ -1,4 +1,4 @@
-app.factory('BackgroundFactory', function($http) {
+app.factory('BackgroundFactory', function ($http, $q) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -28,8 +28,12 @@ app.factory('BackgroundFactory', function($http) {
             currentUser.setSelectedCircle(circle);
         },
 
+        getSelectedCircle: function () {
+            return $q.when(currentUser.getSelectedCircle());
+        },
+
         getBackgroundPage: function () {
-            return backgroundPage;
+            return chrome.extension.getBackgroundPage();
         },
 
         getUserCircles: function () {
@@ -51,7 +55,15 @@ app.factory('BackgroundFactory', function($http) {
 
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-            .then(function (response) {      
+            .then(function (response) {
+                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
+                    if (tabs) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    }
+                });
+
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs.length) {
                         tabs.forEach(function(tab) {
@@ -75,6 +87,14 @@ app.factory('BackgroundFactory', function($http) {
                             chrome.tabs.reload(tab.id)
                         });
                     };
+                });
+
+                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
+                    if (tabs) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    }
                 });
                 
                 currentUser.setLogOutUser();
