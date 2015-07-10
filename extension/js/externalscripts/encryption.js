@@ -82,8 +82,6 @@ var encryptedMain = function () {
 	});
 	
 	gmail1.observe.before('send_message', function(url, body, data, xhr){
-	
-		var body_params;
 
 		if (encryptionEnabled && selectedCircleId) {
 
