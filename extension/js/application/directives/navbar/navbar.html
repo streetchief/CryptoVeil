@@ -1,9 +1,11 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="nav navbar-nav btn-group dropdown" dropdown>
-        <a type="button" class="btn btn-default dropdown-toggle btn-sm" dropdown-toggle ng-disabled="disabled">
-        <span class="glyphicon glyphicon-menu-hamburger"></span>
+
+        <a type="button" class="btn btn-default dropdown-toggle btn-md" dropdown-toggle ng-disabled="disabled">
+            <span class="glyphicon glyphicon-menu-hamburger"></span>
         </a>
+
         <ul class="dropdown-menu" role="menu">
           <li data-ng-selected=""
           data-ui-sref="{{item.state}}" 
@@ -15,6 +17,18 @@
             <a href="#" data-ng-click="logout()">Logout</a>
           </li>
         </ul>
+
+      <a type="button" class="btn btn-default btn-md" ui-sref="home">
+          <span class="glyphicon glyphicon-home"></span>
+      </a>
+
+      <a type="button" class="btn btn-default btn-md" ui-sref="circles">
+          <span class="glyphicon glyphicon-envelope"></span>
+      </a>
+
+      <a type="button" class="btn btn-default btn-md" ui-sref="account">
+          <span class="glyphicon glyphicon-user"></span>
+      </a>
 
     </div>
 

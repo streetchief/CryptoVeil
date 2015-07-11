@@ -1,4 +1,4 @@
-$logoutLink: #E60000;
+$logoutLink: #abffab;
 $navbarBackground: #706F6F;
 
 * {
@@ -13,18 +13,32 @@ $navbarBackground: #706F6F;
   }
 }
 
+h3 {
+    font-family: 'Open Sans', sans-serif; 
+}
+
+p {
+    font-family: 'Open Sans', sans-serif; 
+
+}
+h1 {
+  font-family: 'Open Sans', sans-serif; 
+}
+
 body {
-	min-width: 500px;
+  font-family: 'Open Sans', sans-serif;	
+  min-width: 500px;
 	min-height: 700px;
 }
+
 //ADDING THIS FOR ADD MEMBER BUTTON IN CIRCLE MANAGEMENT
 // .panel-group .panel {
 //   overflow: visible;
 // }
 
 .dropdown-menu {
-	font-size: 12px;
-	width: 10px;
+  font-size: 12px;
+	width: 15px;
 	line-height: 100px;
 	white-space: nowrap;
 }
@@ -33,12 +47,6 @@ body {
 
   display: block;
   background: $navbarBackground;
-
-  fullstack-logo {
-    padding-top: 10px;
-    margin-right: 20px;
-    width: 30px;
-  }
 
   a {
     color: white;
@@ -61,14 +69,9 @@ body {
     }
   }
 
-  .login-button {
-    float: right;
-    margin-top: 8px;
-  }
-
   .welcome {
     float: right;
-    margin-top: 12px;
+    margin-top: 15px;
     span {
       color: white;
     }
