@@ -13,7 +13,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             ];
 
             scope.user;
-            $rootScope.$on('nicknameChange', function (event, nickname) {
+            $rootScope.$on('nicknameChange', function (event, nickname, $log) {
                 if (scope.user) {
                     scope.user.nickname = nickname;
                 };
@@ -26,7 +26,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
                     scope.user = null;
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    $log.error(err);
                 })
             };
 
@@ -37,7 +37,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
                     scope.user = userLoggedIn;
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    $log.error(err);
                 })
             };
 

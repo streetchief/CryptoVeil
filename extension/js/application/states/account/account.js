@@ -53,7 +53,7 @@ app.controller('accountController', function ($scope, $state) {
 
 });
 
-app.controller('nicknameController', function ($rootScope, $scope, $state, UserFactory, BackgroundFactory) {
+app.controller('nicknameController', function ($rootScope, $scope, $state, UserFactory, BackgroundFactory, $log) {
   
   var backgroundPage = chrome.extension.getBackgroundPage();
   var currentUser = backgroundPage.user;        
@@ -67,7 +67,7 @@ app.controller('nicknameController', function ($rootScope, $scope, $state, UserF
       $state.go('home');      
     })
     .catch(function(err) {
-      console.log('error', err);
+     $log.error('error', err);
     })
   }
 });
@@ -86,7 +86,7 @@ app.controller('passwordController', function ($scope, $state, UserFactory) {
       }
     })
     .catch(function(err) {
-      console.log('error', err);
+      $log.error('error', err);
     })
   }
 
@@ -114,7 +114,7 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory,
       }
     })
     .catch(function(err) {
-      console.log('error', err);
+      $log.error('error', err);
     })
   }
 

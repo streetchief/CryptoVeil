@@ -48,10 +48,8 @@ app.factory('UserFactory', function ($http) {
         deleteAccount: function() {
             return $http(composeRequest('DELETE', '/api/users/'))
             .then(function (response) {
-                console.log('deleteAccount response', response)
                 return response.data;
-            })
-        }        
-
+            });
+        }
       };
 });

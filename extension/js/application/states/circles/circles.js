@@ -23,15 +23,13 @@ BackgroundFactory.checkLoggedIn()
   .then(function(circlesInfo){
     var own = [], part = [];
 
-    $log.info('this is user on front', circlesInfo, user)
-
     for(var i=0; i<circlesInfo.length; i++){
       if(circlesInfo[i].creator._id === $scope.user._id) own.push(circlesInfo[i])
       else part.push(circlesInfo[i]);
     }
     $scope.groups.owned = own;
-    console.log('this is circles on front', $scope.groups)
-    return part
+
+    return part;
   })
   .then(function(partCircle){
     partCircle.forEach(function(circle){
@@ -109,7 +107,6 @@ BackgroundFactory.checkLoggedIn()
 
 /*****************************************/
   $scope.addMember = function(circleId) {
-    $log.info('this is addMember',circleId);
 
       var modalInstance = $modal.open({
         animation: false,

@@ -30,7 +30,7 @@ $(document).ready(function(){
 	//THIS IS FORWARDING TO EXTERNAL SCRIPTS
 	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		
-		console.log('listener message: ', message);
+		// console.log('listener message: ', message);
 
 		if (message.command === 'process-logout') {
 			document.dispatchEvent(new Event(message.command));
