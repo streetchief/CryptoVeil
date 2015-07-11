@@ -50,7 +50,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         })
         .catch(function(err) {
             $scope.alerts.push({
-                msg: err.data,
+                msg: err.data || 'no err msg',
                 type: 'danger'
             });
         })

@@ -7,35 +7,34 @@ var decryptedMain = function () {
 	var regEx = /%%%%(.+)%%%%/gmi,
 		sentinel = '%%%%',
 		sentinelLength = sentinel.length,
-		selectedCircleKey,
-		selectedCircleId,
-		selectedCircleName,
 		userDecryptionCircles,
 		matches = [],
 		userLoggedIn,
-		unhacked;
+		decryptedBody;
 
-	// document.addEventListener('set-encryption-circle', function(e) {
-	// 	selectedCircleKey = e.detail.key;
-	// 	selectedCircleId = e.detail._id;
-	// 	selectedCircleName = e.detail.name;
-	// });
 	document.addEventListener('process-logout', function (e) {
+
 		userLoggedIn = false;
-		// gmail2.observe.off();
+		matches = [];
+		userDecryptionCircles = [];
+		decryptedBody = '';
 	});
 
 	document.addEventListener('process-login', function (e) {
+
 		userLoggedIn = true;
 		userDecryptionCircles = e.detail;
 	});
 
+	document.addEventListener('update-decryption-state', function (e) {
+		
+		userDecryptionCircles = e.detail.userCircles;
+		userLoggedIn = e.detail.isLoggedIn;
+	});
 
 	gmail2.observe.on("view_thread", function (thread) {});
 
 	gmail2.observe.on("view_email", function (email) {
-
-		console.log('userLoggedIn', userLoggedIn)
 
 		var email, body, encryptedMsg, extractedId, matchedKey;
 		
@@ -56,31 +55,22 @@ var decryptedMain = function () {
 				encryptedMsg = encryptedMsg.slice(0, -24);
 
 				// matchedKey = _.result(_.find(userDecryptionCircles, '_id', extractedId), 'key');
-				try {
+				if (userDecryptionCircles.length) {
 					matches = userDecryptionCircles.filter(function (circle) {
 						return circle._id == extractedId;
-					})
+					});
 				}
-
-				catch (err) {
-					console.log('error; no user logged in.', err)
-				}
-
-				console.log('matches: ', matches);
 				
 				if (matches.length) {
-					unhacked = decrypt(encryptedMsg, matches[0].key);
-					email.body(unhacked + '<h5>' + matches[0].name +' | Decrypted by CryptoVeil</h5>');
+					decryptedBody = decrypt(encryptedMsg, matches[0].key);
+					email.body(decryptedBody + '<h5>' + matches[0].name +' | Decrypted by CryptoVeil</h5>');
 				} else {
-					email.body("<h3>Oops! You're not authorized to view this message. Error #009 StreamOverload Flux</h3><h5>Encrypted by CryptoVeil</h5>")
+					email.body("<h3>Oops! You're not authorized to view this message.</h3><h5>Encrypted by CryptoVeil</h5>");
 				}
 			} 
-			
 		}
-
-	
-	});
-};
+	}); // END observe.on("view_email")
+}; //END decryptedMain
 
 function decrypt(text, key) {
 

@@ -123,6 +123,12 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	.then(null, next);
 });
 
+//PROMOTE USER TO CREATOR/OWNER OF CIRCLE
+router.put('/promote/:userId', isAuthenticatedUser, function (req, res, next) {
+	// Circle.
+})
+
+
 // DELETE A CIRCLE
 router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	var circleId = req.params.circleId;	
