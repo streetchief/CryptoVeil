@@ -33,7 +33,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             }
         })
         .catch(function (err) {
-            $log.error('No user logged in.');
+            $log.warn('No user logged in.');
         })
     };
 

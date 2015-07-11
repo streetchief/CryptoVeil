@@ -63,10 +63,10 @@ BackgroundFactory.checkLoggedIn()
       }); // end modal open
 
     modalInstance.result.then(function (circleName) {
-      // console.log('hit result', circleName)
+
       CircleFactory.createCircle(circleName)
       .then(function(res){
-        // $log.info('hit modal createcircle', res)
+
         return $scope.groups.owned.unshift(res);
       })
       .then(null, function(err){

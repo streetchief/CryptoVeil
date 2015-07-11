@@ -115,4 +115,4 @@ app.factory('BackgroundFactory', function ($http, $q) {
             return backgroundPage.user.isLoggedIn();
         }
     }
-})
+});

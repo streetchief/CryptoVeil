@@ -67,7 +67,7 @@ app.controller('nicknameController', function ($rootScope, $scope, $state, UserF
       $state.go('home');      
     })
     .catch(function(err) {
-     $log.error('error', err);
+     $log.warn('error', err);
     })
   }
 });
@@ -86,7 +86,7 @@ app.controller('passwordController', function ($scope, $state, UserFactory) {
       }
     })
     .catch(function(err) {
-      $log.error('error', err);
+      $log.warn('error', err);
     })
   }
 
@@ -114,7 +114,7 @@ app.controller('checkPasswordController', function ($scope, $state, UserFactory,
       }
     })
     .catch(function(err) {
-      $log.error('error', err);
+      $log.warn('error', err);
     })
   }
 

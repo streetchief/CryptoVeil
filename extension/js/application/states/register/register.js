@@ -37,7 +37,7 @@ app.controller('registerController', function ($scope, BackgroundFactory, $state
             }
         })
         .catch(function (err) {
-            $log.error(err);
+            $log.warn(err);
         });
     };
 });
