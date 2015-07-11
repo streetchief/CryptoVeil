@@ -10,7 +10,9 @@ var encryptedMain = function () {
 		userCircles,
 		userLoggedIn,
 		noCircleMsg = '<div dir="ltr">This message has been deleted' + 
-	  	' because an encryption circle was not selected</div>';
+	  	' because an encryption circle was not selected</div>',
+	  	preventAutosaveMsg = '<div dir="ltr"><h3>This draft has been deleted' + 
+	  	' for security reasons.</h3><h5>Secured by CryptoVeil</h5></div>'
 
 	sendToContentScript('get-extension-session-status');
 
@@ -21,6 +23,13 @@ var encryptedMain = function () {
 	function shouldWeAlert () {
 		return (encryptionEnabled && gmail1.dom.composes().length && !selectedCircleId);
 	}
+
+	setTimeout(function () {
+
+		if (shouldWeAlert()) {
+			alert('Please select a circle!');
+		}
+	}, 1000);
 
 	document.addEventListener('set-encryption-circle', function (e) {
 		selectedCircleKey = e.detail.key;
@@ -63,40 +72,13 @@ var encryptedMain = function () {
 		if (encryptionEnabled && !selectedCircleId) {
 			alert('Please select a circle!');
 		}
-
-		console.log('compose arg: ', compose);
-		console.log('compose arg textContent: ', compose.$el[1].context.textContent)
-
-		// if (userLoggedIn) {
-		// 	var currentPage = gmail1.get.current_page();
-		// 	if (currentPage === 'drafts') {
-		// 		console.log('grab compose body')
-		// 	}
-		// }
 	});
-
-	setTimeout(function () {
-
-		if (shouldWeAlert()) {
-			alert('Please select a circle!');
-		}
-	}, 1000);
 
 	gmail1.observe.before("save_draft", function(url, body, data, xhr) {
 
-	  if (encryptionEnabled && selectedCircleId) {
-	  	
-	  	data.body = encrypt(data.body, selectedCircleKey, selectedCircleId);
-
-	  } else if (encryptionEnabled && !selectedCircleId){
-
-	  	data.body = noCircleMsg;
-	  }
-	});
-
-	gmail1.observe.on('http_event', function (e) {
-		console.log('the http event: ', e);
-		console.log('current_page: ', gmail1.get.current_page())
+		if (userLoggedIn && encryptionEnabled) {
+	  		data.body = preventAutosaveMsg;
+		}
 	});
 	
 	gmail1.observe.before('send_message', function(url, body, data, xhr){
