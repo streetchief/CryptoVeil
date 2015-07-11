@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('CryptoveilExt', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt']);
+window.app = angular.module('CryptoveilExt', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
 
