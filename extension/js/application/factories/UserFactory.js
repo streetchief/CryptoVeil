@@ -1,17 +1,17 @@
 app.factory('UserFactory', function ($http) {
     // var backgroundPage = chrome.extension.getBackgroundPage();
     // var currentLoggedUser = backgroundPage.user.getLoggedInUser();
-    var server = 'http://127.0.0.1:1337';
+    var server = 'https://cryptoveil.herokuapp.com';
     
     var composeRequest = function (method, url, data) {
         return {
             method: method,
             url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
+            // headers: {
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            // },
             data: data
         }
     };  
