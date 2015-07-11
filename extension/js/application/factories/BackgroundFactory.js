@@ -47,9 +47,9 @@ app.factory('BackgroundFactory', function ($http, $q) {
         registerUser: function(signUpInfo) {
             return $http(composeRequest('POST','/api/users', { nickname: signUpInfo.nickname, email: signUpInfo.email, password: signUpInfo.password }))
             .then(function (response) {
-				var registeredUser = response.data.user;
-				setUser(registeredUser);
-				return registeredUser;
+                var registeredUser = response.data.user;
+                setUser(registeredUser);
+                return registeredUser;
             });
         },
 
@@ -72,9 +72,9 @@ app.factory('BackgroundFactory', function ($http, $q) {
                     };
                 });
 
-				var returnedUser = response.data.user;
-				setUser(returnedUser);
-				return returnedUser;
+                var returnedUser = response.data.user;
+                setUser(returnedUser);
+                return returnedUser;
             });
         },
 
@@ -106,14 +106,13 @@ app.factory('BackgroundFactory', function ($http, $q) {
 
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
-
                 return response.data;
             });
         },
 
         isLoggedIn: function () {
 
-        	return backgroundPage.user.isLoggedIn();
+            return backgroundPage.user.isLoggedIn();
         }
     }
-})
+});

@@ -32,8 +32,8 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
                 $state.go('login');
             }
         })
-        .catch(function(err) {
-            console.log('No user logged in.');
+        .catch(function (err) {
+            $log.warn('No user logged in.');
         })
     };
 
@@ -48,7 +48,7 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
             $rootScope.isLoggedIn = true;
             $state.go('home');
         })
-        .catch(function(err) {
+        .catch(function (err) {
             $scope.alerts.push({
                 msg: err.data || 'no err msg',
                 type: 'danger'
@@ -60,9 +60,9 @@ app.controller('loginController', function ($rootScope, $scope, BackgroundFactor
         $scope.alerts.splice(index, 1);
     };
 
-    $scope.redirectLogin = function(location){
+    // $scope.redirectLogin = function(location){
       // console.log('oauth', location)
       // $window.location.href = "/auth/" + location;
         // $state.go('discover');
-    };
+    // };
 });
