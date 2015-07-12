@@ -37,11 +37,12 @@ app.factory('BackgroundFactory', function ($http, $q) {
         },
 
         getUserCircles: function () {
-            var promiseForCircles = new Promise(function (resolve, reject) {
-                resolve(currentUser.getLoggedInUser().myCircles)
-            });
+            // var promiseForCircles = new Promise(function (resolve, reject) {
+            //     resolve(
+            // });
             
-            return promiseForCircles;
+            // return promiseForCircles;
+            return $q.when(currentUser.getLoggedInUser().myCircles);
         },
 
         registerUser: function(signUpInfo) {

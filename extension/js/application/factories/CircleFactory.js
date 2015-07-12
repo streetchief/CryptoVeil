@@ -1,4 +1,4 @@
-app.factory('CircleFactory', function ($http) {
+app.factory('CircleFactory', function ($http, $log) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentLoggedUser = backgroundPage.user.getLoggedInUser();
@@ -38,12 +38,12 @@ app.factory('CircleFactory', function ($http) {
 
         editMember: function(circleId, memberEmail, edit){
             // edit is add or delete
-            return $http(composeRequest('PUT', '/api/circles/' + circleId, {newEmail: memberEmail, edit: edit}))
-            .then(function(response){
+            var options = {newEmail: memberEmail, edit: edit};
+
+            return $http(composeRequest('PUT', '/api/circles/' + circleId, options))
+            .then(function (response) {
                 return response.data;
             });
         }
-
-
-    }
-})
+    };
+});
