@@ -16,10 +16,10 @@
             <div class="row">
               <div class="col-lg-2">
                 <accordion-heading>
-                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.owned.status, 'glyphicon glyphicon-chevron-right': !group.owned.status}"></i> &nbsp;&nbsp; {{ group.name }}
+                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.owned.status, 'glyphicon glyphicon-chevron-right': !group.owned.status}"></i> &nbsp;&nbsp;<b>{{ group.name }}</b>
                   <div class="btn-group pull-right">
                     <button class="btn btn-default btn-xs"
-                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span>&nbsp;&nbsp; remove</button>
                   </div>
                 </accordion-heading>
               </div>
@@ -57,7 +57,7 @@
             <div class="row">
               <div class="col-lg-2">
                 <accordion-heading>
-                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }} - Owner: <b>{{group.creator.nickname}}</b>
+                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; <b>{{ group.name }}</b> | {{group.creator.nickname}}
 <!--                   <div class="btn-group pull-right">
                     <button class="btn btn-default btn-xs"
                     data-ng-click="$event.stopPropagation() || leaveGroup(group._id)">Leave Group</button>

@@ -32,7 +32,7 @@ img {
 body {
   .panel-default >.panel-heading {  
     background-color: #5a5a5a;
-    color: #4dffa6;
+    color: $greenColor;
     a {
       font-family: 'Open Sans', sans-serif;      
       text-shadow: none;
@@ -55,12 +55,6 @@ body {
   min-width: 400px;
   min-height: 800px;
 }
-
-//ADDING THIS FOR ADD MEMBER BUTTON IN CIRCLE MANAGEMENT
-// .panel-group .panel {
-//   overflow: visible;
-// }
-
 
 .navbar {
   display: block;
