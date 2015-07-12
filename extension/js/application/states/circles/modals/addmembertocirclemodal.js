@@ -1,33 +1,55 @@
-app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalInstance, UserFactory) {
+app.controller('addMemberModalCtrl', function ($scope, circleId, groups, $modalInstance, UserFactory, $log) {
 
   $scope.emailToAdd;
   $scope.showAlert = false;
   $scope.showEmailAlert = false;
   $scope.showInvalidAlert = false;
 
-  $scope.ok = function () {
-    UserFactory.checkUserByEmail($scope.emailToAdd)
-    .then(function(res) {
-        if(res === 'no user') return $scope.showInvalidAlert = true;      
-        if(!$scope.emailToAdd) return $scope.showInvalidAlert = true;
-            groups.forEach(function(group){
-              $scope.emailToAdd.trim();
-          		if(group._id.toString() === circleId) {
-          			if(group.creator.email === $scope.emailToAdd) {
-                  $scope.showEmailAlert = true;
-          			} else if (group.members.length) {
-                    group.members.forEach(function (member) {
-                      if(member.email === $scope.emailToAdd){
-        	  					    $scope.showAlert = true;
-        	  				   }	  				
-        	  			  })
-          			  } else {
-        	  			    $modalInstance.close($scope.emailToAdd);
-        			      }
-          		    }
-          	 });
-    })          
+  function getCircleToAddTo (cId) {
+
+    var result = groups.filter(function (group) {
+      return group._id.toString() === cId;
+    })
+
+    return result[0];
   }
+
+  $scope.ok = function () {
+
+    var circleToAddTo,
+      trimmedEmail;
+
+    trimmedEmail = $scope.emailToAdd.trim();
+
+    UserFactory.checkUserByEmail(trimmedEmail)
+    .then(function (res) {
+
+      if(res === 'no user') return $scope.showInvalidAlert = true;
+
+      if(!$scope.emailToAdd || !trimmedEmail){
+        return $scope.showInvalidAlert = true;
+      }
+      
+      circleToAddTo = getCircleToAddTo(circleId);
+
+      if(circleToAddTo.creator.email === trimmedEmail) {
+        return $scope.showEmailAlert = true;
+      }
+
+      if (circleToAddTo.members.length) {
+
+        circleToAddTo.members.forEach(function (member) {
+          
+          if(member.email === trimmedEmail){
+            return $scope.showAlert = true;
+          }            
+        });
+      }
+
+      $modalInstance.close(trimmedEmail);
+
+    })//end .then        
+  }//end scope.ok
 
   $scope.closeAlert = function() {
     $scope.showAlert = false;

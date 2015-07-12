@@ -10,10 +10,8 @@ module.exports = router;
 function isAuthenticatedUser (req, res, next) {
 
 	if (req.isAuthenticated()) {
-
 		next();
 	} else {
-
 		res.sendStatus(401);
 	}
 }
@@ -64,12 +62,14 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 
 // ADD OR REMOVE USER FROM A CIRCLE
 router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
-	var circleId = req.params.circleId;
-	var emailToEdit = req.body.newEmail;
-	var editMode = req.body.edit;
-	var updatedCircle;
-	var userFound;
-	var circleFound;
+	var circleId = req.params.circleId,
+		emailToEdit = req.body.newEmail,
+		editMode = req.body.edit,
+		updatedCircle,
+		userFound,
+		circleFound;
+
+	console.log('c id', circleId, 'email', emailToEdit, 'mode', editMode)
 	
 	User.findOne({email: emailToEdit})
 	.exec()

@@ -15,15 +15,16 @@ $scope.oneAtATime = true;
 $scope.groups = {};
 
 BackgroundFactory.checkLoggedIn()
-.then(function(response){
+.then(function (response) {
   return $scope.user = response.user;
 })
-.then(function(user){
+.then(function (user) {
+
   BackgroundFactory.getUserCircles()
-  .then(function(circlesInfo){
+  .then(function (circlesInfo) {
     var own = [], part = [];
 
-    for(var i=0; i<circlesInfo.length; i++){
+    for(var i = 0; i < circlesInfo.length; i++){
       if(circlesInfo[i].creator._id === $scope.user._id) own.push(circlesInfo[i])
       else part.push(circlesInfo[i]);
     }
@@ -124,8 +125,10 @@ BackgroundFactory.checkLoggedIn()
       }); // end modal open
 
     modalInstance.result.then(function (memberEmail) {
+
       CircleFactory.editMember(circleId, memberEmail, 'add')
-      .then(function(newMember){
+      .then(function (newMember){
+
         $scope.groups.owned.forEach(function (group) {
           if (group._id.toString() === circleId) {
             group.members.push(newMember)
