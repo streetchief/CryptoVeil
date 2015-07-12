@@ -1,44 +1,53 @@
 * {
   box-sizing: border-box; }
 
-body {
-  min-width: 500px;
-  min-height: 700px; }
+h3 {
+  font-family: 'Open Sans', sans-serif; }
 
-.dropdown-menu {
-  font-size: 12px;
-  width: 10px;
-  line-height: 100px;
-  white-space: nowrap; }
+p {
+  font-family: 'Open Sans', sans-serif; }
+
+h1 {
+  font-family: 'Open Sans', sans-serif; }
+
+img {
+  margin-bottom: 50px; }
+
+body {
+  background: #182025 url(../cryptoveil-background.png) 0 0 repeat;
+  font-family: 'Open Sans', sans-serif;
+  min-width: 400px;
+  min-height: 800px; }
+  body .panel-default > .panel-heading {
+    background-color: #5a5a5a;
+    color: #4dffa6; }
+    body .panel-default > .panel-heading a {
+      font-family: 'Open Sans', sans-serif;
+      text-shadow: none;
+      text-decoration: none; }
+  body #centering {
+    text-align: center; }
+  body .inset {
+    padding-right: 40px;
+    padding-left: 70px; }
+    body .inset h4 {
+      font-family: 'Open Sans', sans-serif; }
 
 .navbar {
   display: block;
   background: #706F6F; }
-  .navbar fullstack-logo {
-    padding-top: 10px;
-    margin-right: 20px;
-    width: 30px; }
+  .navbar #floatRight {
+    float: right; }
   .navbar a {
-    color: white; }
+    margin-top: 6px;
+    color: #abffab; }
     .navbar a:hover {
-      color: white; }
-  .navbar .nav > li > a {
-    cursor: pointer; }
-    .navbar .nav > li > a.active {
-      color: #E60000; }
-    .navbar .nav > li > a:hover {
-      transition: color 0.2s; }
-    .navbar .nav > li > a:focus {
-      color: #E60000;
-      background: transparent; }
-  .navbar .login-button {
-    float: right;
-    margin-top: 8px; }
+      color: #fff2c8; }
   .navbar .welcome {
     float: right;
     margin-top: 12px; }
     .navbar .welcome span {
-      color: white; }
+      color: #abffab; }
     .navbar .welcome a {
-      color: #E60000;
+      color: #abffab;
       cursor: pointer; }

@@ -1,12 +1,12 @@
+<img src="../cryptoveil-logo.png" width="100%" height="auto">
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
-			<h1>Welcome to CryptoVeil!</h1>
-			<h3>Please login</h3>
+			<h3>Login Today</h3>
 		</div>
 	</div>
 	<!-- end row -->
-
+	<br />
 	<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
 
 		<alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
@@ -19,7 +19,7 @@
 	        <label for="login-password">Password</label>
 	        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
 	    </div>
-
+			<br />
 	    <button type="submit" class="btn btn-info">  Login</button><br><br>
 
 	    <!-- Facebook Login -->
@@ -30,7 +30,7 @@
 	   <!--  <button class="btn btn-default fa fa-google-plus-square fa-lg" ng-click="redirectLogin('google')">  Login with Google+ </button><br><br> -->
 
 	    <!-- Sign up -->
-	    <button ng-show="!user" ui-sref="register" class="btn btn-warning">  Sign up new account</button><br><br>
+	    <button ng-show="!user" ui-sref="register" class="btn btn-warning">  Sign up </button><br><br>
 
 	    <!-- Twitter Login -->
 	    <!-- <td><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></td> -->

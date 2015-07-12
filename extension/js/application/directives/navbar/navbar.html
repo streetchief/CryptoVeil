@@ -1,28 +1,20 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="margin-bottom: 0px">
   <div class="container-fluid">
-    <div class="nav navbar-nav btn-group dropdown" dropdown>
-        <a type="button" class="btn btn-default dropdown-toggle btn-sm" dropdown-toggle ng-disabled="disabled">
-        <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu">
-          <li data-ng-selected=""
-          data-ui-sref="{{item.state}}" 
-          data-ng-repeat="item in items">
-            <a href="#">{{item.label}}</a>
-              <li class="divider"></li>
-          </li>
-          <li>
-            <a href="#" data-ng-click="logout()">Logout</a>
-          </li>
-        </ul>
+      <a type="button" class="btn btn-default btn-md" ui-sref="home">
+          <span class="glyphicon glyphicon-home"></span>
+      </a>
 
-    </div>
+      <a type="button" class="btn btn-default btn-md" ui-sref="circles">
+          <span class="glyphicon glyphicon-edit"></span>
+      </a>
 
-      <div data-ng-show="user" class="welcome">
-        <span>Welcome, {{ user.nickname }}!</span>
-        <a data-ng-click="logout()">Logout</a>
-      </div>
+      <a type="button" class="btn btn-default btn-md" ui-sref="account">
+          <span class="glyphicon glyphicon-user"></span>
+      </a>
 
+      <a type="button" class="btn btn-default btn-md"><span>Welcome, {{ user.nickname }}!</span></a>
+      
+      <a type="button" id="floatRight" class="btn btn-default btn-md" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
   </div>
 </nav>
 
