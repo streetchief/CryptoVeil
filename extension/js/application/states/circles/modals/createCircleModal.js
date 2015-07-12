@@ -11,18 +11,16 @@ function isValidName (nameToCheck) {
 
   $scope.createCircle = function () {
 	  if(!isValidName($scope.circleName)) {
-	  	$scope.showNameAlert = true;
+	  	return $scope.showNameAlert = true;
 	  }
 	  else {
 		  	$scope.user.myCircles.forEach(function(cir){
 
-		  		if(cir.name.toUpperCase() === $scope.circleName.toUpperCase().trim()){
-		  			$scope.showAlert = true;
-
-		  		} else {
-				    $modalInstance.close($scope.circleName);
-		  		}
-		  	})
+		  		if(cir.name.toUpperCase() === $scope.circleName.toUpperCase().trim()) $scope.showAlert = true;
+          
+        })
+      console.log('hit modal close')
+	    $modalInstance.close($scope.circleName);
 	  }
   };
 
@@ -34,4 +32,5 @@ function isValidName (nameToCheck) {
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
+
 });

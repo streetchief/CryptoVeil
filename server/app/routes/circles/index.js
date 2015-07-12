@@ -34,8 +34,10 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 	  
 		keyString = buf.toString('base64');
 
+		var trimmedName = req.body.circleName.trim();
+
 	    var circleToCreate = {
-	        name: req.body.circleName.trim(),
+	        name: trimmedName,
 	        creator: req.user._id,
 	        members: [],
 	        key: keyString

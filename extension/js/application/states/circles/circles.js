@@ -52,7 +52,7 @@ BackgroundFactory.checkLoggedIn()
   $scope.createCircle = function() {
 
       var modalInstance = $modal.open({
-        animation: true,
+        animation: false,
         templateUrl: 'js/application/states/circles/modals/createCircleModal.html',
         controller: 'createCircleModalCtrl',
         size: 'sm',
@@ -67,11 +67,12 @@ BackgroundFactory.checkLoggedIn()
 
       CircleFactory.createCircle(circleName)
       .then(function(res){
-
-        return $scope.groups.owned.unshift(res);
+        $scope.groups.owned.unshift(res);
+        return;
       })
       .then(null, function(err){
         $log.info('Modal dismissed at: ' + new Date());
+        return err;
       })
     });
 
@@ -81,7 +82,7 @@ BackgroundFactory.checkLoggedIn()
   $scope.deleteCircle = function(circleId) {
 
     var modalInstance = $modal.open({
-      animation: true,
+      animation: false,
       templateUrl: 'js/application/states/circles/modals/deleteCircleModal.html',
       controller: 'deleteCircleModalCtrl',
       size: 'sm',
