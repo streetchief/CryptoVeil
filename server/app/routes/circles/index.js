@@ -26,16 +26,17 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 
 	crypto.randomBytes(175, function (ex, buf) {
 		
-		var keyString;
+		var keyString, trimmedName;
 
 		if (ex) {
 			return next(ex);
 		}
 	  
 		keyString = buf.toString('base64');
+		trimmedName = req.body.circleName.trim()
 
 	    var circleToCreate = {
-	        name: req.body.circleName.trim(),
+	        name: trimmedName,
 	        creator: req.user._id,
 	        members: [],
 	        key: keyString
@@ -56,7 +57,7 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 				return user;
 			})
 			.then(function (user) {
-				
+
 				return Circle.findById(circle._id)
 					.populate('creator')
 					.exec();
