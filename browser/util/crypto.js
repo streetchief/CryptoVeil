@@ -1978,7 +1978,7 @@ $(document).ready(function(){
 
 
 window.onload = function () {
-    countdown('.countdown');
+    // countdown('.countdown');
 
     if(bWidth < 500){
         setTimeout(function(){
