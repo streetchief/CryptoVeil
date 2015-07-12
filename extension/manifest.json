@@ -36,7 +36,7 @@
   ],
   
   // "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  // "content_security_policy": "script-src 'self' http://127.0.0.1; object-src 'self'",
+  // "content_security_policy": "script-src 'self' *://127.0.0.1/*; object-src 'self'",
 
   "permissions": [
    "activeTab",
