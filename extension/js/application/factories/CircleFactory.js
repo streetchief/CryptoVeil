@@ -21,10 +21,8 @@ app.factory('CircleFactory', function ($http, $log) {
 
         //CREATE CIRCLE
         createCircle: function(circleName) {
-            return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, 
-                circleName: circleName
-                }))
-            .then(function(response){
+            return $http(composeRequest('POST', '/api/circles', {user:currentLoggedUser, circleName: circleName}))
+            .then(function (response){
                 return response.data;
             })
         },

@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory) {
+app.controller('circlesController', function ($scope, $modal, $log, CircleFactory, BackgroundFactory, $q) {
 
 $scope.oneAtATime = true;
 $scope.groups = {};
@@ -66,11 +66,12 @@ BackgroundFactory.checkLoggedIn()
     modalInstance.result.then(function (circleName) {
 
       CircleFactory.createCircle(circleName)
-      .then(function(res){
-
-        return $scope.groups.owned.unshift(res);
+      .then(function (res){
+        console.log('modal response', res);
+        console.log('currently owned', $scope.groups.owned);
+        return $q.when($scope.groups.owned.push(res));
       })
-      .then(null, function(err){
+      .then(null, function (err) {
         $log.info('Modal dismissed at: ' + new Date());
       })
     });

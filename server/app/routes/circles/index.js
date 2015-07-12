@@ -56,8 +56,14 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 				return user;
 			})
 			.then(function (user) {
-				res.json(circle);
-			});
+				
+				return Circle.findById(circle._id)
+					.populate('creator')
+					.exec();
+			})
+			.then(function (populatedCircle) {
+				res.send(populatedCircle);
+			})
 		})
 		.then(null, next);
 	});
