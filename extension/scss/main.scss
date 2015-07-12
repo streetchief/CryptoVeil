@@ -31,12 +31,19 @@ img {
 
 body {
   .panel-default >.panel-heading {  
-    background-color: $greenColor;
+    background-color: #5a5a5a;
+    color: #4dffa6;
+    a {
+      font-family: 'Open Sans', sans-serif;      
+      text-shadow: none;
+      text-decoration: none;
+    }
   }
 
   #centering {
     text-align: center;
   }
+  
   background: #182025 url(../cryptoveil-background.png) 0 0 repeat;  
   font-family: 'Open Sans', sans-serif; 
   min-width: 400px;

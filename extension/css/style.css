@@ -18,23 +18,31 @@ body {
   font-family: 'Open Sans', sans-serif;
   min-width: 400px;
   min-height: 800px; }
+  body .panel-default > .panel-heading {
+    background-color: #5a5a5a;
+    color: #4dffa6; }
+    body .panel-default > .panel-heading a {
+      font-family: 'Open Sans', sans-serif;
+      text-shadow: none;
+      text-decoration: none; }
   body #centering {
     text-align: center; }
 
 .navbar {
   display: block;
   background: #706F6F; }
+  .navbar #floatRight {
+    float: right; }
   .navbar a {
     margin-top: 6px;
     color: #abffab; }
     .navbar a:hover {
       color: #fff2c8; }
-  .navbar #floatRight {
-    float: right; }
-  .navbar .welcome span {
-    color: #abffab; }
-  .navbar .welcome a {
-    margin-top: 6px;
-    color: #abffab; }
-    .navbar .welcome a:hover {
-      color: #fff2c8; }
+  .navbar .welcome {
+    float: right;
+    margin-top: 12px; }
+    .navbar .welcome span {
+      color: #abffab; }
+    .navbar .welcome a {
+      color: #abffab;
+      cursor: pointer; }
