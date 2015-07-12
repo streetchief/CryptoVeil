@@ -8,11 +8,11 @@ app.factory('BackgroundFactory', function ($http, $q) {
         return {
             method: method,
             url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
+            // headers: {
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            // },
             data: data
         }
     };
@@ -81,6 +81,8 @@ app.factory('BackgroundFactory', function ($http, $q) {
         logOutUser: function() {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
+
+                chrome.browserAction.setIcon({path: "/red128.png"})
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs) {
                         tabs.forEach(function(tab) {
