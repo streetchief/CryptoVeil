@@ -1,7 +1,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
-			<div>Welcome to CryptoVeil!</div>
+			<div>
+				<h4>Home</h4>
+			</div>
 		</div>
 	</div>
 	<!-- end row-->
@@ -9,18 +11,19 @@
 	<div class="row">
 		<div class="col-lg-3">
 		    <button
-		    data-ng-click="encryptionToggle(googleEncryptionOn)" 
+		    ng-model="encryptionState"
 		    type="button" 
 		    class="btn btn-default"
-		    ng-model="googleEncryptionOn" 
 		    btn-checkbox 
-		    btn-checkbox-true="1" 
-		    btn-checkbox-false="0">
-	        Encryption: {{googleEncryptionOn}}
+		    btn-checkbox-true="true" 
+		    btn-checkbox-false="false"
+		    data-ng-click="encryptionToggle()">
+		    {{stateMsg}}
 		    </button>
 		</div>
 	</div>
 	<!-- end row -->
+	<br />
 
 	<div class="row">
 		<div class="col-lg-3"> <!-- Circle Dropdown-->
@@ -34,7 +37,7 @@
 		      </button>
 		      <ul class="dropdown-menu" role="menu">
 		        <li data-ng-repeat="circle in userCircles">
-		        	<a href="#" data-ng-click="setDecryptionCircle(circle)">{{circle.name}}</a>
+		        	<a href="#" data-ng-click="setEncryptionCircle(circle)">{{circle.name}}</a>
 	        	</li>
 		      </ul>
 		    </div>

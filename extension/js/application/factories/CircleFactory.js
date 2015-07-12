@@ -8,22 +8,16 @@ app.factory('CircleFactory', function ($http) {
         return {
             method: method,
             url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
+            // headers: {
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            // },
             data: data
         }
     };
 
     return {
-        // get user circle = background
-        //create circle, update user too
-        //get circle
-        //update circle, for user remove, add
-        //delete circle, updat user too
-        //leave circle: get circle, delete user, update circle
 
         //CREATE CIRCLE
         createCircle: function(circleName) {
@@ -31,7 +25,6 @@ app.factory('CircleFactory', function ($http) {
                 circleName: circleName
                 }))
             .then(function(response){
-                console.log('hit factory createcircle', response)
                 return response.data;
             })
         },
@@ -39,9 +32,8 @@ app.factory('CircleFactory', function ($http) {
         deleteCircle: function(circleId) {
             return $http(composeRequest('DELETE', '/api/circles/' + circleId))
             .then(function (response) {
-            	console.log('inside CircleFactory', response);
               return response.data;
-            })
+            });
         },
 
         editMember: function(circleId, memberEmail, edit){
@@ -49,7 +41,7 @@ app.factory('CircleFactory', function ($http) {
             return $http(composeRequest('PUT', '/api/circles/' + circleId, {newEmail: memberEmail, edit: edit}))
             .then(function(response){
                 return response.data;
-            })
+            });
         }
 
 

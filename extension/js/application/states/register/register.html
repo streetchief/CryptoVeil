@@ -1,27 +1,40 @@
-<div class="container">    
-    <div class='register-page'>
-        <div id='register-form'>
-            <h2>Register Here</h2>
-            <form id="register-form"name="registerForm" ng-submit="registerForm.$valid && createUser(register)">
-
-    <!--             <alert type="danger" ng-show="error">
-                    {{ error }}
-                </alert> -->
-                
-                <div class="form-group">
-                    <label for="nickname" class='input-fields'>Nickname</label>
-                    <input type="text" ng-model="register.nickname" class='form-control input-fields' id="nickname" placeholder="Enter nickname">
-                </div>
-                <div class="form-group">
-                    <label for="email" class='input-fields'>Email address</label>
-                    <input type="text" ng-model="register.email" class='form-control input-fields' id="email" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="register-password">Password</label>
-                    <input type="password" ng-model="register.password" class="form-control" id="register-password" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-success btn-default glyphicon glyphicon-thumbs-up">  Submit</button>
-            </form>
+<div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div>Welcome to CryptoVeil!</div>
         </div>
+    </div>
+</div>
+<!-- end row-->
+    
+<div class='register-page'>
+    <div id='register-form'>
+        <h2>Register Here</h2>
+        <form id="register-form"name="registerForm" ng-submit="registerForm.$valid && createUser(register)">
+            
+            <alert type="danger" ng-if="userExistError" close="closeAlert()">
+               <p>The email you entered is already registered.</p>
+            </alert>
+            <alert type="danger" ng-if="emailAddressError" close="closeAlert()">
+               <p>Please check again if this is a valid email address.</p>
+            </alert>
+            <alert type="danger" ng-if="passwordError" close="closeAlert()">
+               <p>Please enter a password with more than 10 characters.</p>
+            </alert>
+            
+            <div class="form-group">
+                <label for="nickname" class='input-fields'>Nickname</label>
+                <input type="text" ng-model="register.nickname" class='form-control input-fields' id="nickname" placeholder="Enter nickname">
+            </div>
+            <div class="form-group">
+                <label for="email" class='input-fields'>Email address</label>
+                <input type="text" ng-model="register.email" class='form-control input-fields' id="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password</label>
+                <input type="password" ng-model="register.password" class="form-control" id="register-password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-success btn-default">Submit</button>
+        </form>
     </div>
 </div>

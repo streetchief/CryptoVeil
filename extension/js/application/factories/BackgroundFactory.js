@@ -1,4 +1,4 @@
-app.factory('BackgroundFactory', function($http) {
+app.factory('BackgroundFactory', function ($http, $q) {
 
     var backgroundPage = chrome.extension.getBackgroundPage();
     var currentUser = backgroundPage.user;
@@ -8,11 +8,11 @@ app.factory('BackgroundFactory', function($http) {
         return {
             method: method,
             url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
+            // headers: {
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            // },
             data: data
         }
     };
@@ -28,8 +28,12 @@ app.factory('BackgroundFactory', function($http) {
             currentUser.setSelectedCircle(circle);
         },
 
+        getSelectedCircle: function () {
+            return $q.when(currentUser.getSelectedCircle());
+        },
+
         getBackgroundPage: function () {
-            return backgroundPage;
+            return chrome.extension.getBackgroundPage();
         },
 
         getUserCircles: function () {
@@ -51,7 +55,15 @@ app.factory('BackgroundFactory', function($http) {
 
         logInUser: function(info) {
             return $http(composeRequest('POST', '/login', { email: info.email, password: info.password }))
-            .then(function (response) {      
+            .then(function (response) {
+                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
+                    if (tabs) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    }
+                });
+
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs.length) {
                         tabs.forEach(function(tab) {
@@ -69,12 +81,22 @@ app.factory('BackgroundFactory', function($http) {
         logOutUser: function() {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
+
+                chrome.browserAction.setIcon({path: "/red128.png"});
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs) {
                         tabs.forEach(function(tab) {
                             chrome.tabs.reload(tab.id)
                         });
                     };
+                });
+
+                chrome.tabs.query({url: '*://mail.google.com/*'}, function (tabs) {
+                    if (tabs) {
+                        tabs.forEach(function(tab) {
+                            chrome.tabs.reload(tab.id)
+                        });
+                    }
                 });
                 
                 currentUser.setLogOutUser();
@@ -86,8 +108,6 @@ app.factory('BackgroundFactory', function($http) {
 
             return $http(composeRequest('GET', '/session'))
             .then(function (response) {
-                console.log('hit checkloggedin', response)
-
                 return response.data;
             });
         },
@@ -97,4 +117,4 @@ app.factory('BackgroundFactory', function($http) {
             return backgroundPage.user.isLoggedIn();
         }
     }
-})
+});

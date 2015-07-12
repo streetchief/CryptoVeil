@@ -1,4 +1,4 @@
-app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
+app.directive('navBar', function ($rootScope, $state, BackgroundFactory, $log) {
     
     return {
         restrict: 'E',
@@ -9,12 +9,16 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
             scope.items = [
                 { label: 'Home', state: 'home' },
                 { label: 'Manage Circles', state: 'circles' },
-                { label: 'Account Management', state: 'account' },
-                { label: 'Register', state: 'register' }
+                { label: 'Account Management', state: 'account' }
             ];
 
             scope.user;
 
+            $rootScope.$on('nicknameChange', function (event, nickname) {
+                if (scope.user) {
+                    scope.user.nickname = nickname;
+                };
+            })
             scope.logout = function () {
                 BackgroundFactory.logOutUser()
                 .then(function (statusCode) {
@@ -23,7 +27,7 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
                     scope.user = null;
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    $log.warn(err);
                 })
             };
 
@@ -34,16 +38,11 @@ app.directive('navBar', function ($rootScope, $state, BackgroundFactory) {
                     scope.user = userLoggedIn;
                 })
                 .catch(function(err) {
-                    console.log(err);
+                    $log.warn(err);
                 })
             };
 
             showUserOnNavbar();
-
-            // $rootScope.$on(AUTH_EVENTS.loginSuccess, setUser);
-            // $rootScope.$on(AUTH_EVENTS.logoutSuccess, removeUser);
-            // $rootScope.$on(AUTH_EVENTS.sessionTimeout, removeUser);
-
         }
     };
 });
