@@ -1,4 +1,160 @@
 <section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
+<!--     <fullstack-logo></fullstack-logo>
+    <rando-greeting></rando-greeting> -->
+
+    <div class="background">
+		<div class="layer" style="background: linear-gradient(to bottom,rgba(186, 179, 254, 0.5) 0%,rgba(102, 214, 255, 0.5) 100%);"></div>
+		<div class="layer" style="background: #182025 url(../img/pattern.png) 0 0 repeat;opacity: .9;"></div>
+	</div>
+
+	<div class="map-canvas" data-map-lon="40.707476" data-map-lat="-74.013670"></div>
+	
+	<div id="wrapper">
+		<header class="container">
+			<div class="logo"><img src="img/crypto.svg" style="max-width:100px;" alt=""></div>
+		</header>
+
+		<main>
+			
+			<div class="container">
+				
+				<nav class="pages-nav">
+
+					<div id="nav-prev">
+						<a href="#"></a>
+					</div>
+
+					<div id="nav-next">
+						<a href="#"></a>
+					</div>
+
+					<div id="nav-close">
+						<a href="#">X</a>
+					</div>
+
+				</nav>
+
+				<div class="modal" id="notify" data-nav-color="#9f0">
+					
+					<h1 class="block" data-type="title-modal">
+						Notify me
+					</h1>
+					
+					<p class="block" data-type="text">
+						Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+					</p>
+					
+					<form class="block notify-me" data-type="form" method="post" action="php/notify-me.php">
+						<div data-type="input" class="no-enter">
+							<input type="text" class="input-log" name="subscribe">
+							<div class="cmd">
+								<span></span>
+								<div class="cursor"></div>
+								<div class="enter-sumbol">
+									<button type="submit"><img src="img/arrow.svg" alt=""></button>
+								</div>
+							</div>
+						</div>
+						<div data-type="hide" data-row="messages">
+						</div>
+					</form>
+
+				</div>
+
+				<div class="modal" id="sayhello" data-map="true" data-nav-color="#ff0">
+					<h1 class="block" data-type="title-modal">
+						Say hello
+					</h1>
+					<form role="form" data-type="form" method="post" class="sayhello-form block">
+						<div class="form-input">
+							<input type="text" name="name" placeholder="Name:">
+							<div class="cmd">
+								<span></span>
+								<div class="cursor"></div>
+							</div>
+						</div>
+						<div class="form-input">
+							<input type="email" name="email" placeholder="Mail:">
+							<div class="cmd">
+								<span></span>
+								<div class="cursor"></div>
+							</div>
+						</div>
+						<div class="form-input">
+							<input type="text" name="comment" placeholder="Text:">
+							<div class="cmd">
+								<span></span>
+								<div class="cursor"></div>
+							</div>
+						</div>
+						<div class="form-button">
+							<button type="submit" data-color="#ff0">send</button>
+						</div>
+					</form>
+				</div>
+
+				<section class="page" data-nav="home" data-nav-color="#9f0" id="home">
+
+					<div class="block countdown" data-type="timer" data-time="30 march 2016 23:59">
+						<div class="innertime"></div>
+					</div>
+
+					<nav class="block" id="home-nav" data-type="nav">
+						<a href="#notify" data-nav-color="#0f0" class="link">notify me</a>
+					</nav>
+					
+				</section>
+
+				<section class="page" data-nav="about" data-nav-color="#f63" id="about">
+					<h1 class="block" data-type="title">
+						About
+					</h1>
+					<p class="block" data-type="text">
+						in all revolutionss of government, herwould make his court for the office of hangman-general, and in the exercise of that dignity, wherein he was very dexterous, would make use of no other vizard than a long prayer.
+					</p>
+				</section>
+					
+				<section class="page" data-nav="contact" data-nav-color="#3ff" data-map="true" id="contact">
+					<h1 class="block" data-type="title">
+						Contact
+					</h1>
+
+					<div class="contact-info block" data-type="text">
+						123 downing Street, UK
+						Tel : 01 02 034 567
+						sampleemail@gmail.com
+					</div>
+
+					<div class="contact-submit block" data-type="link">
+						<a href="#sayhello" class="link" data-nav-color="#ff0">say hello</a>
+					</div>
+				</section>
+
+				<canvas id="area" width="991" height="350"></canvas>
+				
+			</div>
+					
+		</main>
+
+		<footer class="container">
+			<div class="follow">
+				<div class="follow-name">Follow us</div>
+				
+				<div class="follow-wrap">
+					<div class="follow-icons">
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<a href="#"><i class="fa fa-instagram"></i></a>
+						<a href="#"><i class="fa fa-google-plus"></i></a>
+						<a href="#"><i class="fa fa-linkedin"></i></a>
+						<a href="#"><i class="fa fa-pinterest"></i></a>
+						<a href="#"><i class="fa fa-tumblr"></i></a>
+					</div>
+				</div>
+				
+			</div>
+			<div class="copyright">©  Itembridge, 2015.</div>
+		</footer>
+		
+	</div>
 </section>

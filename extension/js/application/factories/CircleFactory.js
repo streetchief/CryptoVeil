@@ -8,22 +8,16 @@ app.factory('CircleFactory', function ($http) {
         return {
             method: method,
             url: server + url,
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
-            },
+            // headers: {
+            //   'Access-Control-Allow-Origin': '*',
+            //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            //   'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+            // },
             data: data
         }
     };
 
     return {
-        // get user circle = background
-        //create circle, update user too
-        //get circle
-        //update circle, for user remove, add
-        //delete circle, updat user too
-        //leave circle: get circle, delete user, update circle
 
         //CREATE CIRCLE
         createCircle: function(circleName) {
