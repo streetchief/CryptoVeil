@@ -16,21 +16,25 @@
             <div class="row">
               <div class="col-lg-2">
                 <accordion-heading>
-                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.owned.status, 'glyphicon glyphicon-chevron-right': !group.owned.status}"></i> &nbsp;&nbsp; {{ group.name }}
+                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.owned.status, 'glyphicon glyphicon-chevron-right': !group.owned.status}"></i> &nbsp;&nbsp;<b>{{ group.name }}</b>
                   <div class="btn-group pull-right">
                     <button class="btn btn-default btn-xs"
-                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span>&nbsp;&nbsp; remove</button>
                   </div>
                 </accordion-heading>
               </div>
+
               <div class="container">
-              <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" class="btn btn-default btn-sm" ng-click="addMember(group._id)">Add Member</button><button type="button" class="btn btn-default btn-sm" data-ng-click="showDelete()">Remove Member</button>
-              </div>
+                <button type="submit" class="btn btn-default btn-sm pull-left" ng-click="addMember(group._id)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp; member</button>
+                <button type="button" class="btn btn-default btn-sm pull-right" data-ng-click="showDelete()"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>&nbsp;&nbsp; member</button>
+              </div>  
+              <div id="centering" class="container">
               <div class="row" data-ng-repeat="member in group.members">
-                <div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member.email)"class="glyphicon glyphicon-remove"></span></div>
+                <div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member.email)"class="glyphicon glyphicon-remove"></span>
+                </div>
               </div>
               </div>
+
             </div>
           </accordion-group>
         </accordion>
@@ -40,7 +44,7 @@
 </accordion>
 
 <accordion close-others="true">
-  <accordion-group data-is-open="ownership.status">
+  <accordion-group data-is-open="group.part.status">
     <div class="row">
       <div class="col-lg-2">
         <accordion-heading>
@@ -53,14 +57,14 @@
             <div class="row">
               <div class="col-lg-2">
                 <accordion-heading>
-                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; {{ group.name }} --- Owner: <b><i>{{group.creator.nickname}}</i></b>
-                  <div class="btn-group pull-right">
+                  <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.status, 'glyphicon glyphicon-chevron-right': !group.status}"></i> &nbsp;&nbsp; <b>{{ group.name }}</b> | {{group.creator.nickname}}
+<!--                   <div class="btn-group pull-right">
                     <button class="btn btn-default btn-xs"
                     data-ng-click="$event.stopPropagation() || leaveGroup(group._id)">Leave Group</button>
-                  </div>
+                  </div> -->
                 </accordion-heading>
               </div>
-              <div class="row" data-ng-repeat="member in group.members">
+              <div id="centering" class="row" data-ng-repeat="member in group.members">
                 <div class="col-lg-3">{{ member.nickname }}</div>
               </div>
             </div>
