@@ -162,13 +162,13 @@ router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 				.then(function (deletedCircle) {
 
 					return User.findById(req.user._id)
-					.then(function(user){
-						return user.myCircles.splice(user.myCircles.indexOf(circle._id), 1);
-					})
-
+					.exec()
+					.then(function (user){
+						user.myCircles.splice(user.myCircles.indexOf(circle._id), 1);
+						return user.save();
+					});
 				})
 				.then(function (user){
-					user.save();
 					res.sendStatus(204);
 				});
 			}//end else
