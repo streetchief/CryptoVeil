@@ -36,16 +36,30 @@ router.get('/', isAuthenticatedUser, function (req, res, next) {
 	.then(null, next);
 });
 
-
-//CHECKS BY EMAIL IF THE USER (TO ADD TO THE CIRCLE) IS REGISTERED 
-router.get('/:userEmail', isAuthenticatedUser, function (req, res, next) {
+//CHECKS IF PASSWORD IS CORRECT  
+router.post('/checkPassword', isAuthenticatedUser, function (req, res, next) {
 	
-	User.findOne({email: req.params.userEmail})
+	User.findOne({email: req.user.email})
+	.exec()
+	.then(function (foundUser) {
+		var result = foundUser.correctPassword(req.body.password);
+		if(!result) res.send('password does not match');
+		else {
+			res.send('password matches')
+		}
+	})
+	.then(null, next);
+});
+
+//CHECKS BY EMAIL IF THE USER IS REGISTERED 
+router.post('/checkEmail', function (req, res, next) {
+	
+	User.findOne({email: req.body.userEmail})
 	.exec()
 	.then(function (foundUser) {
 		if(!foundUser) res.send('no user');
 		else {
-			res.send('ok')
+			res.send('exists')
 		}
 	})
 	.then(null, next);
@@ -57,13 +71,8 @@ router.post('/', function (req, res, next) {
 	console.log('hit router', req.body)
 	var email = req.body.email;
 
-	if (!User.checkEmailIsUnique(email)) return next();
-
 	User.create(req.body)
 	.then(function (createdUser) {
-		
-		console.log('hit router 2', createdUser);
-
 		req.logIn(createdUser, function (err) {
 
 			if (err) return next(err);
@@ -76,16 +85,35 @@ router.post('/', function (req, res, next) {
 	.then(null, next);
 });
 
-//UPDATING USER INFO
-router.put('/', isAuthenticatedUser, function (req, res, next) {
+//RESET USER PASSWORD
+router.put('/reset', isAuthenticatedUser, function (req, res, next) {
 
-	var newPass = req.body.password;
+	var newPassword = req.body.password;
 	var userId = req.user._id;
 
 	User.findById(userId)
 	.exec()
 	.then(function (foundUser) {
-		foundUser.password = newPass;
+		foundUser.password = newPassword;
+		return foundUser.save();
+	})
+	.then(function (updatedUser) {
+		res.sendStatus(204);
+	})
+	.then(null, next);
+
+});
+
+//CHANGE USER NICKNAME
+router.put('/nickname', isAuthenticatedUser, function (req, res, next) {
+
+	var newNickname = req.body.nickname;
+	var userId = req.user._id;
+
+	User.findById(userId)
+	.exec()
+	.then(function (foundUser) {
+		foundUser.nickname = newNickname;
 		return foundUser.save();
 	})
 	.then(function (updatedUser) {
@@ -98,8 +126,7 @@ router.put('/', isAuthenticatedUser, function (req, res, next) {
 // TODO -- add functionality
 //DELETE YOUR ACCOUNT
 router.delete('/', isAuthenticatedUser, function (req, res, next) {
-
-		// Let the circle live (probably)
-		// Promote some member (who?) to creator
-		// Option to change key/destroy all sent messages
+		// check if user is creator of any circles, then transfer ownership
+		// check if user is member of any circles, then leave the circles (and delete that user from all the circles)
+	
 });

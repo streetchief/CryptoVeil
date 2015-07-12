@@ -1,9 +1,12 @@
 'use strict';
 var user = new User();
 
-var server = 'http://127.0.0.1:1337'
+var encryptionState = new ControlEncryption();
+
+/////////////////////   USER STATE  /////////////////////
 
 function User (userInfo) {
+
     var myCircles = [],
     email = "",
     nickname = "",
@@ -17,6 +20,7 @@ function User (userInfo) {
     };
     
     this.setLogOutUser = function () {
+
         myCircles = [];
         email = '';
         nickname = '';
@@ -28,6 +32,7 @@ function User (userInfo) {
             members: [],
             key: ""
         };
+
         processLogout();
     };
 
@@ -42,6 +47,7 @@ function User (userInfo) {
     };
 
     this.getLoggedInUser = function () {
+
         return {
             myCircles: myCircles,
             email: email,
@@ -52,23 +58,16 @@ function User (userInfo) {
     
     this.setSelectedCircle = function (circle) {
 
-            selectedCircle._id = circle._id;
-            selectedCircle.name = circle.name;
-            selectedCircle.creator = circle.creator;
-            selectedCircle.members = circle.members;
-            selectedCircle.key = circle.key;
+        selectedCircle._id = circle._id;
+        selectedCircle.name = circle.name;
+        selectedCircle.creator = circle.creator;
+        selectedCircle.members = circle.members;
+        selectedCircle.key = circle.key;
 
-            sendSelectedCircle(selectedCircle);        
+        sendSelectedCircle(selectedCircle);        
     };
 
     this.getSelectedCircle = function () {
-        // return {
-        //     _id: selectedCircle._id,
-        //     name: selectedCircle.name,
-        //     creator: selectedCircle.creator,
-        //     members: selectedCircle.members,
-        //     key: selectedCircle.key
-        // };
         return selectedCircle;
     };
 
@@ -81,13 +80,41 @@ function User (userInfo) {
     };
 }; //END OF USER
 
-// function tabGetter () {
-//     chrome.tabs.getSelected(null, function(tab) {
-//       console.log('the tab argument: ', tab);
-//     });
-// }
+/////////////////////   ENCRYPTION STATE  /////////////////////
 
+function ControlEncryption () {
+
+    var toggleState = false; 
+
+    this.toggle = function () {
+        toggleState = !toggleState;
+    };
+
+    this.turnOff = function () {
+        toggleState = false;
+    };
+
+    this.turnOn = function () {
+        toggleState = true;      
+    };
+
+    this.getState = function () {
+        return toggleState;
+    };
+}
+
+/////////////////////   LISTEN FOR REFRESH  /////////////////////
+
+chrome.runtime.onMessage.addListener(function (message, sender) {
+
+    if (message.message === 'get-extension-session-status') {
+        updateExtScriptState();
+    }
+});
+
+/////////////////////   HELPER FUNCTIONS  /////////////////////
 function processLogout () {
+    encryptionState.turnOff();
     sendToContentScript('process-logout');
 }
 
@@ -95,21 +122,36 @@ function sendSelectedCircle (circle) {
     sendToContentScript('set-encryption-circle', circle);
 }
 
+function updateExtScriptState () {
+
+    var payload = {
+        userCircles: user.getLoggedInUser().myCircles,
+        encryptionState: encryptionState.getState(),
+        selectedCircle: user.getSelectedCircle(),
+        isLoggedIn: user.isLoggedIn()
+    };
+
+    sendToContentScript('update-state', payload);
+}
+
 function processLogin (userCircles) {
     sendToContentScript('process-login', userCircles);
 }
 
 function encryptionToggle () {
+    encryptionState.toggle();
     sendToContentScript('toggle-encryption');
 }
 
 function sendToContentScript (command, payload) {
 
-    chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.getSelected(null, function (tab) {
         chrome.tabs.sendMessage(tab.id, {command: command, payload: payload})
     });
 }
 
+
+//FOR BLOCKING NON-EMPTY GMAIL EMAILS
 // chrome.webRequest.onBeforeRequest.addListener(
 //     function(details) { 
 
@@ -125,6 +167,25 @@ function sendToContentScript (command, payload) {
 //     {urls: ["*://mail.google.com/*"]},
 //     ["blocking", "requestBody"]
 //   );
-// chrome.runtime.onMessage.addListener(function (message, sender) {
-// 	console.log('the message from background: ', message);
-// });
+
+// MESSAGES COMING FROM CONTENT SCRIPT, TRIGGERED BY EXTERNAL SCRIPTS
+
+// function tabGetter () {
+//     chrome.tabs.getSelected(null, function(tab) {
+//       console.log('the tab argument: ', tab);
+//     });
+// }
+
+// LISTENING FOR REFRESH
+// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tabState) {
+//     var lastUpdate = updateTime || Date.now();
+//     var updateTime = Date.now();
+//     chrome.tabs.get(tabId, function (tab) {
+
+//         if (tab.url.indexOf('mail.google' > -1)) {
+//             //trigger state update
+//             console.log('found a mail.google, triggering updateExtScriptState');
+//             updateExtScriptState()
+//         };
+//     });
+// })
