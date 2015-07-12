@@ -34,7 +34,6 @@ app.factory('CircleFactory', function ($http, $log) {
         deleteCircle: function(circleId) {
             return $http(composeRequest('DELETE', '/api/circles/' + circleId))
             .then(function (response) {
-                $log.info('delete factory', response);
               return response.data;
             });
         },

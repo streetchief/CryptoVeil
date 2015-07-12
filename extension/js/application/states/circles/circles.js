@@ -79,8 +79,6 @@ BackgroundFactory.checkLoggedIn()
 /*************************************/
   $scope.deleteCircle = function(circleId) {
 
-    console.log('startingdelete,',circleId)
-
     var modalInstance = $modal.open({
       animation: false,
       templateUrl: 'js/application/states/circles/modals/deleteCircleModal.html',
