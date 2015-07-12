@@ -11,7 +11,7 @@
 
 	<div id="centering" class="row">
 	    <div class="btn-group" dropdown is-open="status.isopen">
-	    	<md-select ng-model="currentCircle" placeholder="Select a circle">
+	    	<md-select ng-model="currentCircle" placeholder="Select a circle" class="md-primary">
     	        <md-optgroup label="Circles">
 	    	        <md-option ng-value="circle.name" ng-repeat="circle in userCircles" ng-click="setEncryptionCircle(circle)">{{circle.name}}
 	    	      	</md-option>
