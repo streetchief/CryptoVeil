@@ -29,12 +29,12 @@ body {
     color: #abffab; }
     .navbar a:hover {
       color: #fff2c8; }
-  .navbar .welcome {
+  .navbar #floatRight {
     float: right; }
-    .navbar .welcome span {
-      color: #abffab; }
-    .navbar .welcome a {
-      margin-top: 6px;
-      color: #abffab; }
-      .navbar .welcome a:hover {
-        color: #fff2c8; }
+  .navbar .welcome span {
+    color: #abffab; }
+  .navbar .welcome a {
+    margin-top: 6px;
+    color: #abffab; }
+    .navbar .welcome a:hover {
+      color: #fff2c8; }

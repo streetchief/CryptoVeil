@@ -1,12 +1,12 @@
+<img src="../cryptoveil-logo.png" width="100%" height="auto">
 <div class="container">
 	<div class="row">
 		<div class="col-lg-3">
-			<h1>Welcome to CryptoVeil!</h1>
-			<h3>Please login</h3>
+			<h3>Login Today</h3>
 		</div>
 	</div>
 	<!-- end row -->
-
+	<br />
 	<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
 
 		<alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
@@ -19,7 +19,7 @@
 	        <label for="login-password">Password</label>
 	        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
 	    </div>
-
+			<br />
 	    <button type="submit" class="btn btn-info">  Login</button><br><br>
 
 	    <!-- Facebook Login -->

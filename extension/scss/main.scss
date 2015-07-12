@@ -28,14 +28,19 @@ h1 {
 img {
   margin-bottom: 50px;
 }
+
 body {
+  .panel-default >.panel-heading {  
+    background-color: $greenColor;
+  }
+
   #centering {
     text-align: center;
   }
   background: #182025 url(../cryptoveil-background.png) 0 0 repeat;  
-  font-family: 'Open Sans', sans-serif;	
+  font-family: 'Open Sans', sans-serif; 
   min-width: 400px;
-	min-height: 800px;
+  min-height: 800px;
 }
 
 //ADDING THIS FOR ADD MEMBER BUTTON IN CIRCLE MANAGEMENT
@@ -48,6 +53,10 @@ body {
   display: block;
   background: $navbarBackground;
 
+  #floatRight {
+    float: right;
+  }
+
   a {
     margin-top: 6px;    
     color: $greenColor;
@@ -58,18 +67,15 @@ body {
 
   .welcome {
     float: right;
+    margin-top: 12px;
     span {
       color: $greenColor;
     }
     a {
-    margin-top: 6px;    
-    color: $greenColor;
-    &:hover {
-      color: #fff2c8;
-      }
+      color: $greenColor;
+      cursor: pointer;
     }
   }
-
 }
 
 // @import '_variables.scss';

@@ -22,9 +22,8 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
 
   backgroundPage = BackgroundFactory.getBackgroundPage();
   $scope.encryptionState = toggleState;
-  encryptionOffMessage = 'Encryption OFF';
-  encryptionOnMessage = 'Encryption ON';
-
+  encryptionOffMessage = 'Encryption is now OFF';
+  encryptionOnMessage = 'Encryption is now ON';
 
   if (toggleState) {
     $scope.stateMsg = encryptionOnMessage;

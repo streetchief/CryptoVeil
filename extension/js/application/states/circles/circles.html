@@ -1,13 +1,14 @@
 <div class="container">
-<h3>Circle Management</h3>
+<h3 align="center">Circle Management</h3>
+<hr>
 <accordion close-others="true">
   <accordion-group data-is-open="ownership.status">
     <div class="row">
-      <div class="col-lg-2">
+      <div class="col-lg-6">
         <accordion-heading>
           <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-hand-down': ownership.status, 'glyphicon glyphicon-hand-right': !ownership.status}"></i> &nbsp;&nbsp; Circles Owned
         </accordion-heading>
-        <button class="btn btn-info btn-block btn-sm" data-ng-click="createCircle()">Create Circle</button>
+        <button class="btn btn-success btn-block btn-md" data-ng-click="createCircle()">Create Circle</button>
       </div>
       <div class="container">
         <accordion close-others="false">
@@ -17,14 +18,14 @@
                 <accordion-heading>
                   <i class="pull-left glyphicon" data-ng-class="{'glyphicon glyphicon-chevron-down': group.owned.status, 'glyphicon glyphicon-chevron-right': !group.owned.status}"></i> &nbsp;&nbsp; {{ group.name }}
                   <div class="btn-group pull-right">
-                    <button class="btn btn-default btn-sm"
-                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)">Delete Circle</button>
+                    <button class="btn btn-default btn-xs"
+                    data-ng-click="$event.stopPropagation() || deleteCircle(group._id)"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                   </div>
                 </accordion-heading>
               </div>
               <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" class="btn btn-info btn-sm" ng-click="addMember(group._id)">Add Member</button>
-                <button type="button" class="btn btn-danger btn-sm" data-ng-click="showDelete()">Remove Member</button>
+                <button type="submit" class="btn btn-info btn-md" ng-click="addMember(group._id)">Add Member</button>
+                <button type="button" class="btn btn-danger btn-md" data-ng-click="showDelete()">Remove Member</button>
               </div>
               <div class="row" data-ng-repeat="member in group.members">
                 <div class="col-lg-3">{{ member.nickname }}<span ng-if="deleteMemb" ng-click="deleteMember(group._id, member.email)"class="glyphicon glyphicon-remove"></span></div>
@@ -36,8 +37,6 @@
     </div>
   </accordion-group>
 </accordion>
-
-<hr>
 
 <accordion close-others="true">
   <accordion-group data-is-open="ownership.status">

@@ -12,11 +12,9 @@
           <span class="glyphicon glyphicon-user"></span>
       </a>
 
-      <div data-ng-show="user" class="welcome">
-        <span>Welcome, {{ user.nickname }}!</span>
-        <a type="button" class="btn btn-default btn-md" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
-      </div>
-
+      <a type="button" class="btn btn-default btn-md"><span>Welcome, {{ user.nickname }}!</span></a>
+      
+      <a type="button" id="floatRight" class="btn btn-default btn-md" data-ng-click="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a>
   </div>
 </nav>
 
