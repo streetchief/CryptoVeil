@@ -1,0 +1,193 @@
+$base-font-size: 30px;
+
+@function rem($px, $base: $base-font-size) {	
+	@return ($px / $base) * 1rem;
+}
+
+* {
+	outline: none;
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+@font-face {
+	font-family: Source Code Pro; 
+	src: url(../fonts/Source_Code_Pro/SourceCodePro-Light.ttf);
+	font-weight: 300;
+}
+
+html {
+	font-size: $base-font-size;
+}
+html,
+body {
+	height: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: transparent;
+}
+
+/*-----------------
+       Title
+------------------*/
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: $base-font-size;
+	font-weight: 200;
+}
+
+@media(max-width: 991px){
+	body,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-size: 24px;
+	}
+}
+@media(max-width: 767px){
+	body,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-size: 22px;
+	}
+}
+
+/*-----------------
+     Paddings
+------------------*/
+
+main {
+	overflow: hidden;
+	position: relative;
+}
+
+#wrapper {
+	height:100%;
+}
+
+.container {
+	position: relative;
+	margin: 0 auto;
+	width: calc(100% - 24%);
+	margin: 0 12%;
+}	
+@media(max-width: 1600px) {
+	.container {
+		width: calc(100% - 14%);
+		margin: 0 7%;
+	}
+}
+@media(max-width: 1200px) {
+	.container {
+		width: calc(100% - 12%);
+		margin: 0 6%;
+	}
+}
+@media(max-width: 767px) {
+	.container {
+		width: calc(100% - 20px);
+		margin: 0 10px;
+	}
+}
+header.container {
+	padding-bottom: 10px;
+}
+footer.container {
+	padding-top: 10px;
+}
+header.container,
+footer.container {
+	width: calc(100% - 20%);
+	margin: 0 10%;
+}
+
+@media(max-width: 1600px) {
+	header.container,
+	footer.container {
+		width: calc(100% - 8%);
+		margin: 0 4%;
+	}
+}
+
+@media(max-width: 1200px) {
+	header.container,
+	footer.container {
+		width: calc(100% - 6%);
+		margin: 0 3%;
+		
+	}
+}
+@media(max-width: 767px) {
+	header.container,
+	footer.container {
+		margin: 0 10px;
+	}
+}
+
+header.container{
+	padding-top: 5%;
+}
+footer.container{
+	padding-bottom: 6%;
+}
+@media(max-height: 850px){
+	header.container {
+		padding-top: 3.5%;
+
+		.logo img {
+			height: 90%;
+		}
+	}
+	footer.container{
+		padding-bottom: 2%;
+	}
+}
+@media(max-height: 600px){
+	header.container{
+		padding-top: 10px;
+	}
+	footer.container{
+		padding-bottom: 0px;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
