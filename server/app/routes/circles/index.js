@@ -141,29 +141,37 @@ router.delete('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		if (circle.creator._id.toString() !== req.user._id.toString()) {
 			res.sendStatus(403);
 		} else {
-			var promiseArr = [];
-			
-			circle.members.forEach(function (member) {
-				member.myCircles.pull(circle._id);
-				promiseArr.push(member.save());
-			});
 
-			return Promise.all(promiseArr)
-			.then(function (savedMembers) {
-				return Circle.findByIdAndRemove(circle._id).exec();
-			})
-			.then(function (deletedCircle) {
+			if (!circle.members.length) {
+				Circle.findByIdAndRemove(circle._id, function () {
+					res.sendStatus(204);
+				});
+			} else {
 
-				return User.findById(req.user._id)
-				.then(function(user){
-					return user.myCircles.splice(user.myCircles.indexOf(circle._id), 1);
+				var promiseArr = [];
+				
+				circle.members.forEach(function (member) {
+					member.myCircles.pull(circle._id);
+					promiseArr.push(member.save());
+				});
+
+				return Promise.all(promiseArr)
+				.then(function (savedMembers) {
+					return Circle.findByIdAndRemove(circle._id).exec();
 				})
+				.then(function (deletedCircle) {
 
-			})
-			.then(function (user){
-				user.save();
-				res.sendStatus(204);
-			});
+					return User.findById(req.user._id)
+					.then(function(user){
+						return user.myCircles.splice(user.myCircles.indexOf(circle._id), 1);
+					})
+
+				})
+				.then(function (user){
+					user.save();
+					res.sendStatus(204);
+				});
+			}//end else
 		}
 	})
 	.then(null, next);
