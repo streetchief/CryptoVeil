@@ -10,10 +10,8 @@ module.exports = router;
 function isAuthenticatedUser (req, res, next) {
 
 	if (req.isAuthenticated()) {
-
 		next();
 	} else {
-
 		res.sendStatus(401);
 	}
 }
@@ -57,14 +55,15 @@ router.post('/checkEmail', function (req, res, next) {
 	User.findOne({email: req.body.userEmail})
 	.exec()
 	.then(function (foundUser) {
-		if(!foundUser) res.send('no user');
-		else {
-			res.send('exists')
+
+		if(!foundUser) {
+			res.send('no user');
+		} else {
+			res.send('exists');
 		}
 	})
 	.then(null, next);
 });
-
 
 //REGISTERING A USER
 router.post('/', function (req, res, next) {
