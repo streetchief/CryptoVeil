@@ -45,16 +45,19 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 		.create(circleToCreate)
 		.then(function (circle){
 			
-			User.findById(userId)
+			return User.findById(userId) //return ok?
+			.exec()
 			.then(function (user){
-				return user.myCircles.unshift(circle._id);
+				user.myCircles.unshift(circle._id);
+				return user;
 			})
 			.then(function (user){
 				user.save();
 				return user;
+			})
+			.then(function (user) {
+				res.json(circle);
 			});
-
-			res.json(circle);
 		})
 		.then(null, next);
 	});
@@ -68,8 +71,6 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		updatedCircle,
 		userFound,
 		circleFound;
-
-	console.log('c id', circleId, 'email', emailToEdit, 'mode', editMode)
 	
 	User.findOne({email: emailToEdit})
 	.exec()
@@ -78,20 +79,22 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 		userFound = foundUser;
 
 		return Circle.findById(circleId)
+			.exec()
 			.then(function (circle){
 
 				if(editMode.toString() === 'delete') {
 					circle.members.pull(foundUser._id)
 					return circle;
-
 				} else {
 					circle.members.push(foundUser._id)
 					return circle;
 				}
 			})
 			.then(function (circle){
-				circleFound = circle
-				return circle.save();
+
+				circleFound = circle;
+				circle.save();
+				return circle;
 			});
 	})
 	.then(function (circleReturned) {
@@ -106,7 +109,10 @@ router.put('/:circleId', isAuthenticatedUser, function (req, res, next) {
 	})
 	.then(function (userFound){
 		userFound.save();
-		res.send(userFound);
+		return userFound;
+	})
+	.then(function (user) {
+		res.send(user);
 	})
 	.then(null, next);
 });
