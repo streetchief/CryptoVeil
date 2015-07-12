@@ -1,7 +1,9 @@
 'use strict';
 window.app = angular.module('CryptoveilExt', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'ngMaterial']);
 
-app.config(function ($urlRouterProvider, $locationProvider) {
+app.config(
+
+    function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
 
     $locationProvider.html5Mode({
         enabled: true,
@@ -10,6 +12,15 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
     $urlRouterProvider.otherwise('/');
+    
+    $mdThemingProvider.theme('default')
+      .primaryPalette('green', {
+          'default': '400',
+          'hue-1': '100',
+          'hue-2': '200',
+          'hue-3': '700'
+    })
+
 });
 
 
