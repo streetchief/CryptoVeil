@@ -27,6 +27,11 @@ body {
       text-decoration: none; }
   body #centering {
     text-align: center; }
+  body .inset {
+    padding-right: 40px;
+    padding-left: 70px; }
+    body .inset h4 {
+      font-family: 'Open Sans', sans-serif; }
 
 .navbar {
   display: block;

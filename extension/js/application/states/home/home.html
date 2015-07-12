@@ -2,16 +2,9 @@
 	<!-- end row-->
 <div class="container">
 	<div id="centering" class="row">
-		    <button
-		    ng-model="encryptionState"
-		    type="button" 
-		    class="btn btn-default btn-lg"
-		    btn-checkbox 
-		    btn-checkbox-true="true" 
-		    btn-checkbox-false="false"
-		    data-ng-click="encryptionToggle()">
-		    {{stateMsg}}
-		    </button>
+		<md-switch class="inset" ng-model="encryptionState" aria-label="Switch 1" ng-click="encryptionToggle()">
+    <h4>{{ stateMsg }}</h4>
+    </md-switch>
 	</div>
 	<!-- end row -->
 	<br />
