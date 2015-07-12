@@ -82,7 +82,7 @@ app.factory('BackgroundFactory', function ($http, $q) {
             return $http(composeRequest('GET', '/logout'))
             .then(function (response) {
 
-                chrome.browserAction.setIcon({path: "/red128.png"})
+                chrome.browserAction.setIcon({path: "/red128.png"});
                 chrome.tabs.query({title: 'CryptoVeil'}, function (tabs) {
                     if (tabs) {
                         tabs.forEach(function(tab) {

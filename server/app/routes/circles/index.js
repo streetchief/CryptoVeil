@@ -31,13 +31,10 @@ router.post('/', isAuthenticatedUser, function (req, res, next) {
 		var keyString;
 
 		if (ex) {
-			console.log('exception generating key', ex);
 			return next(ex);
 		}
 	  
 		keyString = buf.toString('base64');
-
-		console.log('keystring', keyString);
 
 	    var circleToCreate = {
 	        name: req.body.circleName.trim(),
