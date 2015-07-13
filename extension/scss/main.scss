@@ -91,5 +91,24 @@ body {
   }
 }
 
-// @import '_variables.scss';
-// @import '_bootswatch.scss';
+#frontCircle {
+  font-size: 18px;
+}
+
+#frontCircle > md-select .md-select-label.md-placeholder {
+  color: rgb(102,187,106);
+}
+
+.md-select-label > span{
+  color: rgb(102,187,106);
+}
+
+#frontCircle > md-select:not([disabled]):focus .md-select-label {
+  
+  border-bottom-color: rgb(102,187,106);
+  color: rgb(102,187,106);
+}
+
+.us {
+  display: inline;
+}
