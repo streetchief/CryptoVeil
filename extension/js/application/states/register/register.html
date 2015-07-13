@@ -1,14 +1,14 @@
+  <br />
+  <br />
 <div class="container">
-<div>
-    <h1>Welcome to CryptoVeil!</h1>
-</div>
 <!-- end row-->
 <div class='register-page'>
-    <button class="btn btn-default btn-sm" ui-sref="login">
+    <button class="btn btn-default btn-sm pull-right" ui-sref="login">
         <span class="glyphicon glyphicon-arrow-left"></span>
     </button>    
     <div id='register-form'>
-        <h3>Register Here</h3>
+        <h3>Sign up Here</h3>
+        <hr>
         <form id="register-form"name="registerForm" ng-submit="registerForm.$valid && createUser(register)">
             
             <alert type="danger" ng-if="userExistError" close="closeAlert()">
@@ -33,6 +33,8 @@
                 <label for="register-password">Password</label>
                 <input type="password" ng-model="register.password" class="form-control" id="register-password" placeholder="Password">
             </div>
+              <br />
+              <br />
             <button type="submit" class="btn btn-success btn-default">Submit</button>
         </form>
     </div>
