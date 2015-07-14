@@ -37,9 +37,9 @@ app.controller('homeController', function ($scope, BackgroundFactory, $log, togg
     $scope.currentCircle = 'Select a Circle';
   }
 
-  BackgroundFactory.getUserCircles()
-  .then(function (circles) {
-    $scope.userCircles = circles;
+  BackgroundFactory.checkLoggedIn()
+  .then(function (resp) {
+    $scope.userCircles = resp.user.myCircles;
   })
   .then(null, $log.info);
 
