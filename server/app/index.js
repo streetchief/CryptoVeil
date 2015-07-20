@@ -11,18 +11,18 @@ module.exports = app;
 require('./configure')(app);
 
 //This is to allow cross-origin request
-app.all('*', function (req, res, next) {
+// app.all('*', function (req, res, next) {
 
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header("Access-Control-Allow-Headers", "X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.header("Access-Control-Allow-Headers", "X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
     
-    if(req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
+//     if(req.method === 'OPTIONS') {
+//         return res.sendStatus(200);
+//     }
     
-    next();
-});
+//     next();
+// });
 
 // Routes that will be accessed via AJAX should be prepended with
 // /api so they are isolated from our GET /* wildcard.
