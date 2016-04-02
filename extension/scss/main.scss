@@ -40,8 +40,11 @@ body {
     }
   }
 
-  #centering {
+  div.centering {
     text-align: center;
+    md-select md-select-value > span {
+      color: #c8c8c8;
+    }
   }
   .inset {
     padding-right: 40px;
@@ -85,11 +88,11 @@ body {
   }
 }
 
-#frontCircle {
+.frontCircle {
   font-size: 18px;
 }
 
-#frontCircle > md-select .md-select-label.md-placeholder {
+.frontCircle > md-select .md-select-label.md-placeholder {
   color: rgb(102,187,106);
 }
 
@@ -97,7 +100,7 @@ body {
   color: rgb(102,187,106);
 }
 
-#frontCircle > md-select:not([disabled]):focus .md-select-label {
+.frontCircle > md-select:not([disabled]):focus .md-select-label {
   
   border-bottom-color: rgb(102,187,106);
   color: rgb(102,187,106);

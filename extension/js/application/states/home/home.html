@@ -1,7 +1,7 @@
 <img src="../cryptoveil-logo.png" width="100%" height="auto">
 	<!-- end row-->
 <div class="container">
-	<div id="centering" class="row">
+	<div class="centering" class="row">
 		<md-switch class="inset md-primary" ng-model="encryptionState" aria-label="Switch 1" ng-click="encryptionToggle()">
     <h4>{{ stateMsg }}</h4>
     </md-switch>
@@ -9,11 +9,14 @@
 	<!-- end row -->
 	<br />
 
-	<div id="centering" class="row">
-	    <div class="btn-group" dropdown is-open="status.isopen" id="frontCircle">
+	<div class="centering" class="row">
+	    <div class="btn-group" dropdown is-open="status.isopen" class="frontCircle">
 	    	<md-select ng-model="currentCircle" placeholder="Select a circle" class="md-primary">
     	        <md-optgroup label="Circles">
-	    	        <md-option ng-value="circle.name" ng-repeat="circle in userCircles" ng-click="setEncryptionCircle(circle)">{{circle.name}}
+	    	        <md-option ng-value="circle.name" ng-repeat="circle in userCircles" ng-click="setEncryptionCircle(circle)">
+	    	        <span>
+	    	        {{circle.name}}
+	    	        </span>
 	    	      	</md-option>
 	    		</md-optgroup>
 	    	</md-select>

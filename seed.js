@@ -35,8 +35,8 @@ var seedUsers = function () {
 
     var users = [
         {
-            nickname: 'Tester',
-            email: 'testing@fsa.com',
+            nickname: 'Shanna',
+            email: 'shanna@gmail.com',
             password: 'password',
             myCircles: []
         },
@@ -69,6 +69,66 @@ var seedUsers = function () {
             email: 'tom@gmail.com',
             password: 'potus',
             myCircles: []
+        },
+        {
+            nickname: 'David',
+            email: 'david@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Nimit',
+            email: 'nimit@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Joe',
+            email: 'joe@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Gabe',
+            email: 'gabe@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Zeke',
+            email: 'zeke@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Omri',
+            email: 'omri@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Gabriela',
+            email: 'gabriela@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Mark',
+            email: 'mark@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Charlotte',
+            email: 'charlotte@gmail.com',
+            password: 'potus',
+            myCircles: []
+        },
+        {
+            nickname: 'Liz',
+            email: 'liz@gmail.com',
+            password: 'potus',
+            myCircles: []
         }
 
     ];
@@ -85,15 +145,10 @@ var seedCircles = function (creator) {
 
     var circles = [
         {
-            name: 'SuperDopeHotness',
+            name: 'CryptoVeilTeam',
             creator: creator,
             members: [],
-            key: '1234'
-
-        },
-        {
-            name: 'PartyTime',
-            key: '4321'
+            key: 'nlkjblvhgclkjgkjhflgkjflkj23h4v2j3hvj32hv53j4hv53j4h5v3j4lhv53j4hv53jh4v5jg'
         }
     ];
 

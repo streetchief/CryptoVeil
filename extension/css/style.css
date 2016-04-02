@@ -25,8 +25,10 @@ body {
       font-family: 'Open Sans', sans-serif;
       text-shadow: none;
       text-decoration: none; }
-  body #centering {
+  body div.centering {
     text-align: center; }
+    body div.centering md-select md-select-value > span {
+      color: #c8c8c8; }
   body .inset {
     padding-right: 40px;
     padding-left: 70px; }
@@ -52,16 +54,16 @@ body {
       color: #abffab;
       cursor: pointer; }
 
-#frontCircle {
+.frontCircle {
   font-size: 18px; }
 
-#frontCircle > md-select .md-select-label.md-placeholder {
+.frontCircle > md-select .md-select-label.md-placeholder {
   color: #66bb6a; }
 
 .md-select-label > span {
   color: #66bb6a; }
 
-#frontCircle > md-select:not([disabled]):focus .md-select-label {
+.frontCircle > md-select:not([disabled]):focus .md-select-label {
   border-bottom-color: #66bb6a;
   color: #66bb6a; }
 
